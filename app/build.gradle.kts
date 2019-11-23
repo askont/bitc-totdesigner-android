@@ -58,6 +58,7 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     //AndroidX
     implementation (Libs.androidx_app_compat)
+    implementation(Libs.androidx_constraintlayout)
     implementation (Libs.androidx_core)
     implementation (Libs.androidx_material)
 
