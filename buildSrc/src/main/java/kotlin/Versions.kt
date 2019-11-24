@@ -26,6 +26,9 @@ object Versions {
     //Lifecycle
     const val lifecycle = "2.2.0-alpha01"
 
+    //conductor
+    const val conductor_controller = "3.0.0-rc1"
+
     //Room
     const val room = "2.2.0-rc01"
 

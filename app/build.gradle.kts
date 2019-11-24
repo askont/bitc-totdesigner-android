@@ -61,10 +61,21 @@ dependencies {
     implementation(Libs.androidx_constraintlayout)
     implementation (Libs.androidx_core)
     implementation (Libs.androidx_material)
+    implementation (Libs.androidx_recyclerview)
+    implementation (Libs.androidx_cardview)
 
     //Koin
     implementation (Libs.koin_scope)
     implementation (Libs.koin_viewmodel)
+
+    //conductor
+    implementation(Libs.conductor_controller)
+    implementation(Libs.conductor_archlifecircle)
+
+    //lifecycle
+    implementation(Libs.lifecycle_extensions)
+    implementation(Libs.lifecycle_livedata)
+    implementation(Libs.lifecycle_viewmodel)
 
     //Glide
     implementation (Libs.glide_runtime)
