@@ -1,3 +1,5 @@
+package kotlin
+
 object Versions {
     //Plugins
     const val android_gradle_plugin = "3.5.0"
