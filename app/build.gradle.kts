@@ -63,14 +63,11 @@ dependencies {
     implementation (Libs.androidx_material)
     implementation (Libs.androidx_recyclerview)
     implementation (Libs.androidx_cardview)
+    implementation (Libs.androidx_fragment)
 
     //Koin
     implementation (Libs.koin_scope)
     implementation (Libs.koin_viewmodel)
-
-    //conductor
-    implementation(Libs.conductor_controller)
-    implementation(Libs.conductor_archlifecircle)
 
     //lifecycle
     implementation(Libs.lifecycle_extensions)
@@ -84,9 +81,6 @@ dependencies {
     //Networking
     implementation (Libs.gson)
     implementation (Libs.stetho)
-
-    //Cicerone
-    implementation (Libs.cicerone)
 
     //Timber
     implementation(Libs.timber)

@@ -1,3 +1,7 @@
+package kotlin
+
+import Versions
+
 object Libs {
     //Plugins
     const val android_gradle_plugin =
