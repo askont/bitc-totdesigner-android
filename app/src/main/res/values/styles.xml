@@ -8,4 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="BottomNavigation">
+        <item name="colorPrimary">@color/colorSelectItem</item>
+    </style>
+
 </resources>

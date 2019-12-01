@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">TotDesigner</string>
+    <string name="toolbar_title_main">TOTDESIGNER Player</string>
+    <string name="my_device">На моем устройстве</string>
+    <string name="catalog_title">Каталог квестов/курсов</string>
+    <string name="folder_title">Открыть с диска</string>
+    <string name="setting">Настройки</string>
 </resources>
