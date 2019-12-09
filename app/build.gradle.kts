@@ -78,6 +78,10 @@ dependencies {
     implementation (Libs.glide_runtime)
     kapt (Libs.glide_compiler)
 
+    //adapterDelegat
+    implementation(Libs.adapter_delegates)
+    implementation(Libs.adapter_delegates_dsl)
+
     //Networking
     implementation (Libs.gson)
     implementation (Libs.stetho)

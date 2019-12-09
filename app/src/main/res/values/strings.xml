@@ -5,4 +5,6 @@
     <string name="catalog_title">Каталог квестов/курсов</string>
     <string name="folder_title">Открыть с диска</string>
     <string name="setting">Настройки</string>
+    <string name="title_catalog">Каталог</string>
+    <string name="description_catalog">Здесь расположены интерактивные 2D/3D/AR курсы и образовательные-игровые квесты для приобретения и загрузки. После загрузки они будут доступны этом Android устройстве без обязательного подключения сети интернет.</string>
 </resources>
