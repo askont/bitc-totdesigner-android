@@ -12,11 +12,9 @@ class AppActivity : AppCompatActivity() {
 
         val contentFragment = ContentListFragment(0)
 
-        val manager = supportFragmentManager
-        val transaction = manager.beginTransaction()
-        transaction.replace(R.id.fragment_container,contentFragment)
-        transaction.addToBackStack(null)
-
-        transaction.commit()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, contentFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

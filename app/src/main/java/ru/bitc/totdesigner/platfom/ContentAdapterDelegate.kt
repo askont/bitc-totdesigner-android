@@ -21,12 +21,3 @@ class ContentAdapterDelegate {
 //    }
 
 }
-
-interface  AdapterDelegate<T> {
-
-    fun isForViewType(items: T, position: Int): Boolean
-
-    fun onCreateViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder
-
-    fun onBindViewHolder(items: T, positin: Int, holder: RecyclerView.ViewHolder)
-}
