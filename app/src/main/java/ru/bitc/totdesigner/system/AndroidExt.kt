@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
+import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
 
 /*
  * Created on 2019-11-27
@@ -51,5 +52,10 @@ inline val Context.displayMetricks: DisplayMetrics
 
 inline val Context.inflater: LayoutInflater
     get() = LayoutInflater.from(this)
+
+fun <T> AbsDelegationAdapter<T>.setData(data: T) {
+    items = data
+    notifyDataSetChanged()
+}
 
 

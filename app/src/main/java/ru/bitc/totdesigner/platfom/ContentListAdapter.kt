@@ -8,8 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.bitc.totdesigner.R
+import ru.bitc.totdesigner.home.HomeFragment
+import ru.bitc.totdesigner.home.TestQuestDTO
 
-class ContentListAdapter(val items: ArrayList<TestQuestDTO>, val context: ContentListFragment) : RecyclerView.Adapter<QuestViewHolder>() {
+class ContentListAdapter(val items: ArrayList<TestQuestDTO>, val context: HomeFragment) : RecyclerView.Adapter<QuestViewHolder>() {
 
     override fun getItemCount(): Int {
         return items.size

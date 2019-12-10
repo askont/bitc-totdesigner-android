@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,24 +25,24 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="31dp"
-            android:text="@string/content_label"
             android:fontFamily="Roboto"/>
 
         <TextView
+            android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/content_description"
             android:textSize="13dp"
             android:layout_marginTop="12dp"
             android:fontFamily="Roboto"/>
 
         <TextView
+            android:id="@+id/tvListTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/content_list_label"
             android:textSize="18dp"
             android:textStyle="bold"
             android:layout_marginTop="35dp"
@@ -51,13 +52,17 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_content_view"
+        android:id="@+id/rvCardQuest"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingLeft="100sp"
         android:paddingRight="100sp"
         android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@+id/ll_label_group"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3"
+        tools:listitem="@layout/item_quest"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
