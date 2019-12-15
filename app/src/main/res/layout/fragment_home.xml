@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,24 +6,11 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/ll_label_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:orientation="vertical">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layoutSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_search_80"
-            android:layout_marginEnd="@dimen/margin_search_80"
-            android:theme="@style/AppTheme">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputTextSearch"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="@dimen/font_21" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/tvTitle"
@@ -34,7 +20,7 @@
             android:layout_marginTop="@dimen/margin_16"
             android:layout_marginEnd="@dimen/margin_32"
             android:textSize="@dimen/font_31"
-            tools:text="@string/title_catalog" />
+            tools:text="@string/title_home"/>
 
         <TextView
             android:id="@+id/tvDescription"
@@ -45,19 +31,31 @@
             android:layout_marginEnd="@dimen/margin_32"
             android:maxLines="3"
             android:textSize="@dimen/font_13"
-            tools:text="@string/description_catalog" />
+            tools:text="@string/description_home"/>
+
+        <TextView
+            android:id="@+id/tvListTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_marginStart="@dimen/margin_32"
+            android:layout_marginTop="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_32"
+            tools:text="@string/title_quest_list"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCardQuest"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/ll_label_group"
             android:layout_marginStart="@dimen/margin_32"
-            android:layout_marginTop="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_36"
             android:layout_marginEnd="@dimen/margin_32"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="3"
-            tools:listitem="@layout/item_quest" />
-
-
+            tools:listitem="@layout/item_quest"
+            />
     </LinearLayout>
+
 </androidx.core.widget.NestedScrollView>
