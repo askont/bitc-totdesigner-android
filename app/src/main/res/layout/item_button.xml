@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/margin_16">
+
+    <Button
+        android:id="@+id/btnScrollStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/colorSelectItem"
+        android:paddingStart="@dimen/margin_16"
+        android:paddingEnd="@dimen/margin_16"
+        android:foreground="?attr/selectableItemBackground"
+        android:text="@string/btn_text_scroll" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_40" />
+
+</LinearLayout>

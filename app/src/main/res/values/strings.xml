@@ -7,4 +7,6 @@
     <string name="setting">Настройки</string>
     <string name="title_catalog">Каталог</string>
     <string name="description_catalog">Здесь расположены интерактивные 2D/3D/AR курсы и образовательные-игровые квесты для приобретения и загрузки. После загрузки они будут доступны этом Android устройстве без обязательного подключения сети интернет.</string>
+    <string name="btn_text_scroll">ВЕРНУТЬСЯ В НАЧАЛО</string>
+    <string name="title_quest_item">Квесты / курсы по подписке</string>
 </resources>

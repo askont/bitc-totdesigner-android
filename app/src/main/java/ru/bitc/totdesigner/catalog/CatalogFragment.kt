@@ -2,6 +2,7 @@ package ru.bitc.totdesigner.catalog
 
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.android.synthetic.main.fragment_catalog.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -9,6 +10,7 @@ import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.catalog.state.CatalogState
 import ru.bitc.totdesigner.platfom.BaseFragment
 import ru.bitc.totdesigner.platfom.adapter.QuestAdapterDelegate
+import ru.bitc.totdesigner.platfom.adapter.state.QuestItem
 import ru.bitc.totdesigner.platfom.decorator.GridPaddingItemDecoration
 import ru.bitc.totdesigner.system.dpToPx
 import ru.bitc.totdesigner.system.setData
@@ -23,17 +25,29 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
     private val viewModel by viewModel<CatalogViewModel>()
 
     private val adapter by lazy {
-        ListDelegationAdapter(QuestAdapterDelegate().createDelegate())
+        ListDelegationAdapter(QuestAdapterDelegate().createDelegate(::handleClick))
     }
 
-    private val decorator = GridPaddingItemDecoration(3, 24.dpToPx(),false)
+
+    private val decorator = GridPaddingItemDecoration(3, 12.dpToPx(),true)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.updateState()
+        val gridManager = GridLayoutManager(context, 3)
+        gridManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (position == 0 || position == adapter.itemCount - 1) 3 else 1
+            }
+        }
+        rvCardQuest.layoutManager = gridManager
         rvCardQuest.addItemDecoration(decorator)
         rvCardQuest.adapter = adapter
         subscribe(viewModel.viewState, ::handleState)
+    }
+
+    private fun handleClick(questItem: QuestItem) {
+
     }
 
     private fun handleState(catalogState: CatalogState) {
