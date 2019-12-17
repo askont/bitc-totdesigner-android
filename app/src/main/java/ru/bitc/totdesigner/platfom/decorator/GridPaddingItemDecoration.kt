@@ -8,12 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
  * Created on 2019-12-09
  * @author YWeber
  */
-class GridPaddingItemDecoration(
-    private val spanCount: Int,
-    private val spacing: Int,
-    private val excludeFirstItem: Boolean = true,
-    private val includeEdge: Boolean = true
-) : RecyclerView.ItemDecoration() {
+class GridPaddingItemDecoration(private val spacing: Int) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -25,30 +20,5 @@ class GridPaddingItemDecoration(
         outRect.right = spacing
         outRect.top = spacing
         outRect.bottom = spacing
-
-        /*outRect.left = column * spacing / spanCount
-        outRect.right =
-            spacing - (column + 1) * spacing / spanCount
-        if (position >= spanCount) {
-            outRect.top = spacing // item top
-        }*/
-        /* if (includeEdge) {
-             outRect.left =
-                 spacing - (column - 1) * spacing / spanCount
-             outRect.right =
-                 (column) * spacing / spanCount
-
-             if (position < spanCount) { // top edge
-                 outRect.top = spacing
-             }
-             outRect.bottom = spacing // item bottom
-         } else {
-             outRect.left = column * spacing / spanCount
-             outRect.right =
-                 spacing - (column + 1) * spacing / spanCount
-             if (position >= spanCount) {
-                 outRect.top = spacing // item top
-             }
-         }*/
     }
 }

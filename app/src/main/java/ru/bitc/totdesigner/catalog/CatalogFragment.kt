@@ -28,22 +28,29 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
         ListDelegationAdapter(QuestAdapterDelegate().createDelegate(::handleClick))
     }
 
-
-    private val decorator = GridPaddingItemDecoration(3, 12.dpToPx(),true)
+    private val decorator = GridPaddingItemDecoration(12.dpToPx())
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.updateState()
+        setupManager()
+        rvCardQuest.addItemDecoration(decorator)
+        rvCardQuest.adapter = adapter
+        subscribe(viewModel.viewState, ::handleState)
+    }
+
+    private fun setupManager() {
         val gridManager = GridLayoutManager(context, 3)
+        changerColumn(gridManager)
+        rvCardQuest.layoutManager = gridManager
+    }
+
+    private fun changerColumn(gridManager: GridLayoutManager) {
         gridManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return if (position == 0 || position == adapter.itemCount - 1) 3 else 1
             }
         }
-        rvCardQuest.layoutManager = gridManager
-        rvCardQuest.addItemDecoration(decorator)
-        rvCardQuest.adapter = adapter
-        subscribe(viewModel.viewState, ::handleState)
     }
 
     private fun handleClick(questItem: QuestItem) {
