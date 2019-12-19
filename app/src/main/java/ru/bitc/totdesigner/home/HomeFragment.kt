@@ -9,6 +9,7 @@ import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.home.state.HomeState
 import ru.bitc.totdesigner.platfom.BaseFragment
 import ru.bitc.totdesigner.platfom.adapter.QuestAdapterDelegate
+import ru.bitc.totdesigner.platfom.adapter.state.QuestItem
 import ru.bitc.totdesigner.platfom.decorator.GridPaddingItemDecoration
 import ru.bitc.totdesigner.system.dpToPx
 import ru.bitc.totdesigner.system.setData
@@ -19,10 +20,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private val viewModel by viewModel<HomeViewModel>()
 
     private val adapter by lazy {
-        ListDelegationAdapter(QuestAdapterDelegate().createDelegate())
+        ListDelegationAdapter(QuestAdapterDelegate().createDelegate(::click))
     }
 
-    private val decorator = GridPaddingItemDecoration(3, 24.dpToPx(),false)
+    private val decorator = GridPaddingItemDecoration(12.dpToPx())
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,6 +38,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         tvDescription.text = homeState.description
         tvTitle.text = homeState.title
         tvListTitle.text = homeState.listTitle
+    }
+
+    private fun click(questItem: QuestItem) {
+
     }
 
     companion object {

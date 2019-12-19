@@ -3,6 +3,7 @@ package ru.bitc.totdesigner.catalog
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.core.view.isVisible
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.android.synthetic.main.fragment_catalog.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -12,6 +13,7 @@ import ru.bitc.totdesigner.platfom.BaseFragment
 import ru.bitc.totdesigner.platfom.adapter.QuestAdapterDelegate
 import ru.bitc.totdesigner.platfom.adapter.state.QuestItem
 import ru.bitc.totdesigner.platfom.decorator.GridPaddingItemDecoration
+import ru.bitc.totdesigner.platfom.state.State
 import ru.bitc.totdesigner.system.dpToPx
 import ru.bitc.totdesigner.system.setData
 import ru.bitc.totdesigner.system.subscribe
@@ -61,6 +63,13 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
         adapter.setData(catalogState.questItems)
         tvDescription.text = catalogState.description
         tvTitle.text = catalogState.title
+        handleLoading(catalogState)
+    }
+
+    private fun handleLoading(catalogState: CatalogState) {
+        containerContent.isVisible = catalogState.state is State.Loaded
+        layoutSearch.isVisible = catalogState.state is State.Loaded
+        pbLoading.isVisible = catalogState.state is State.Loading
     }
 
     companion object {

@@ -33,7 +33,8 @@ object Versions {
     const val room = "2.2.0-rc01"
 
     //Networking
-    const val retrofit = "2.6.1"
+    const val retrofit = "2.7.0"
+    const val tikxml = "0.8.13"
     const val okhttp_logging_interceptor = "3.12.0"
     const val stetho = "1.5.1"
 

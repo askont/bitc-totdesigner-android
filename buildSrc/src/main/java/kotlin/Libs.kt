@@ -54,6 +54,12 @@ object Libs {
     //Networking
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+    const val tikxml_annotation = "com.tickaroo.tikxml:annotation:${Versions.tikxml}"
+    const val tikxml_core = "com.tickaroo.tikxml:core:${Versions.tikxml}"
+    const val tikxml_converter = "com.tickaroo.tikxml:retrofit-converter:${Versions.tikxml}"
+    const val tikxml_kapt = "com.tickaroo.tikxml:processor:${Versions.tikxml}"
+
+
     const val okhttp_logging_interceptor =
         "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp_logging_interceptor}"
     const val stetho = "com.facebook.stetho:stetho-okhttp3:${Versions.stetho}"

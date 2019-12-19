@@ -36,9 +36,11 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            buildConfigField("String","ENDPOINT",Config.SERVER_ENDPOINT)
         }
         getByName("debug") {
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            buildConfigField("String","ENDPOINT",Config.SERVER_ENDPOINT)
         }
     }
 
@@ -83,7 +85,14 @@ dependencies {
     implementation(Libs.adapter_delegates_dsl)
 
     //Networking
-    implementation (Libs.gson)
+    implementation (Libs.tikxml_annotation)
+    implementation (Libs.tikxml_core)
+    kapt(Libs.tikxml_kapt)
+    implementation(Libs.okhttp_logging_interceptor)
+    implementation(Libs.retrofit)
+    implementation(Libs.tikxml_converter)
+
+    // logger
     implementation (Libs.stetho)
 
     //Timber
