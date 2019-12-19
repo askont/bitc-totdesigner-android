@@ -6,6 +6,7 @@ import kotlinx.android.synthetic.main.fragment_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.catalog.CatalogFragment
+import ru.bitc.totdesigner.home.HomeFragment
 import ru.bitc.totdesigner.mock.MockFragment
 import ru.bitc.totdesigner.platfom.BaseFragment
 
@@ -27,7 +28,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.homeItem -> {
-                    createFragment(MockFragment.newInstance("Home"))
+                    createFragment(HomeFragment.newInstance())
                     true
                 }
                 R.id.catalogItem -> {
