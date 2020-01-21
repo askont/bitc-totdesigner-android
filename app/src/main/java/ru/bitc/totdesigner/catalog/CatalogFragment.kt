@@ -2,8 +2,8 @@ package ru.bitc.totdesigner.catalog
 
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.GridLayoutManager
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.android.synthetic.main.fragment_catalog.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -56,7 +56,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
     }
 
     private fun handleClick(questItem: QuestItem) {
-
+        viewModel.eventClick(questItem)
     }
 
     private fun handleState(catalogState: CatalogState) {
@@ -64,6 +64,9 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
         tvDescription.text = catalogState.description
         tvTitle.text = catalogState.title
         handleLoading(catalogState)
+        if (catalogState.scrollToStart) {
+            nsvQuest.scrollTo(0,0)
+        }
     }
 
     private fun handleLoading(catalogState: CatalogState) {

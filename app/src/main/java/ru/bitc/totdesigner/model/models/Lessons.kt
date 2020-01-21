@@ -1,7 +1,7 @@
 package ru.bitc.totdesigner.model.models
 
+import com.tickaroo.tikxml.annotation.Attribute
 import com.tickaroo.tikxml.annotation.Element
-import com.tickaroo.tikxml.annotation.Path
 import com.tickaroo.tikxml.annotation.PropertyElement
 import com.tickaroo.tikxml.annotation.Xml
 
@@ -11,4 +11,12 @@ import com.tickaroo.tikxml.annotation.Xml
  */
 
 @Xml(name = "Lessons")
-data class Lessons(@Element(name = "LessonInfo") val lessonsInfo: List<LessonInfo>)
+data class Lessons(@Element(name = "LessonInfo") val lessonsInfo: List<LessonInfo>) {
+    @Xml(name = "LessonInfo")
+    data class LessonInfo(
+        @Attribute(name = "name") val name: String,
+        @Attribute(name = "category") val category: String,
+        @PropertyElement(name = "Url") val lessonUrl: String,
+        @PropertyElement(name = "Preview") val previewIcon: String
+    )
+}

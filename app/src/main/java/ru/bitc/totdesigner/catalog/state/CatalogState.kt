@@ -12,5 +12,6 @@ data class CatalogState(
     val state: State,
     val title: String,
     val description: String,
-    val questItems: List<QuestItem>
+    val questItems: List<QuestItem>,
+    val scrollToStart: Boolean
 )

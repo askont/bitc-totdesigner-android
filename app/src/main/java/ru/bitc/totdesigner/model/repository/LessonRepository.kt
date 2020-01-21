@@ -1,9 +1,7 @@
 package ru.bitc.totdesigner.model.repository
 
-import kotlinx.coroutines.runBlocking
 import ru.bitc.totdesigner.model.entity.PreviewLessons
 import ru.bitc.totdesigner.model.http.SoapApi
-import timber.log.Timber
 
 /*
  * Created on 2019-12-19

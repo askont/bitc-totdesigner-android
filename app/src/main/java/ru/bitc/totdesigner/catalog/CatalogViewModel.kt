@@ -34,7 +34,7 @@ class CatalogViewModel(
     private fun defaultCatalogData(): CatalogState {
         val title = resourceManager.getString(R.string.title_catalog)
         val description = resourceManager.getString(R.string.description_catalog)
-       return CatalogState(State.Loaded,title,description, listOf())
+        return CatalogState(State.Loaded, title, description, listOf(), false)
     }
 
     fun updateState(){
@@ -57,10 +57,18 @@ class CatalogViewModel(
 
     private fun addItem(lessons: List<CardQuestItem>): List<QuestItem> {
         val currentItemsMutable = mutableListOf<QuestItem>()
-        currentItemsMutable.add(TitleQuestItem(resourceManager.getString(R.string.title_catalog)))
+        currentItemsMutable.add(TitleQuestItem(resourceManager.getString(R.string.title_quest_item)))
         currentItemsMutable.addAll(lessons)
         currentItemsMutable.add(ButtonQuestItem(""))
         return currentItemsMutable.toList()
+    }
+
+    fun eventClick(questItem: QuestItem) {
+        when (questItem) {
+            is ButtonQuestItem -> {
+                action.value = currentState.copy(scrollToStart = true)
+            }
+        }
     }
 
 }
