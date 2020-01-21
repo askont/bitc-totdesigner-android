@@ -73,7 +73,8 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
         tvTitle.text = catalogState.title
         handleLoading(catalogState)
         if (catalogState.scrollToStart) {
-            nsvQuest.scrollTo(0, 0)
+            rvCardQuest.scrollToPosition(0)
+            containerContent.setExpanded(true)
         }
     }
 
