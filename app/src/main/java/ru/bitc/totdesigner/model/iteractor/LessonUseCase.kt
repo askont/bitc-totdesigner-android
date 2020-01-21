@@ -1,5 +1,6 @@
 package ru.bitc.totdesigner.model.iteractor
 
+import kotlinx.coroutines.delay
 import ru.bitc.totdesigner.model.entity.PreviewLessons
 import ru.bitc.totdesigner.model.repository.LessonRepository
 import ru.bitc.totdesigner.platfom.state.State
@@ -29,6 +30,7 @@ class LessonUseCase(private val repository: LessonRepository) {
     suspend fun searchLesson(nameQuest:String ,onState: (State) -> Unit,
                   async: (PreviewLessons) -> Unit){
         try {
+            delay(400)
             onState(State.Loading)
             val lessons = searchPreviewLessons(nameQuest,repository.getPreviewLessons())
             async(lessons)

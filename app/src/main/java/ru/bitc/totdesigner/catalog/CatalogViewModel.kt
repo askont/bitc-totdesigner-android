@@ -43,8 +43,10 @@ class CatalogViewModel(
     }
 
     fun search(nameQuest: String) {
-        launch {
+        searchJob?.cancel()
+        searchJob =  launch {
             useCase.searchLesson(nameQuest, ::handleState, ::handleLesson)
+            action.value = currentState.copy(lastSearchQuest = nameQuest)
         }
     }
 
@@ -60,8 +62,7 @@ class CatalogViewModel(
         if (fullItems.size > MIN_SIZE_ITEM) {
             fullItems.add(ButtonQuestItem(""))
         }
-        action.value = currentState.copy(questItems = fullItems)
-
+        action.value = currentState.copy(questItems = fullItems, questItemEmpty = fullItems.isNotEmpty())
     }
 
     private fun addFreeItem(lessons: List<PreviewLessons.Lesson>): List<QuestItem> {

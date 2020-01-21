@@ -40,6 +40,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
         viewModel.updateState()
         setupManager()
         rvCardQuest.addItemDecoration(decorator)
+        containerContent.setOutlineProvider(null)
         rvCardQuest.adapter = adapter
         inputTextSearch.addTextChangedListener {
             viewModel.search(it?.toString() ?: "")
@@ -67,11 +68,20 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
 
     private fun handleState(catalogState: CatalogState) {
         adapter.setData(catalogState.questItems)
+        handleSearch(catalogState)
         tvDescription.text = catalogState.description
         tvTitle.text = catalogState.title
         handleLoading(catalogState)
         if (catalogState.scrollToStart) {
             nsvQuest.scrollTo(0, 0)
+        }
+    }
+
+    private fun handleSearch(catalogState: CatalogState) {
+        rvCardQuest.isVisible = catalogState.questItemEmpty
+        tvEmptySearch.isVisible = !catalogState.questItemEmpty
+        if (catalogState.questItemEmpty) {
+            tvEmptySearch.text = getString(R.string.search_empty_catalog, catalogState.lastSearchQuest)
         }
     }
 

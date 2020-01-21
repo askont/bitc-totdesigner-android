@@ -13,5 +13,7 @@ data class CatalogState(
     val title: String,
     val description: String,
     val questItems: List<QuestItem>,
-    val scrollToStart: Boolean
+    val scrollToStart: Boolean,
+    val questItemEmpty:Boolean = false,
+    val lastSearchQuest:String = ""
 )
