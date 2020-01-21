@@ -1,77 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/nsvQuest"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
-    <FrameLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/containerContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:elevation="0dp"
+        android:orientation="vertical"
+        android:translationZ="0.1dp"
+        >
 
-        <LinearLayout
-            android:id="@+id/containerContent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutSearch"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_search_80"
+            android:layout_marginEnd="@dimen/margin_search_80"
+            android:theme="@style/AppTheme"
+            app:endIconDrawable="@drawable/ic_catalog_search"
+            app:endIconMode="custom"
+            app:layout_scrollFlags="scroll|snap"
+            >
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layoutSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_search_80"
-                android:layout_marginEnd="@dimen/margin_search_80"
-                android:theme="@style/AppTheme">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/inputTextSearch"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="@dimen/font_21" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_32"
-                android:layout_marginTop="@dimen/margin_16"
-                android:layout_marginEnd="@dimen/margin_32"
-                android:textSize="@dimen/font_31"
-                tools:text="@string/title_catalog" />
-
-            <TextView
-                android:id="@+id/tvDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_32"
-                android:layout_marginTop="@dimen/margin_16"
-                android:layout_marginEnd="@dimen/margin_32"
-                android:maxLines="3"
-                android:textSize="@dimen/font_13"
-                tools:text="@string/description_catalog" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCardQuest"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputTextSearch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/margin_32"
-                android:layout_marginTop="@dimen/margin_16"
-                android:layout_marginEnd="@dimen/margin_32"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="3"
-                tools:listitem="@layout/item_quest" />
+                android:textSize="@dimen/font_21"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/pbLoading"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_16" />
-    </FrameLayout>
+            android:layout_marginStart="@dimen/margin_32"
+            android:layout_marginTop="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_32"
+            android:textSize="@dimen/font_31"
+            app:layout_scrollFlags="scroll|snap"
+            tools:text="@string/title_catalog"
+            />
 
-</androidx.core.widget.NestedScrollView>
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_32"
+            android:layout_marginTop="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_32"
+            android:layout_marginBottom="@dimen/margin_24"
+            android:maxLines="3"
+            android:textSize="@dimen/font_13"
+            app:layout_scrollFlags="scroll|snap"
+            tools:text="@string/description_catalog"
+            />
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <TextView
+        android:id="@+id/tvEmptySearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/margin_32"
+        android:layout_marginTop="@dimen/margin_48"
+        android:layout_marginEnd="@dimen/margin_32"
+        android:gravity="center"
+        android:text="@string/search_empty_catalog"
+        android:textSize="@dimen/font_17"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCardQuest"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/margin_32"
+        android:layout_marginEnd="@dimen/margin_32"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        app:spanCount="3"
+        tools:listitem="@layout/item_quest"
+        tools:visibility="visible"
+        />
+
+
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_16"
+        />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

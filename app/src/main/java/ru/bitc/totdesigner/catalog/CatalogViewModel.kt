@@ -2,15 +2,13 @@ package ru.bitc.totdesigner.catalog
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.Job
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.catalog.state.CatalogState
 import ru.bitc.totdesigner.model.entity.PreviewLessons
 import ru.bitc.totdesigner.model.iteractor.LessonUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
-import ru.bitc.totdesigner.platfom.adapter.state.ButtonQuestItem
-import ru.bitc.totdesigner.platfom.adapter.state.CardQuestItem
-import ru.bitc.totdesigner.platfom.adapter.state.QuestItem
-import ru.bitc.totdesigner.platfom.adapter.state.TitleQuestItem
+import ru.bitc.totdesigner.platfom.adapter.state.*
 import ru.bitc.totdesigner.platfom.state.State
 import ru.bitc.totdesigner.system.ResourceManager
 
@@ -24,6 +22,7 @@ class CatalogViewModel(
 ) : BaseViewModel() {
 
     private val action = MutableLiveData<CatalogState>()
+    private var searchJob: Job? = null
 
     private val currentState
         get() = action.value ?: defaultCatalogData()
@@ -37,9 +36,17 @@ class CatalogViewModel(
         return CatalogState(State.Loaded, title, description, listOf(), false)
     }
 
-    fun updateState(){
+    fun updateState() {
         launch {
             useCase.getLessonPreview(::handleState, ::handleLesson)
+        }
+    }
+
+    fun search(nameQuest: String) {
+        searchJob?.cancel()
+        searchJob =  launch {
+            useCase.searchLesson(nameQuest, ::handleState, ::handleLesson)
+            action.value = currentState.copy(lastSearchQuest = nameQuest)
         }
     }
 
@@ -49,17 +56,36 @@ class CatalogViewModel(
     }
 
     private fun handleLesson(previewLessons: PreviewLessons) {
-        val lessons = previewLessons.previews.map { CardQuestItem(it.title, it.imageUrl) }
-        val titleAndButtonItem = addItem(lessons)
-        action.value = currentState.copy(questItems = titleAndButtonItem)
-
+        val fullItems = mutableListOf<QuestItem>()
+        fullItems.addAll(addPaidItem(previewLessons.previews))
+        fullItems.addAll(addFreeItem(previewLessons.previews))
+        if (fullItems.size > MIN_SIZE_ITEM) {
+            fullItems.add(ButtonQuestItem(""))
+        }
+        action.value = currentState.copy(questItems = fullItems, questItemEmpty = fullItems.isNotEmpty())
     }
 
-    private fun addItem(lessons: List<CardQuestItem>): List<QuestItem> {
+    private fun addFreeItem(lessons: List<PreviewLessons.Lesson>): List<QuestItem> {
+        val items = lessons
+            .filter { it.category == PreviewLessons.Category.FREE }
+            .map { FreeCardQuestItem(it.title, it.imageUrl) }
         val currentItemsMutable = mutableListOf<QuestItem>()
-        currentItemsMutable.add(TitleQuestItem(resourceManager.getString(R.string.title_quest_item)))
-        currentItemsMutable.addAll(lessons)
-        currentItemsMutable.add(ButtonQuestItem(""))
+        if (items.isNotEmpty()) {
+            currentItemsMutable.add(TitleQuestItem(resourceManager.getString(R.string.title_free_quest_item)))
+        }
+        currentItemsMutable.addAll(items)
+        return currentItemsMutable.toList()
+    }
+
+    private fun addPaidItem(lessons: List<PreviewLessons.Lesson>): List<QuestItem> {
+        val items = lessons
+            .filter { it.category == PreviewLessons.Category.PAID }
+            .map { PaidCardQuestItem(it.title, it.imageUrl) }
+        val currentItemsMutable = mutableListOf<QuestItem>()
+        if (items.isNotEmpty()) {
+            currentItemsMutable.add(TitleQuestItem(resourceManager.getString(R.string.title_paid_quest_item)))
+        }
+        currentItemsMutable.addAll(items)
         return currentItemsMutable.toList()
     }
 
@@ -69,6 +95,10 @@ class CatalogViewModel(
                 action.value = currentState.copy(scrollToStart = true)
             }
         }
+    }
+
+    companion object {
+        private const val MIN_SIZE_ITEM = 5
     }
 
 }

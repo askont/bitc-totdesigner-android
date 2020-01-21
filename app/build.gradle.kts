@@ -92,6 +92,8 @@ dependencies {
     implementation(Libs.retrofit)
     implementation(Libs.tikxml_converter)
 
+    // coroutines
+    implementation(Libs.coroutines)
     // logger
     implementation (Libs.stetho)
 
