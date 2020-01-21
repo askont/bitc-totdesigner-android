@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <item
-        android:id="@+id/homeItem"
-        android:icon="@drawable/ic_home_my_device"
-        android:title="@string/my_device"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/catalogItem"
-        android:icon="@drawable/ic_catalog"
-        android:title="@string/catalog_title"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/openFolderItem"
-        android:icon="@drawable/ic_folder"
-        android:title="@string/folder_title"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/settingItem"
-        android:icon="@drawable/ic_setting"
-        android:title="@string/setting"
-        app:showAsAction="always" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+>
+    <group android:menuCategory="alternative">
+        <item
+            android:id="@+id/homeItem"
+            android:icon="@drawable/ic_home_my_device"
+            android:title="@string/my_device"
+            app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/catalogItem"
+            android:icon="@drawable/ic_catalog"
+            android:title="@string/catalog_title"
+            app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/openFolderItem"
+            android:icon="@drawable/ic_folder"
+            android:title="@string/folder_title"
+            app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/settingItem"
+            android:icon="@drawable/ic_setting"
+            android:title="@string/setting"
+            app:showAsAction="ifRoom" />
+    </group>
 
 </menu>
