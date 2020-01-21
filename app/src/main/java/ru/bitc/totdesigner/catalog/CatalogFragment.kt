@@ -3,6 +3,7 @@ package ru.bitc.totdesigner.catalog
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.android.synthetic.main.fragment_catalog.*
@@ -40,6 +41,9 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
         setupManager()
         rvCardQuest.addItemDecoration(decorator)
         rvCardQuest.adapter = adapter
+        inputTextSearch.addTextChangedListener {
+            viewModel.search(it?.toString() ?: "")
+        }
         subscribe(viewModel.viewState, ::handleState)
     }
 

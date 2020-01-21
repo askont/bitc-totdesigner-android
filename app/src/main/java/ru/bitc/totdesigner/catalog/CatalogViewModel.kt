@@ -2,6 +2,7 @@ package ru.bitc.totdesigner.catalog
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.Job
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.catalog.state.CatalogState
 import ru.bitc.totdesigner.model.entity.PreviewLessons
@@ -21,6 +22,7 @@ class CatalogViewModel(
 ) : BaseViewModel() {
 
     private val action = MutableLiveData<CatalogState>()
+    private var searchJob: Job? = null
 
     private val currentState
         get() = action.value ?: defaultCatalogData()
@@ -40,6 +42,12 @@ class CatalogViewModel(
         }
     }
 
+    fun search(nameQuest: String) {
+        launch {
+            useCase.searchLesson(nameQuest, ::handleState, ::handleLesson)
+        }
+    }
+
     override fun handleState(state: State) {
         super.handleState(state)
         currentState.copy(state = state)
@@ -49,7 +57,9 @@ class CatalogViewModel(
         val fullItems = mutableListOf<QuestItem>()
         fullItems.addAll(addPaidItem(previewLessons.previews))
         fullItems.addAll(addFreeItem(previewLessons.previews))
-        fullItems.add(ButtonQuestItem(""))
+        if (fullItems.size > MIN_SIZE_ITEM) {
+            fullItems.add(ButtonQuestItem(""))
+        }
         action.value = currentState.copy(questItems = fullItems)
 
     }
@@ -59,7 +69,9 @@ class CatalogViewModel(
             .filter { it.category == PreviewLessons.Category.FREE }
             .map { FreeCardQuestItem(it.title, it.imageUrl) }
         val currentItemsMutable = mutableListOf<QuestItem>()
-        currentItemsMutable.add(TitleQuestItem(resourceManager.getString(R.string.title_free_quest_item)))
+        if (items.isNotEmpty()) {
+            currentItemsMutable.add(TitleQuestItem(resourceManager.getString(R.string.title_free_quest_item)))
+        }
         currentItemsMutable.addAll(items)
         return currentItemsMutable.toList()
     }
@@ -69,7 +81,9 @@ class CatalogViewModel(
             .filter { it.category == PreviewLessons.Category.PAID }
             .map { PaidCardQuestItem(it.title, it.imageUrl) }
         val currentItemsMutable = mutableListOf<QuestItem>()
-        currentItemsMutable.add(TitleQuestItem(resourceManager.getString(R.string.title_paid_quest_item)))
+        if (items.isNotEmpty()) {
+            currentItemsMutable.add(TitleQuestItem(resourceManager.getString(R.string.title_paid_quest_item)))
+        }
         currentItemsMutable.addAll(items)
         return currentItemsMutable.toList()
     }
@@ -80,6 +94,10 @@ class CatalogViewModel(
                 action.value = currentState.copy(scrollToStart = true)
             }
         }
+    }
+
+    companion object {
+        private const val MIN_SIZE_ITEM = 5
     }
 
 }

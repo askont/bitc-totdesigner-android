@@ -13,7 +13,7 @@ data class PreviewLessons(val previews: List<Lesson>) {
     )
 
     enum class Category(val category: String) {
-        PAID("Paid"), FREE("Free"), UNKNOW("")
+        PAID("Paid"), FREE("Free"), UN_KNOW("")
     }
 
 }

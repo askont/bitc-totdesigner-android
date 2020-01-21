@@ -25,4 +25,31 @@ class LessonUseCase(private val repository: LessonRepository) {
             onState.invoke(State.Error(error = e))
         }
     }
+
+    suspend fun searchLesson(nameQuest:String ,onState: (State) -> Unit,
+                  async: (PreviewLessons) -> Unit){
+        try {
+            onState(State.Loading)
+            val lessons = searchPreviewLessons(nameQuest,repository.getPreviewLessons())
+            async(lessons)
+            onState.invoke(State.Loaded)
+        } catch (e: Exception) {
+            Timber.e(e)
+            onState.invoke(State.Error(error = e))
+        }
+    }
+
+    private fun searchPreviewLessons(
+        nameQuest: String,
+        previewLessons: PreviewLessons
+    ): PreviewLessons {
+        return if (nameQuest.isNotEmpty()) {
+            previewLessons.copy(previews = previewLessons.previews.filter {
+                it.title.contains(
+                    nameQuest,
+                    true
+                )
+            })
+        } else previewLessons
+    }
 }
