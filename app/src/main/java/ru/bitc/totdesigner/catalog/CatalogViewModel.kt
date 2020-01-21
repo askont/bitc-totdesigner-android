@@ -7,10 +7,7 @@ import ru.bitc.totdesigner.catalog.state.CatalogState
 import ru.bitc.totdesigner.model.entity.PreviewLessons
 import ru.bitc.totdesigner.model.iteractor.LessonUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
-import ru.bitc.totdesigner.platfom.adapter.state.ButtonQuestItem
-import ru.bitc.totdesigner.platfom.adapter.state.CardQuestItem
-import ru.bitc.totdesigner.platfom.adapter.state.QuestItem
-import ru.bitc.totdesigner.platfom.adapter.state.TitleQuestItem
+import ru.bitc.totdesigner.platfom.adapter.state.*
 import ru.bitc.totdesigner.platfom.state.State
 import ru.bitc.totdesigner.system.ResourceManager
 
@@ -37,7 +34,7 @@ class CatalogViewModel(
         return CatalogState(State.Loaded, title, description, listOf(), false)
     }
 
-    fun updateState(){
+    fun updateState() {
         launch {
             useCase.getLessonPreview(::handleState, ::handleLesson)
         }
@@ -49,17 +46,31 @@ class CatalogViewModel(
     }
 
     private fun handleLesson(previewLessons: PreviewLessons) {
-        val lessons = previewLessons.previews.map { CardQuestItem(it.title, it.imageUrl) }
-        val titleAndButtonItem = addItem(lessons)
-        action.value = currentState.copy(questItems = titleAndButtonItem)
+        val fullItems = mutableListOf<QuestItem>()
+        fullItems.addAll(addPaidItem(previewLessons.previews))
+        fullItems.addAll(addFreeItem(previewLessons.previews))
+        fullItems.add(ButtonQuestItem(""))
+        action.value = currentState.copy(questItems = fullItems)
 
     }
 
-    private fun addItem(lessons: List<CardQuestItem>): List<QuestItem> {
+    private fun addFreeItem(lessons: List<PreviewLessons.Lesson>): List<QuestItem> {
+        val items = lessons
+            .filter { it.category == PreviewLessons.Category.FREE }
+            .map { FreeCardQuestItem(it.title, it.imageUrl) }
         val currentItemsMutable = mutableListOf<QuestItem>()
-        currentItemsMutable.add(TitleQuestItem(resourceManager.getString(R.string.title_quest_item)))
-        currentItemsMutable.addAll(lessons)
-        currentItemsMutable.add(ButtonQuestItem(""))
+        currentItemsMutable.add(TitleQuestItem(resourceManager.getString(R.string.title_free_quest_item)))
+        currentItemsMutable.addAll(items)
+        return currentItemsMutable.toList()
+    }
+
+    private fun addPaidItem(lessons: List<PreviewLessons.Lesson>): List<QuestItem> {
+        val items = lessons
+            .filter { it.category == PreviewLessons.Category.PAID }
+            .map { PaidCardQuestItem(it.title, it.imageUrl) }
+        val currentItemsMutable = mutableListOf<QuestItem>()
+        currentItemsMutable.add(TitleQuestItem(resourceManager.getString(R.string.title_paid_quest_item)))
+        currentItemsMutable.addAll(items)
         return currentItemsMutable.toList()
     }
 

@@ -11,7 +11,9 @@ import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.catalog.state.CatalogState
 import ru.bitc.totdesigner.platfom.BaseFragment
 import ru.bitc.totdesigner.platfom.adapter.QuestAdapterDelegate
+import ru.bitc.totdesigner.platfom.adapter.state.ButtonQuestItem
 import ru.bitc.totdesigner.platfom.adapter.state.QuestItem
+import ru.bitc.totdesigner.platfom.adapter.state.TitleQuestItem
 import ru.bitc.totdesigner.platfom.decorator.GridPaddingItemDecoration
 import ru.bitc.totdesigner.platfom.state.State
 import ru.bitc.totdesigner.system.dpToPx
@@ -50,7 +52,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
     private fun changerColumn(gridManager: GridLayoutManager) {
         gridManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return if (position == 0 || position == adapter.itemCount - 1) 3 else 1
+                return if (adapter.items[position] is TitleQuestItem || adapter.items[position] is ButtonQuestItem) 3 else 1
             }
         }
     }
@@ -65,7 +67,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
         tvTitle.text = catalogState.title
         handleLoading(catalogState)
         if (catalogState.scrollToStart) {
-            nsvQuest.scrollTo(0,0)
+            nsvQuest.scrollTo(0, 0)
         }
     }
 

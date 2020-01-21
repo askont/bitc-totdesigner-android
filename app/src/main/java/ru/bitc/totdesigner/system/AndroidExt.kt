@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
 
 /*
@@ -26,7 +28,8 @@ fun View.hideKeyboard(): Boolean {
     try {
         val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         return inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
-    } catch (ignored: RuntimeException) { }
+    } catch (ignored: RuntimeException) {
+    }
     return false
 }
 
@@ -56,6 +59,12 @@ inline val Context.inflater: LayoutInflater
 fun <T> AbsDelegationAdapter<T>.setData(data: T) {
     items = data
     notifyDataSetChanged()
+}
+
+fun ImageView.loadImage(url: String) {
+    Glide.with(context)
+        .load(url)
+        .into(this)
 }
 
 
