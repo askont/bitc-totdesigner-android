@@ -1,4 +1,4 @@
-package ru.bitc.totdesigner.home
+package ru.bitc.totdesigner.ui.home
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,7 @@ import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.bitc.totdesigner.R
-import ru.bitc.totdesigner.home.state.HomeState
+import ru.bitc.totdesigner.ui.home.state.HomeState
 import ru.bitc.totdesigner.platfom.BaseFragment
 import ru.bitc.totdesigner.platfom.adapter.QuestAdapterDelegate
 import ru.bitc.totdesigner.platfom.adapter.state.QuestItem

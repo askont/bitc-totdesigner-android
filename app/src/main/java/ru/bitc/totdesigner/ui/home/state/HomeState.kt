@@ -1,4 +1,4 @@
-package ru.bitc.totdesigner.home.state
+package ru.bitc.totdesigner.ui.home.state
 
 import ru.bitc.totdesigner.platfom.adapter.state.QuestItem
 import ru.bitc.totdesigner.platfom.state.State

@@ -1,10 +1,10 @@
-package ru.bitc.totdesigner.home
+package ru.bitc.totdesigner.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.bitc.totdesigner.R
 
-import ru.bitc.totdesigner.home.state.HomeState
+import ru.bitc.totdesigner.ui.home.state.HomeState
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.platfom.adapter.state.FreeCardQuestItem
 import ru.bitc.totdesigner.platfom.adapter.state.QuestItem

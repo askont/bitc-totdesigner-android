@@ -4,5 +4,5 @@
     android:id="@+id/appContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AppActivity" />
+    tools:context="ru.bitc.totdesigner.ui.AppActivity" />
 

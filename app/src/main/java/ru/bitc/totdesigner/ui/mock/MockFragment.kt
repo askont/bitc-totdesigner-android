@@ -1,4 +1,4 @@
-package ru.bitc.totdesigner.mock
+package ru.bitc.totdesigner.ui.mock
 
 import android.os.Bundle
 import android.view.View

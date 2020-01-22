@@ -71,6 +71,9 @@ dependencies {
     implementation (Libs.koin_scope)
     implementation (Libs.koin_viewmodel)
 
+    // cicerone
+    implementation(Libs.cicerone)
+
     //lifecycle
     implementation(Libs.lifecycle_extensions)
     implementation(Libs.lifecycle_livedata)
