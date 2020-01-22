@@ -1,4 +1,4 @@
-package ru.bitc.totdesigner.catalog.state
+package ru.bitc.totdesigner.ui.catalog.state
 
 import ru.bitc.totdesigner.platfom.adapter.state.QuestItem
 import ru.bitc.totdesigner.platfom.state.State

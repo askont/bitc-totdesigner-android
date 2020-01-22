@@ -1,10 +1,10 @@
-package ru.bitc.totdesigner.catalog
+package ru.bitc.totdesigner.ui.catalog
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Job
 import ru.bitc.totdesigner.R
-import ru.bitc.totdesigner.catalog.state.CatalogState
+import ru.bitc.totdesigner.ui.catalog.state.CatalogState
 import ru.bitc.totdesigner.model.entity.PreviewLessons
 import ru.bitc.totdesigner.model.iteractor.LessonUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel

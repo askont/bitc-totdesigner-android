@@ -64,24 +64,22 @@
             tools:text="@string/description_catalog"
             />
 
+        <TextView
+            android:id="@+id/tvEmptySearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/margin_32"
+            android:layout_marginTop="@dimen/margin_48"
+            android:layout_marginEnd="@dimen/margin_32"
+            android:gravity="center"
+            android:text="@string/search_empty_catalog"
+            android:textSize="@dimen/font_17"
+            android:visibility="gone"
+            tools:visibility="visible"
+            />
 
     </com.google.android.material.appbar.AppBarLayout>
-
-
-    <TextView
-        android:id="@+id/tvEmptySearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="@dimen/margin_32"
-        android:layout_marginTop="@dimen/margin_48"
-        android:layout_marginEnd="@dimen/margin_32"
-        android:gravity="center"
-        android:text="@string/search_empty_catalog"
-        android:textSize="@dimen/font_17"
-        android:visibility="gone"
-        tools:visibility="visible"
-        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCardQuest"

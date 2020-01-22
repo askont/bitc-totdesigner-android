@@ -1,4 +1,4 @@
-package ru.bitc.totdesigner.catalog
+package ru.bitc.totdesigner.ui.catalog
 
 import android.os.Bundle
 import android.view.View
@@ -9,7 +9,7 @@ import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.android.synthetic.main.fragment_catalog.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.bitc.totdesigner.R
-import ru.bitc.totdesigner.catalog.state.CatalogState
+import ru.bitc.totdesigner.ui.catalog.state.CatalogState
 import ru.bitc.totdesigner.platfom.BaseFragment
 import ru.bitc.totdesigner.platfom.adapter.QuestAdapterDelegate
 import ru.bitc.totdesigner.platfom.adapter.state.ButtonQuestItem
@@ -73,7 +73,8 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
         tvTitle.text = catalogState.title
         handleLoading(catalogState)
         if (catalogState.scrollToStart) {
-            nsvQuest.scrollTo(0, 0)
+            rvCardQuest.scrollToPosition(0)
+            containerContent.setExpanded(true)
         }
     }
 

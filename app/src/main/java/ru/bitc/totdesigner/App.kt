@@ -4,7 +4,8 @@ import android.app.Application
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
-import ru.bitc.totdesigner.di.DI
+import ru.bitc.totdesigner.di.AppModules
+import ru.bitc.totdesigner.di.NavigationModules
 import timber.log.Timber
 
 /*
@@ -30,7 +31,14 @@ class App : Application() {
         startKoin {
             androidContext(this@App)
             androidLogger()
-            modules(listOf(DI.appModule(), DI.networkModule(), DI.viewModelModule()))
+            modules(
+                listOf(
+                    AppModules.appModule(),
+                    AppModules.networkModule(),
+                    AppModules.viewModelModule(),
+                    NavigationModules.navigationModule()
+                )
+            )
         }
     }
 }
