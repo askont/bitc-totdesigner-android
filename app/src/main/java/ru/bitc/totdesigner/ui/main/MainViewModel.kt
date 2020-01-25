@@ -17,14 +17,6 @@ class MainViewModel(
     navigatorHolder: NavigatorHolder
 ) : BaseViewModel(navigatorHolder) {
 
-
-    fun defaultSelect(){
-        launch {
-            delay(50)
-            selectHomeScreen()
-        }
-    }
-
     fun selectHomeScreen(): Boolean {
         router.newRootScreen(MainScreens.HomeScreen)
         return true

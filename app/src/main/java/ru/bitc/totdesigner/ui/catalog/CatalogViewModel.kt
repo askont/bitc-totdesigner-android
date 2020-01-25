@@ -4,19 +4,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Job
 import ru.bitc.totdesigner.R
-import ru.bitc.totdesigner.ui.catalog.state.CatalogState
 import ru.bitc.totdesigner.model.entity.PreviewLessons
 import ru.bitc.totdesigner.model.iteractor.LessonUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.platfom.adapter.state.*
+import ru.bitc.totdesigner.platfom.navigation.MainScreens
 import ru.bitc.totdesigner.platfom.state.State
 import ru.bitc.totdesigner.system.ResourceManager
+import ru.bitc.totdesigner.ui.catalog.state.CatalogState
+import ru.terrakok.cicerone.Router
 
 /*
  * Created on 2019-12-06
  * @author YWeber
  */
 class CatalogViewModel(
+    private val router: Router,
     private val resourceManager: ResourceManager,
     private val useCase: LessonUseCase
 ) : BaseViewModel() {
@@ -44,7 +47,7 @@ class CatalogViewModel(
 
     fun search(nameQuest: String) {
         searchJob?.cancel()
-        searchJob =  launch {
+        searchJob = launch {
             useCase.searchLesson(nameQuest, ::handleState, ::handleLesson)
             action.value = currentState.copy(lastSearchQuest = nameQuest)
         }
@@ -94,6 +97,8 @@ class CatalogViewModel(
             is ButtonQuestItem -> {
                 action.value = currentState.copy(scrollToStart = true)
             }
+            is FreeCardQuestItem -> router.navigateTo(MainScreens.FreeDownloadDialog)
+            is PaidCardQuestItem -> router.navigateTo(MainScreens.FreeDownloadDialog)
         }
     }
 

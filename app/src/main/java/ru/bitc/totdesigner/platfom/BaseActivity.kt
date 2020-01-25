@@ -22,8 +22,8 @@ abstract class BaseActivity(@LayoutRes private val layoutRes: Int) : AppCompatAc
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onResumeFragments() {
+        super.onResumeFragments()
         viewModel.addNavigator(navigator)
     }
 

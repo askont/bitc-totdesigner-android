@@ -6,4 +6,5 @@
     <color name="colorBottom">#7A333333</color>
     <color name="colorSelectItem">#75a5cc</color>
     <color name="colorWhiteText">@color/colorAccent</color>
+    <color name="colorWhiteTextOpa70">#B3FFFFFF</color>
 </resources>

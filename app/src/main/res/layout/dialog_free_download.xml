@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerDialogContent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_32"
+        android:layout_marginBottom="@dimen/margin_32"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical"
+        >
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/margin_16"
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/margin_8"
+            >
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivImageQuest"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/ic_setting"
+                />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhiteText"
+            android:layout_margin="@dimen/margin_16"
+            tools:text="Основы проектирования UX UI - Wireframe"
+            />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_16"
+            android:textColor="@color/colorWhiteTextOpa70"
+            tools:text="Вы можете загрузить данный интерактивный 2D/3D/AR курс и/или образовательный игровой квест бесплатно, без подписки. Нажмите «Скачать курс» или продолжите выбор в каталоге"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/margin_24"
+            android:layout_marginStart="@dimen/margin_12"
+            android:layout_marginEnd="@dimen/margin_12"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/tvBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_14"
+                android:padding="@dimen/padding_min_4"
+                android:textAllCaps="true"
+                android:textColor="@color/colorSelectItem"
+                android:text="@string/back_catalog"
+                />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:id="@+id/tvDownload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:textSize="@dimen/font_14"
+                android:textAllCaps="true"
+                android:textColor="@color/colorSelectItem"
+                android:padding="@dimen/padding_min_4"
+                android:text="@string/download"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

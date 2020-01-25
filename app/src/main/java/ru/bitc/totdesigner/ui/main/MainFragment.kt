@@ -1,11 +1,11 @@
 package ru.bitc.totdesigner.ui.main
 
 import android.os.Bundle
-import android.view.View
 import kotlinx.android.synthetic.main.fragment_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.BaseFragment
+import ru.bitc.totdesigner.platfom.navigation.ActivityNavigatorProxy
 import ru.bitc.totdesigner.platfom.navigation.SupportDialogAppNavigator
 import ru.terrakok.cicerone.Navigator
 
@@ -26,7 +26,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
     }
 
     private fun setupView() {
-        viewModel.defaultSelect()
+        viewModel.selectHomeScreen()
         bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.homeItem -> viewModel.selectHomeScreen()
