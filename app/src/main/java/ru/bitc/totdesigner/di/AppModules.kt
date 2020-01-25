@@ -2,14 +2,15 @@ package ru.bitc.totdesigner.di
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import ru.bitc.totdesigner.ui.catalog.CatalogViewModel
-import ru.bitc.totdesigner.ui.home.HomeViewModel
-import ru.bitc.totdesigner.ui.main.MainViewModel
 import ru.bitc.totdesigner.model.CuratorSoapNetwork
 import ru.bitc.totdesigner.model.iteractor.LessonUseCase
 import ru.bitc.totdesigner.model.repository.LessonRepository
+import ru.bitc.totdesigner.platfom.navigation.LocalCiceroneHolder
 import ru.bitc.totdesigner.system.ResourceManager
 import ru.bitc.totdesigner.ui.AppViewModel
+import ru.bitc.totdesigner.ui.catalog.CatalogViewModel
+import ru.bitc.totdesigner.ui.home.HomeViewModel
+import ru.bitc.totdesigner.ui.main.MainViewModel
 import ru.bitc.totdesigner.ui.splash.SplashViewModel
 
 object AppModules {
@@ -30,19 +31,22 @@ object AppModules {
 
     fun viewModelModule() = module {
         viewModel {
-            AppViewModel(get(),get())
+            AppViewModel(get(), get())
         }
 
         viewModel {
-            CatalogViewModel(get(), get())
+            val cicerone = get<LocalCiceroneHolder>()
+            CatalogViewModel(cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router, get(), get())
         }
         viewModel {
-            MainViewModel(get(),get())
+            val cicerone = get<LocalCiceroneHolder>()
+            MainViewModel(cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router,
+                cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).navigatorHolder)
         }
         viewModel {
             HomeViewModel(get())
         }
 
-        viewModel { SplashViewModel(get(),get()) }
+        viewModel { SplashViewModel(get(), get()) }
     }
 }

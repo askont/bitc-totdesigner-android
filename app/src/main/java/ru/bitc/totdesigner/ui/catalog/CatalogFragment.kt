@@ -40,7 +40,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
         viewModel.updateState()
         setupManager()
         rvCardQuest.addItemDecoration(decorator)
-        containerContent.setOutlineProvider(null)
+        containerDialogContent.setOutlineProvider(null)
         rvCardQuest.adapter = adapter
         inputTextSearch.addTextChangedListener {
             viewModel.search(it?.toString() ?: "")
@@ -74,7 +74,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
         handleLoading(catalogState)
         if (catalogState.scrollToStart) {
             rvCardQuest.scrollToPosition(0)
-            containerContent.setExpanded(true)
+            containerDialogContent.setExpanded(true)
         }
     }
 
@@ -87,7 +87,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
     }
 
     private fun handleLoading(catalogState: CatalogState) {
-        containerContent.isVisible = catalogState.state is State.Loaded
+        containerDialogContent.isVisible = catalogState.state is State.Loaded
         layoutSearch.isVisible = catalogState.state is State.Loaded
         pbLoading.isVisible = catalogState.state is State.Loading
     }

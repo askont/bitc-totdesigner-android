@@ -2,6 +2,7 @@
 <resources>
     <dimen name="margin_8">8dp</dimen>
     <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_12">12dp</dimen>
     <dimen name="margin_24">24dp</dimen>
     <dimen name="margin_32">32dp</dimen>
     <dimen name="margin_36">36dp</dimen>
@@ -24,4 +25,5 @@
     <dimen name="font_22">22sp</dimen>
     <dimen name="font_31">31sp</dimen>
     <dimen name="height_quest_item">250dp</dimen>
+    <dimen name="padding_min_4">4dp</dimen>
 </resources>

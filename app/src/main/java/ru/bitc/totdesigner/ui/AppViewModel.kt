@@ -18,6 +18,7 @@ class AppViewModel(
 
     fun setMainFlowScreen() {
         router.newRootChain(AppScreens.MainFlowScreen)
+        deleteNavigator()
     }
 
 
