@@ -9,6 +9,7 @@ import ru.bitc.totdesigner.platfom.navigation.LocalCiceroneHolder
 import ru.bitc.totdesigner.system.ResourceManager
 import ru.bitc.totdesigner.ui.AppViewModel
 import ru.bitc.totdesigner.ui.catalog.CatalogViewModel
+import ru.bitc.totdesigner.ui.catalog.dialog.DownLoadViewModel
 import ru.bitc.totdesigner.ui.home.HomeViewModel
 import ru.bitc.totdesigner.ui.main.MainViewModel
 import ru.bitc.totdesigner.ui.splash.SplashViewModel
@@ -30,6 +31,8 @@ object AppModules {
     }
 
     fun viewModelModule() = module {
+        viewModel { SplashViewModel(get(), get()) }
+
         viewModel {
             AppViewModel(get(), get())
         }
@@ -40,13 +43,14 @@ object AppModules {
         }
         viewModel {
             val cicerone = get<LocalCiceroneHolder>()
-            MainViewModel(cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router,
-                cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).navigatorHolder)
+            MainViewModel(
+                cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router,
+                cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).navigatorHolder
+            )
         }
         viewModel {
             HomeViewModel(get())
         }
-
-        viewModel { SplashViewModel(get(), get()) }
+        viewModel { (nameQuest: String) -> DownLoadViewModel(nameQuest, get(), get()) }
     }
 }

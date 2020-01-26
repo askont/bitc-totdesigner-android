@@ -39,8 +39,8 @@
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorWhiteText"
             android:layout_margin="@dimen/margin_16"
+            android:textColor="@color/colorWhiteText"
             tools:text="Основы проектирования UX UI - Wireframe"
             />
 
@@ -56,10 +56,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="@dimen/margin_24"
             android:layout_marginStart="@dimen/margin_12"
             android:layout_marginEnd="@dimen/margin_12"
+            android:layout_marginBottom="@dimen/margin_24"
+            android:gravity="center"
             android:orientation="horizontal"
             >
 
@@ -67,11 +67,14 @@
                 android:id="@+id/tvBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/font_14"
-                android:padding="@dimen/padding_min_4"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="@dimen/margin_8"
+                android:text="@string/back_catalog"
                 android:textAllCaps="true"
                 android:textColor="@color/colorSelectItem"
-                android:text="@string/back_catalog"
+                android:textSize="@dimen/font_14"
                 />
 
             <Space
@@ -85,11 +88,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:textSize="@dimen/font_14"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="@dimen/margin_8"
+                android:text="@string/download"
                 android:textAllCaps="true"
                 android:textColor="@color/colorSelectItem"
-                android:padding="@dimen/padding_min_4"
-                android:text="@string/download"
+                android:textSize="@dimen/font_14"
                 />
 
         </LinearLayout>
