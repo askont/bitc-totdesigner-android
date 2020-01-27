@@ -10,7 +10,7 @@ import ru.bitc.totdesigner.platfom.BaseDialog
 import ru.bitc.totdesigner.system.click
 import ru.bitc.totdesigner.system.loadImage
 import ru.bitc.totdesigner.system.subscribe
-import ru.bitc.totdesigner.ui.catalog.dialog.state.DownLoadViewState
+import ru.bitc.totdesigner.ui.catalog.dialog.state.DownloadViewState
 
 /**
  * Created on 22.01.2020
@@ -18,7 +18,7 @@ import ru.bitc.totdesigner.ui.catalog.dialog.state.DownLoadViewState
 
 class FreeDownloadDialog : BaseDialog(R.layout.dialog_free_download) {
 
-    private val viewModel by viewModel<DownLoadViewModel> { parametersOf(arguments?.get(NAME_QUEST) ?: "") }
+    private val viewModel by viewModel<DownloadViewModel> { parametersOf(arguments?.get(NAME_QUEST) ?: "") }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -26,7 +26,10 @@ class FreeDownloadDialog : BaseDialog(R.layout.dialog_free_download) {
         viewModel.initState()
         subscribe(viewModel.viewState, ::handleState)
         tvBack.click { dismiss() }
-        tvBack.click { viewModel.download() }
+        tvDownload.click {
+            viewModel.download()
+            dismiss()
+        }
     }
 
     private fun setDialogSize() {
@@ -41,19 +44,19 @@ class FreeDownloadDialog : BaseDialog(R.layout.dialog_free_download) {
         )
     }
 
-    private fun handleState(downLoadViewState: DownLoadViewState) {
-        when (downLoadViewState) {
-            is DownLoadViewState.Free -> {
-                tvDescription.text = downLoadViewState.description
-                tvTitle.text = downLoadViewState.nameQuest
+    private fun handleState(downloadViewState: DownloadViewState) {
+        when (downloadViewState) {
+            is DownloadViewState.Free -> {
+                tvDescription.text = downloadViewState.description
+                tvTitle.text = downloadViewState.nameQuest
                 tvDownload.text = getString(R.string.download)
-                ivImageQuest.loadImage(downLoadViewState.url)
+                ivImageQuest.loadImage(downloadViewState.url)
             }
-            is DownLoadViewState.Paid -> {
-                tvDescription.text = downLoadViewState.description
-                tvTitle.text = downLoadViewState.nameQuest
+            is DownloadViewState.Paid -> {
+                tvDescription.text = downloadViewState.description
+                tvTitle.text = downloadViewState.nameQuest
                 tvDownload.text = getString(R.string.issue_subscription)
-                ivImageQuest.loadImage(downLoadViewState.url)
+                ivImageQuest.loadImage(downloadViewState.url)
             }
         }
     }

@@ -3,13 +3,14 @@ package ru.bitc.totdesigner.di
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import ru.bitc.totdesigner.model.CuratorSoapNetwork
+import ru.bitc.totdesigner.model.iteractor.DownloadPackageUseCase
 import ru.bitc.totdesigner.model.iteractor.LessonUseCase
 import ru.bitc.totdesigner.model.repository.LessonRepository
 import ru.bitc.totdesigner.platfom.navigation.LocalCiceroneHolder
 import ru.bitc.totdesigner.system.ResourceManager
 import ru.bitc.totdesigner.ui.AppViewModel
 import ru.bitc.totdesigner.ui.catalog.CatalogViewModel
-import ru.bitc.totdesigner.ui.catalog.dialog.DownLoadViewModel
+import ru.bitc.totdesigner.ui.catalog.dialog.DownloadViewModel
 import ru.bitc.totdesigner.ui.home.HomeViewModel
 import ru.bitc.totdesigner.ui.main.MainViewModel
 import ru.bitc.totdesigner.ui.splash.SplashViewModel
@@ -28,6 +29,9 @@ object AppModules {
         // lesson
         single { LessonUseCase(get()) }
         single { LessonRepository(get()) }
+
+        //download
+        single { DownloadPackageUseCase() }
     }
 
     fun viewModelModule() = module {
@@ -44,6 +48,9 @@ object AppModules {
         viewModel {
             val cicerone = get<LocalCiceroneHolder>()
             MainViewModel(
+                get(),
+                get(),
+                get(),
                 cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router,
                 cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).navigatorHolder
             )
@@ -51,6 +58,6 @@ object AppModules {
         viewModel {
             HomeViewModel(get())
         }
-        viewModel { (nameQuest: String) -> DownLoadViewModel(nameQuest, get(), get()) }
+        viewModel { (nameQuest: String) -> DownloadViewModel(nameQuest, get(), get(), get()) }
     }
 }

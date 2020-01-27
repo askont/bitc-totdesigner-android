@@ -10,6 +10,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
     </style>
 
     <style name="DownloadDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
@@ -20,7 +21,6 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/colorPrimary</item>
-
     </style>
 
     <style name="Splash" parent="AppTheme">
@@ -29,6 +29,19 @@
 
     <style name="BottomNavigation">
         <item name="colorPrimary">@color/colorSelectItem</item>
+    </style>
+
+    <style name="DownloadItem" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressTint">@color/colorSelectItem</item>
+    </style>
+
+    <style name="TextButtonMain">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:padding">@dimen/margin_8</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/colorSelectItem</item>
     </style>
 
 </resources>

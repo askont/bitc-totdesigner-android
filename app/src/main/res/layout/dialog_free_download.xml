@@ -65,15 +65,10 @@
 
             <TextView
                 android:id="@+id/tvBack"
+                style="@style/TextButtonMain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="@dimen/margin_8"
                 android:text="@string/back_catalog"
-                android:textAllCaps="true"
-                android:textColor="@color/colorSelectItem"
                 android:textSize="@dimen/font_14"
                 />
 
@@ -85,17 +80,13 @@
 
             <TextView
                 android:id="@+id/tvDownload"
+                style="@style/TextButtonMain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="@dimen/margin_8"
                 android:text="@string/download"
-                android:textAllCaps="true"
-                android:textColor="@color/colorSelectItem"
                 android:textSize="@dimen/font_14"
+
                 />
 
         </LinearLayout>

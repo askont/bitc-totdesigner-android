@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="@dimen/padding_min_4"
+    android:background="@color/colorItemLoading"
+    >
+
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        style="@style/DownloadItem"
+        android:layout_width="0dp"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="0.5"
+        android:max="100"
+        android:progress="30"
+        />
+
+    <TextView
+        android:id="@+id/tvProgressTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.7"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textColor="@color/colorWhiteText"
+        android:textSize="@dimen/font_13"
+        tools:text="@string/loading_progress_message"
+        />
+
+    <TextView
+        android:id="@+id/tvCancelLoading"
+        style="@style/TextButtonMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_24"
+        android:textSize="@dimen/font_13"
+        android:text="@string/cancel"
+        />
+
+</LinearLayout>

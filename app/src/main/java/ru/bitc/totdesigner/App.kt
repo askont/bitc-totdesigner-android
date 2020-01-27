@@ -6,6 +6,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import ru.bitc.totdesigner.di.AppModules
 import ru.bitc.totdesigner.di.NavigationModules
+import ru.bitc.totdesigner.di.SystemModule
 import timber.log.Timber
 
 /*
@@ -36,7 +37,8 @@ class App : Application() {
                     AppModules.appModule(),
                     AppModules.networkModule(),
                     AppModules.viewModelModule(),
-                    NavigationModules.navigationModule()
+                    NavigationModules.navigationModule(),
+                    SystemModule.notifierModule()
                 )
             )
         }
