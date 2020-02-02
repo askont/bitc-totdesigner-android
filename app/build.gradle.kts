@@ -101,4 +101,11 @@ dependencies {
 
     //Timber
     implementation(Libs.timber)
+
+    // test
+    testImplementation(Libs.kotlinx_coroutines_test)
+    testImplementation(Libs.junit)
+    testImplementation(Libs.junit_ext)
+    testImplementation(Libs.mockito_core)
+    testImplementation(Libs.mockito_kotlin)
 }

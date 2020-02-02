@@ -5,6 +5,7 @@ import org.koin.dsl.module
 import ru.bitc.totdesigner.model.CuratorSoapNetwork
 import ru.bitc.totdesigner.model.iteractor.DownloadPackageUseCase
 import ru.bitc.totdesigner.model.iteractor.LessonUseCase
+import ru.bitc.totdesigner.model.repository.DownloadPackageRepository
 import ru.bitc.totdesigner.model.repository.LessonRepository
 import ru.bitc.totdesigner.platfom.navigation.LocalCiceroneHolder
 import ru.bitc.totdesigner.system.ResourceManager
@@ -31,7 +32,8 @@ object AppModules {
         single { LessonRepository(get()) }
 
         //download
-        single { DownloadPackageUseCase() }
+        single { DownloadPackageRepository(get(),get()) }
+        single { DownloadPackageUseCase(get()) }
     }
 
     fun viewModelModule() = module {

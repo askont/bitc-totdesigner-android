@@ -8,8 +8,9 @@ import ru.bitc.totdesigner.model.iteractor.LessonUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.system.ResourceManager
 import ru.bitc.totdesigner.system.notifier.DownloadNotifier
-import ru.bitc.totdesigner.system.notifier.model.DownloadStatus
+import ru.bitc.totdesigner.system.notifier.model.FreeDownloadPackage
 import ru.bitc.totdesigner.ui.catalog.dialog.state.DownloadViewState
+import timber.log.Timber
 
 /**
  * Created on 26.01.2020
@@ -25,10 +26,11 @@ class DownloadViewModel(
     private val action = MutableLiveData<DownloadViewState>()
 
     private val currentState: DownloadViewState
-        get() = action.value ?: DownloadViewState.Free("", "", "")
+        get() = action.value ?: DownloadViewState.Free("", "", "", "")
 
     val viewState: LiveData<DownloadViewState>
         get() = action
+
 
     fun initState() {
         launch {
@@ -41,12 +43,14 @@ class DownloadViewModel(
             PreviewLessons.Category.FREE -> DownloadViewState.Free(
                 lesson.title,
                 resourceManager.getString(R.string.free_download_description),
-                lesson.imageUrl
+                lesson.imageUrl,
+                lesson.lessonUrl
             )
             PreviewLessons.Category.PAID -> DownloadViewState.Paid(
                 lesson.title,
                 resourceManager.getString(R.string.paid_download_description),
-                lesson.imageUrl
+                lesson.imageUrl,
+                lesson.lessonUrl
             )
             else -> currentState
         }
@@ -55,7 +59,9 @@ class DownloadViewModel(
     }
 
     fun download() {
-        downloadNotifier.eventStatus(DownloadStatus("newStatus"))
+        Timber.d("lesson url ${currentState.lessonUrl}")
+        if (currentState.lessonUrl.isEmpty()) return
+        downloadNotifier.eventStatus(FreeDownloadPackage(currentState.lessonUrl))
     }
 
 }

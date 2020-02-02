@@ -15,7 +15,7 @@ class LessonRepository(private val api: SoapApi) {
     suspend fun getPreviewLessons(): PreviewLessons {
         val lessons = getLessonsCacheOrRemote()
         return PreviewLessons(lessons.lessonsInfo.map {
-            PreviewLessons.Lesson(it.name, it.previewIcon, createCategoryType(it.category))
+            PreviewLessons.Lesson(it.name, it.previewIcon, createCategoryType(it.category),it.lessonUrl)
         })
     }
 

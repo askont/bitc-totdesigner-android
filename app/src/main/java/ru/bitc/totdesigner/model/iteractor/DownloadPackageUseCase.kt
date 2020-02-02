@@ -1,15 +1,18 @@
 package ru.bitc.totdesigner.model.iteractor
 
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import ru.bitc.totdesigner.model.entity.LoadingPackage
+import ru.bitc.totdesigner.model.repository.DownloadPackageRepository
 
 /**
  * Created on 27.01.2020
  * @author YWeber */
 
-class DownloadPackageUseCase {
+class DownloadPackageUseCase(private val repository: DownloadPackageRepository) {
 
-    suspend fun load(): String {
-        delay(1000)
-        return "test"
+    fun loadPackage(lessonUrl: String): Flow<LoadingPackage> {
+        return repository.downloadPackage(lessonUrl)
     }
 }

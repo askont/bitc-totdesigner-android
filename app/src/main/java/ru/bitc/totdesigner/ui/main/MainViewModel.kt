@@ -2,18 +2,21 @@ package ru.bitc.totdesigner.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
-import ru.bitc.totdesigner.R
+import ru.bitc.totdesigner.model.entity.LoadingPackage
 import ru.bitc.totdesigner.model.iteractor.DownloadPackageUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.platfom.navigation.AppScreens
 import ru.bitc.totdesigner.platfom.navigation.MainScreens
 import ru.bitc.totdesigner.system.ResourceManager
 import ru.bitc.totdesigner.system.notifier.DownloadNotifier
+import ru.bitc.totdesigner.system.notifier.model.FreeDownloadPackage
 import ru.bitc.totdesigner.ui.main.state.LoadingItem
 import ru.bitc.totdesigner.ui.main.state.MainState
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
+import timber.log.Timber
 
 /*
  * Created on 2019-12-03
@@ -32,38 +35,32 @@ class MainViewModel(
         get() = action.value ?: MainState(listOf(), false)
     val viewState: LiveData<MainState>
         get() = action
+    private val mapRequest = mutableMapOf<LoadingItem, Job>()
 
     init {
         launch {
-            downloadNotifier.subscribeStatus().collect {
-                val mock = createMock()
-                val state = currentState.copy(
-                    downloadsItem = mock, visibleDownload = mock.isNotEmpty()
-                )
-                action.value = state
-            }
+            downloadNotifier.subscribeStatus()
+                .collect {
+                    val newItem = LoadingItem(it, 1, "Загрузка")
+                    val downloadsItem = currentState.downloadsItem.toMutableList()
+                    downloadsItem.add(newItem)
+                    action.value = currentState.copy(downloadsItem = downloadsItem, visibleDownload = true)
+                    mapRequest[newItem] = loadPackage(it)
+
+                }
         }
     }
 
-    private fun createMock(): List<LoadingItem> {
-        return listOf(
-            LoadingItem(
-                100,
-                resourceManager.getString(R.string.loading_progress_message)
-            ),
-            LoadingItem(
-                12,
-                resourceManager.getString(R.string.loading_progress_message)
-            ),
-            LoadingItem(
-                32,
-                resourceManager.getString(R.string.loading_progress_message)
-            ),
-            LoadingItem(
-                58,
-                resourceManager.getString(R.string.loading_progress_message)
-            )
-        )
+    private fun loadPackage(free: FreeDownloadPackage) = launch {
+
+        downloadUseCase.loadPackage(free.lessonUrl).collect {
+            Timber.d("$it")
+            when (it) {
+                is LoadingPackage.Loading -> {
+
+                }
+            }
+        }
     }
 
     fun selectHomeScreen(): Boolean {
