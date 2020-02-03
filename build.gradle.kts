@@ -11,6 +11,7 @@ buildscript {
     dependencies {
         classpath(Libs.android_gradle_plugin)
         classpath(Libs.kotlin_gradle_plugin)
+        classpath(Libs.plugins_android_junit5)
     }
 }
 
@@ -24,7 +25,7 @@ allprojects {
 }
 
 plugins {
-    id(Libs.gradle_versions_plugin) version Versions.gradle_versions_plugin
+    id("com.github.ben-manes.versions") version "0.27.0"
 }
 
 task("clean") {

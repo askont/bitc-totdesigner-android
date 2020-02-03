@@ -21,7 +21,7 @@ android {
         multiDexEnabled  = AndroidConfig.MULTI_DEX_ENABLED
         vectorDrawables.useSupportLibrary = AndroidConfig.SUPPORT_LIBRARY_VECTOR_DRAWABLES
         testInstrumentationRunner = AndroidConfig.TEST_INSTRUMENTATION_RUNNER
-
+        testInstrumentationRunnerArgument("runnerBuilder",AndroidConfig.TEST_RUNNER_BUILDER)
         setProperty("archivesBaseName", AndroidConfig.APK_NAME)
 
         androidExtensions {
@@ -46,6 +46,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude("META-INF/LICENSE*")
     }
 
 
@@ -104,7 +108,8 @@ dependencies {
 
     // test
     testImplementation(Libs.kotlinx_coroutines_test)
-    testImplementation(Libs.junit)
+    testImplementation(Libs.junit5)
+    testRuntimeOnly(Libs.junit5_engine)
     testImplementation(Libs.junit_ext)
     testImplementation(Libs.mockito_core)
     testImplementation(Libs.mockito_kotlin)
