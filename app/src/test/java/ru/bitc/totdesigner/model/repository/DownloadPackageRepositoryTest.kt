@@ -7,11 +7,13 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType
 import okhttp3.ResponseBody
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import ru.bitc.totdesigner.model.http.SoapApi
 import ru.bitc.totdesigner.system.flow.TestDispatcher
-import kotlinx.coroutines.test.runBlockingTest as runBlockingTest1
+import kotlinx.coroutines.test.runBlockingTest
+import org.junit.jupiter.api.Assumptions
 
 internal class DownloadPackageRepositoryTest {
     private lateinit var repository: DownloadPackageRepository
@@ -30,9 +32,10 @@ internal class DownloadPackageRepositoryTest {
 
     @Test
     fun downloadPackage() {
-        runBlockingTest1 {
-            repository.downloadPackage("tesst")
+        runBlockingTest {
+            repository.downloadPackage("test")
                     .collect {
+                       Assertions.assertEquals(it.urlId,"test")
                     }
         }
     }

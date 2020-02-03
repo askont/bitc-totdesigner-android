@@ -23,12 +23,13 @@ class DownloadPackageRepository(
             api.downloadLessonPackage(lessonUrl)
 
         }
-        progressLoading(jobLoad, System.currentTimeMillis(), 1, 10)
-        emit(LoadingPackage.Finish)
+        progressLoading(lessonUrl,jobLoad, System.currentTimeMillis(), 1, 10)
+        emit(LoadingPackage.Finish(lessonUrl))
     }.flowOn(dispatcher.io)
 
 
     private suspend fun FlowCollector<LoadingPackage>.progressLoading(
+        urlId:String,
         jobLoad: Deferred<ResponseBody>,
         startTime: Long,
         startProgress: Int,
@@ -42,21 +43,11 @@ class DownloadPackageRepository(
                 start = end
                 progressLoading += step - startProgress
                 if (progressLoading <= 100) {
-                    emit(LoadingPackage.Loading(progressLoading))
+                    emit(LoadingPackage.Loading(urlId,progressLoading))
                 }
 
             }
 
         }
-    }
-
-
-    fun loading() = (1..5).asFlow()
-        .map { LoadingPackage.Loading(it) }
-        .onEach { delay(200) }
-
-    fun download(lessonUrl: String) = flow {
-        api.downloadLessonPackage(lessonUrl)
-        emit(LoadingPackage.Finish)
     }
 }

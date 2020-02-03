@@ -58,7 +58,6 @@ android {
         options?.jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
-
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     //AndroidX
@@ -113,4 +112,8 @@ dependencies {
     testImplementation(Libs.junit_ext)
     testImplementation(Libs.mockito_core)
     testImplementation(Libs.mockito_kotlin)
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
