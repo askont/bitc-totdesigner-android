@@ -9,6 +9,7 @@ object AndroidConfig {
 
     const val APPLICATION_ID = "ru.bitc.totdesigner"
     const val TEST_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
+    const val TEST_RUNNER_BUILDER = "de.mannodermaus.junit5.AndroidJUnit5Builder"
     const val SUPPORT_LIBRARY_VECTOR_DRAWABLES = true
     const val MULTI_DEX_ENABLED = true
 

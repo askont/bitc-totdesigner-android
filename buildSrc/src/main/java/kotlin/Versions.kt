@@ -1,9 +1,8 @@
 object Versions {
     //Plugins
     const val android_gradle_plugin = "3.5.0"
-    const val kotlin_gradle_plugin = "1.3.50"
-    const val gradle_versions_plugin = "0.27.0"
-
+    const val kotlin_gradle_plugin = "1.3.61"
+    const val plugins_android_junit5 = "1.5.2.0"
     //AndroidX
     const val androidx_appcompat = "1.1.0"
     const val androidx_constraint_layout = "2.0.0-beta2"
@@ -26,11 +25,15 @@ object Versions {
     //Lifecycle
     const val lifecycle = "2.2.0-alpha01"
 
+    //conductor
+    const val conductor_controller = "3.0.0-rc1"
+
     //Room
     const val room = "2.2.0-rc01"
 
     //Networking
-    const val retrofit = "2.6.1"
+    const val retrofit = "2.7.0"
+    const val tikxml = "0.8.13"
     const val okhttp_logging_interceptor = "3.12.0"
     const val stetho = "1.5.1"
 
@@ -50,7 +53,7 @@ object Versions {
     const val timber = "4.7.1"
 
     //Test
-    const val junit = "4.12"
+    const val junit5 = "5.5.2"
     const val mockito_core = "3.1.0"
     const val test_runner = "1.1.0"
     const val test_rules = "1.1.0"

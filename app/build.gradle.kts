@@ -21,7 +21,7 @@ android {
         multiDexEnabled  = AndroidConfig.MULTI_DEX_ENABLED
         vectorDrawables.useSupportLibrary = AndroidConfig.SUPPORT_LIBRARY_VECTOR_DRAWABLES
         testInstrumentationRunner = AndroidConfig.TEST_INSTRUMENTATION_RUNNER
-
+        testInstrumentationRunnerArgument("runnerBuilder",AndroidConfig.TEST_RUNNER_BUILDER)
         setProperty("archivesBaseName", AndroidConfig.APK_NAME)
 
         androidExtensions {
@@ -30,21 +30,26 @@ android {
 
     }
 
-
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            buildConfigField("String","ENDPOINT",Config.SERVER_ENDPOINT)
         }
         getByName("debug") {
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            buildConfigField("String","ENDPOINT",Config.SERVER_ENDPOINT)
         }
     }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude("META-INF/LICENSE*")
     }
 
 
@@ -58,24 +63,54 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     //AndroidX
     implementation (Libs.androidx_app_compat)
+    implementation(Libs.androidx_constraintlayout)
     implementation (Libs.androidx_core)
     implementation (Libs.androidx_material)
+    implementation (Libs.androidx_recyclerview)
+    implementation (Libs.androidx_cardview)
+    implementation (Libs.androidx_fragment)
 
     //Koin
     implementation (Libs.koin_scope)
     implementation (Libs.koin_viewmodel)
 
+    // cicerone
+    implementation(Libs.cicerone)
+
+    //lifecycle
+    implementation(Libs.lifecycle_extensions)
+    implementation(Libs.lifecycle_livedata)
+    implementation(Libs.lifecycle_viewmodel)
+
     //Glide
     implementation (Libs.glide_runtime)
     kapt (Libs.glide_compiler)
 
-    //Networking
-    implementation (Libs.gson)
-    implementation (Libs.stetho)
+    //adapterDelegat
+    implementation(Libs.adapter_delegates)
+    implementation(Libs.adapter_delegates_dsl)
 
-    //Cicerone
-    implementation (Libs.cicerone)
+    //Networking
+    implementation (Libs.tikxml_annotation)
+    implementation (Libs.tikxml_core)
+    kapt(Libs.tikxml_kapt)
+    implementation(Libs.okhttp_logging_interceptor)
+    implementation(Libs.retrofit)
+    implementation(Libs.tikxml_converter)
+
+    // coroutines
+    implementation(Libs.coroutines)
+    // logger
+    implementation (Libs.stetho)
 
     //Timber
     implementation(Libs.timber)
+
+    // test
+    testImplementation(Libs.kotlinx_coroutines_test)
+    testImplementation(Libs.junit5)
+    testRuntimeOnly(Libs.junit5_engine)
+    testImplementation(Libs.junit_ext)
+    testImplementation(Libs.mockito_core)
+    testImplementation(Libs.mockito_kotlin)
 }
