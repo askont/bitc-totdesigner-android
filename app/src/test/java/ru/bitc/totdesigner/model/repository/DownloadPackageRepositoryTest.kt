@@ -33,9 +33,9 @@ internal class DownloadPackageRepositoryTest {
     @Test
     fun downloadPackage() {
         runBlockingTest {
-            repository.downloadPackage("test")
+            repository.downloadPackage("LessonsInfo.xml/package")
                     .collect {
-                       Assertions.assertEquals(it.urlId,"test")
+                       Assertions.assertEquals(it.urlId,"LessonsInfo.xml/package")
                     }
         }
     }

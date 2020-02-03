@@ -1,7 +1,13 @@
 package ru.bitc.totdesigner.model.repository
 
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import okhttp3.ResponseBody
 import ru.bitc.totdesigner.model.entity.LoadingPackage
 import ru.bitc.totdesigner.model.http.SoapApi
@@ -17,19 +23,22 @@ class DownloadPackageRepository(
 ) {
 
     fun downloadPackage(lessonUrl: String): Flow<LoadingPackage> = flow<LoadingPackage> {
-
-        val jobLoad = CoroutineScope(Dispatchers.IO).async {
-            delay(1000)
-            api.downloadLessonPackage(lessonUrl)
-
+        try {
+            val jobLoad = CoroutineScope(Dispatchers.IO).async {
+                api.downloadLessonPackage(lessonUrl)
+            }
+            progressLoading(lessonUrl, jobLoad, System.currentTimeMillis(), 1, 10)
+            emit(LoadingPackage.Loading(lessonUrl, 100))
+            emit(LoadingPackage.Finish(lessonUrl))
+        } catch (e: Exception) {
+            emit(LoadingPackage.Error(lessonUrl, "Error download"))
         }
-        progressLoading(lessonUrl,jobLoad, System.currentTimeMillis(), 1, 10)
-        emit(LoadingPackage.Finish(lessonUrl))
+
     }.flowOn(dispatcher.io)
 
 
     private suspend fun FlowCollector<LoadingPackage>.progressLoading(
-        urlId:String,
+        urlId: String,
         jobLoad: Deferred<ResponseBody>,
         startTime: Long,
         startProgress: Int,
@@ -43,7 +52,10 @@ class DownloadPackageRepository(
                 start = end
                 progressLoading += step - startProgress
                 if (progressLoading <= 100) {
-                    emit(LoadingPackage.Loading(urlId,progressLoading))
+                    emit(LoadingPackage.Loading(urlId, progressLoading))
+                }else{
+                    progressLoading = startProgress
+                    emit(LoadingPackage.Loading(urlId, progressLoading))
                 }
 
             }

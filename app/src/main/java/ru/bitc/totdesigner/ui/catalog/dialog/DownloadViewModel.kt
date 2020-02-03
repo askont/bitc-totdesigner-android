@@ -61,7 +61,7 @@ class DownloadViewModel(
     fun download() {
         Timber.d("lesson url ${currentState.lessonUrl}")
         if (currentState.lessonUrl.isEmpty()) return
-        downloadNotifier.eventStatus(FreeDownloadPackage(currentState.lessonUrl))
+        downloadNotifier.eventStatus(FreeDownloadPackage(currentState.nameLesson,currentState.lessonUrl))
     }
 
 }

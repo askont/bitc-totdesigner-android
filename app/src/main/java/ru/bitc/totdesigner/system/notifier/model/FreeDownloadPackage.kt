@@ -5,5 +5,6 @@ package ru.bitc.totdesigner.system.notifier.model
  * @author YWeber */
 
 data class FreeDownloadPackage(
+    val nameLesson: String,
     val lessonUrl: String
 )

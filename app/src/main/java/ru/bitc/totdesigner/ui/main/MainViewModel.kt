@@ -35,32 +35,51 @@ class MainViewModel(
         get() = action.value ?: MainState(listOf(), false)
     val viewState: LiveData<MainState>
         get() = action
-    private val mapRequest = mutableMapOf<LoadingItem, Job>()
+    private val mapRequest = mutableMapOf<String, Job>()
 
     init {
         launch {
             downloadNotifier.subscribeStatus()
                 .collect {
-                    val newItem = LoadingItem(it, 1, "Загрузка")
+                    val newItem = LoadingItem(it.lessonUrl, 1, "Загрузка \"${it.nameLesson}\"")
                     val downloadsItem = currentState.downloadsItem.toMutableList()
                     downloadsItem.add(newItem)
                     action.value = currentState.copy(downloadsItem = downloadsItem, visibleDownload = true)
-                    mapRequest[newItem] = loadPackage(it)
-
+                    mapRequest[it.lessonUrl] = loadPackage(it)
                 }
         }
     }
 
     private fun loadPackage(free: FreeDownloadPackage) = launch {
 
-        downloadUseCase.loadPackage(free.lessonUrl).collect {
-            Timber.d("$it")
-            when (it) {
+        downloadUseCase.loadPackage(free.lessonUrl).collect { progress ->
+            Timber.d("$progress")
+            when (progress) {
                 is LoadingPackage.Loading -> {
-
+                    updateLoading(progress)
+                }
+                is LoadingPackage.Finish -> {
+                    finishRemoveItem(progress)
                 }
             }
         }
+    }
+
+    private fun finishRemoveItem(progress: LoadingPackage) {
+        val finishItem = currentState.downloadsItem.find { it.urlId == progress.urlId }
+        val removedItems = currentState.downloadsItem.toMutableList()
+        removedItems.remove(finishItem)
+        action.value = currentState.copy(downloadsItem = removedItems)
+    }
+
+    private fun updateLoading(progress: LoadingPackage.Loading) {
+        val updateItems = currentState.downloadsItem
+            .map {
+                if (it.urlId == progress.urlId) {
+                    it.copy(progress = progress.progress)
+                } else it
+            }
+        action.value = currentState.copy(downloadsItem = updateItems)
     }
 
     fun selectHomeScreen(): Boolean {
@@ -84,6 +103,8 @@ class MainViewModel(
     }
 
     fun cancelLoading(item: LoadingItem) {
+        val job = mapRequest[item.urlId]
+        job?.cancel()
         val cancelItem = currentState.downloadsItem.toMutableList()
         cancelItem.remove(item)
         val newState = currentState.copy(downloadsItem = cancelItem, visibleDownload = cancelItem.isNotEmpty())

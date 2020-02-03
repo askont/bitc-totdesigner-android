@@ -48,13 +48,13 @@ class FreeDownloadDialog : BaseDialog(R.layout.dialog_free_download) {
         when (downloadViewState) {
             is DownloadViewState.Free -> {
                 tvDescription.text = downloadViewState.description
-                tvTitle.text = downloadViewState.nameQuest
+                tvTitle.text = downloadViewState.nameLesson
                 tvDownload.text = getString(R.string.download)
                 ivImageQuest.loadImage(downloadViewState.url)
             }
             is DownloadViewState.Paid -> {
                 tvDescription.text = downloadViewState.description
-                tvTitle.text = downloadViewState.nameQuest
+                tvTitle.text = downloadViewState.nameLesson
                 tvDownload.text = getString(R.string.issue_subscription)
                 ivImageQuest.loadImage(downloadViewState.url)
             }
