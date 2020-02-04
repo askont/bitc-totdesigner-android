@@ -10,9 +10,6 @@ import ru.terrakok.cicerone.Router
 /**
  * Created on 21.01.2020
  * @author YWeber */
-val app = named("app")
-val main = named("main")
-
 object NavigationModules {
     private fun createCicerone(routerHolder: LocalCiceroneHolder) = routerHolder.cicerone(APP_NAVIGATION)
     private fun createRouter(cicerone: Cicerone<Router>) = cicerone.router
@@ -20,9 +17,9 @@ object NavigationModules {
 
     fun navigationModule() = module {
         single { LocalCiceroneHolder() }
-        single (app){ createCicerone(get()) }
-        single { createRouter(get(app)) }
-        single { createNavigatorHolder(get(app)) }
+        single { createCicerone(get()) }
+        single { createRouter(get()) }
+        single { createNavigatorHolder(get()) }
     }
 }
 

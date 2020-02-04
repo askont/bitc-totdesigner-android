@@ -9,7 +9,8 @@ data class PreviewLessons(val previews: List<Lesson>) {
     data class Lesson(
         val title: String,
         val imageUrl: String,
-        val category: Category
+        val category: Category,
+        val lessonUrl:String
     )
 
     enum class Category(val category: String) {

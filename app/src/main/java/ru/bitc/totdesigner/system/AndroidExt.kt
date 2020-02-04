@@ -1,6 +1,7 @@
 package ru.bitc.totdesigner.system
 
 import android.content.Context
+import android.graphics.Point
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
 
@@ -22,6 +24,18 @@ fun View.showKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     this.requestFocus()
     imm.showSoftInput(this, 0)
+}
+
+fun ViewGroup.setDialogSize() {
+    val defaultDisplay = (context as FragmentActivity).windowManager.defaultDisplay
+    val point = Point()
+    defaultDisplay.getSize(point)
+    setPadding(
+        (point.x * 0.2).toInt(),
+        (point.x * 0.05).toInt(),
+        (point.x * 0.2).toInt(),
+        (point.x * 0.05).toInt()
+    )
 }
 
 fun View.hideKeyboard(): Boolean {

@@ -18,6 +18,11 @@ abstract class BaseDialog(@LayoutRes private val layout: Int) : DialogFragment()
         return inflater.inflate(layout, container, false)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.DownloadDialog)

@@ -48,7 +48,7 @@ class CatalogViewModel(
     fun search(nameQuest: String) {
         searchJob?.cancel()
         searchJob = launch {
-            useCase.searchLesson(nameQuest, ::handleState, ::handleLesson)
+            useCase.searchLessons(nameQuest, ::handleState, ::handleLesson)
             action.value = currentState.copy(lastSearchQuest = nameQuest)
         }
     }
@@ -97,8 +97,10 @@ class CatalogViewModel(
             is ButtonQuestItem -> {
                 action.value = currentState.copy(scrollToStart = true)
             }
-            is FreeCardQuestItem -> router.navigateTo(MainScreens.FreeDownloadDialog)
-            is PaidCardQuestItem -> router.navigateTo(MainScreens.FreeDownloadDialog)
+            is FreeCardQuestItem -> {
+                router.navigateTo(MainScreens.FreeDownloadDialogScreen(questItem.name))
+            }
+            is PaidCardQuestItem -> router.navigateTo(MainScreens.FreeDownloadDialogScreen(questItem.name))
         }
     }
 

@@ -40,7 +40,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
         viewModel.updateState()
         setupManager()
         rvCardQuest.addItemDecoration(decorator)
-        containerDialogContent.setOutlineProvider(null)
+        containerDialogContent.outlineProvider = null
         rvCardQuest.adapter = adapter
         inputTextSearch.addTextChangedListener {
             viewModel.search(it?.toString() ?: "")

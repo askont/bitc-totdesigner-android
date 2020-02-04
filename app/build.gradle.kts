@@ -21,7 +21,7 @@ android {
         multiDexEnabled  = AndroidConfig.MULTI_DEX_ENABLED
         vectorDrawables.useSupportLibrary = AndroidConfig.SUPPORT_LIBRARY_VECTOR_DRAWABLES
         testInstrumentationRunner = AndroidConfig.TEST_INSTRUMENTATION_RUNNER
-
+        testInstrumentationRunnerArgument("runnerBuilder",AndroidConfig.TEST_RUNNER_BUILDER)
         setProperty("archivesBaseName", AndroidConfig.APK_NAME)
 
         androidExtensions {
@@ -29,7 +29,6 @@ android {
         }
 
     }
-
 
     buildTypes {
         getByName("release") {
@@ -49,13 +48,16 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    packagingOptions {
+        exclude("META-INF/LICENSE*")
+    }
+
 
     kotlinOptions {
         val options = this as? KotlinJvmOptions
         options?.jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
-
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     //AndroidX
@@ -102,4 +104,16 @@ dependencies {
 
     //Timber
     implementation(Libs.timber)
+
+    // test
+    testImplementation(Libs.kotlinx_coroutines_test)
+    testImplementation(Libs.junit5)
+    testRuntimeOnly(Libs.junit5_engine)
+    testImplementation(Libs.junit_ext)
+    testImplementation(Libs.mockito_core)
+    testImplementation(Libs.mockito_kotlin)
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

@@ -5,8 +5,8 @@ object Libs {
         "com.android.tools.build:gradle:${Versions.android_gradle_plugin}"
     const val kotlin_gradle_plugin =
         "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin_gradle_plugin}"
-    const val gradle_versions_plugin = "com.github.ben-manes.versions"
 
+    const val plugins_android_junit5 = "de.mannodermaus.gradle.plugins:android-junit5:${Versions.plugins_android_junit5}"
     //AndroidX
     const val androidx_app_compat = "androidx.appcompat:appcompat:${Versions.androidx_appcompat}"
     const val androidx_recyclerview =
@@ -86,7 +86,8 @@ object Libs {
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
     //Test
-    const val junit = "junit:junit:${Versions.junit}"
+    const val junit5 = "org.junit.jupiter:junit-jupiter-api:${Versions.junit5}"
+    const val junit5_engine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junit5}"
     const val junit_ext = "androidx.test.ext:junit:${Versions.test_ext_junit}"
     const val runner = "androidx.test:runner:${Versions.test_runner}"
     const val rules = "androidx.test:rules:${Versions.test_rules}"

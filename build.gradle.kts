@@ -1,3 +1,5 @@
+import de.mannodermaus.gradle.plugins.junit5.internal.testTaskOf
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
@@ -11,9 +13,9 @@ buildscript {
     dependencies {
         classpath(Libs.android_gradle_plugin)
         classpath(Libs.kotlin_gradle_plugin)
+        classpath(Libs.plugins_android_junit5)
     }
 }
-
 allprojects {
     repositories {
         jcenter()
@@ -24,7 +26,7 @@ allprojects {
 }
 
 plugins {
-    id(Libs.gradle_versions_plugin) version Versions.gradle_versions_plugin
+    id("com.github.ben-manes.versions") version "0.27.0"
 }
 
 task("clean") {
