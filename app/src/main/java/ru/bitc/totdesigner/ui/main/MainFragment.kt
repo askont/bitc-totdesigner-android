@@ -2,17 +2,13 @@ package ru.bitc.totdesigner.ui.main
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.item_download.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.BaseFragment
@@ -93,14 +89,12 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                 cancelEvent(item)
             }
             bind {
-                if (item.progress < 10 ) pbLoading.progress = 0
-                for (i in  0..item.progress){
-                    val animation = ObjectAnimator.ofInt(pbLoading, "progress",pbLoading.progress, item.progress + pbLoading.progress)
-                    animation.duration = 200
-                    animation.interpolator = LinearInterpolator()
-                    animation.start()
-                    pbLoading.progress += 1
-                }
+                val correctProgress = item.progress + pbLoading.progress
+                if (item.progress < 10) pbLoading.progress = 0
+                val animation = ObjectAnimator.ofInt(pbLoading, "progress", pbLoading.progress, correctProgress)
+                animation.duration = 800
+                animation.interpolator = LinearOutSlowInInterpolator()
+                animation.start()
                 tvProgressTitle.text = item.message
 
             }
