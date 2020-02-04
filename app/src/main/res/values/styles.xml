@@ -32,7 +32,7 @@
     </style>
 
     <style name="DownloadItem" parent="Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:progressTint">@color/colorSelectItem</item>
+        <item name="android:progressDrawable">@drawable/progress_background</item>
     </style>
 
     <style name="TextButtonMain">

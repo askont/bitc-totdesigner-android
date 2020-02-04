@@ -34,6 +34,7 @@
                 android:id="@+id/inputTextSearch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:imeOptions="flagNoExtractUi"
                 android:textSize="@dimen/font_21"
                 />
         </com.google.android.material.textfield.TextInputLayout>

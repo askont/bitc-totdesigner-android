@@ -2,6 +2,7 @@ package ru.bitc.totdesigner.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import ru.bitc.totdesigner.model.entity.LoadingPackage
@@ -34,7 +35,7 @@ class MainViewModel(
     private val currentState
         get() = action.value ?: MainState(listOf(), false)
     val viewState: LiveData<MainState>
-        get() = action
+        get() = action.map { it.copy(downloadsItem = it.downloadsItem.distinct()) }
     private val mapRequest = mutableMapOf<String, Job>()
 
     init {
@@ -103,11 +104,12 @@ class MainViewModel(
     }
 
     fun cancelLoading(item: LoadingItem) {
-        val job = mapRequest[item.urlId]
-        job?.cancel()
         val cancelItem = currentState.downloadsItem.toMutableList()
-        cancelItem.remove(item)
+        cancelItem.removeAll(currentState.downloadsItem.filter { it.urlId == item.urlId })
         val newState = currentState.copy(downloadsItem = cancelItem, visibleDownload = cancelItem.isNotEmpty())
         action.value = newState
+        val job = mapRequest[item.urlId]
+        job?.cancel()
+        mapRequest.remove(item.urlId)
     }
 }
