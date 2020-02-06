@@ -5,57 +5,84 @@
     android:id="@+id/mainFlowContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="@string/toolbar_title_main"
-            />
+            app:title="@string/toolbar_title_main" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
-
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
 
         <ImageView
-            android:layout_width="582px"
-            android:layout_height="905px"
+            android:layout_width="250dp"
+            android:layout_height="400dp"
             android:background="@drawable/group_785"
-            android:translationX="-200px"
+            android:contentDescription="@string/todo"
+            android:translationX="-90dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
             android:id="@+id/mainContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvDownloadHolder"
+        <LinearLayout
+            android:id="@+id/containerLoading"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:paddingStart="@dimen/margin_32"
+            android:paddingEnd="@dimen/margin_32"
             android:background="@color/colorItemLoading"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_min_4"
             android:visibility="gone"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_download"
-            tools:visibility="visible"
-            />
+            tools:visibility="visible">
 
+            <ProgressBar
+                android:id="@+id/pbLoading"
+                style="@style/DownloadItem"
+                android:layout_width="0dp"
+                android:layout_height="4dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_weight="0.5"
+                android:max="100"
+                android:progress="10" />
+
+            <TextView
+                android:id="@+id/tvProgressTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.7"
+                android:gravity="center"
+                android:textColor="@color/colorWhiteText"
+                android:textSize="@dimen/font_13"
+                tools:text="@string/loading_progress_message" />
+
+            <TextView
+                android:id="@+id/tvCancelLoading"
+                style="@style/TextButtonMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/margin_24"
+                android:text="@string/cancel"
+                android:textSize="@dimen/font_13" />
+        </LinearLayout>
     </FrameLayout>
 
 
@@ -66,7 +93,6 @@
         android:theme="@style/BottomNavigation"
         app:backgroundTint="@color/colorPrimaryDark"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_navigation_menu"
-        />
+        app:menu="@menu/bottom_navigation_menu" />
 
 </LinearLayout>

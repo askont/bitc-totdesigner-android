@@ -21,5 +21,6 @@
     <string name="free_download_description">Вы можете загрузить данный интерактивный 2D/3D/AR курс и/или образовательный игровой квест бесплатно, без подписки. Нажмите «Скачать курс» или продолжите выбор в каталоге</string>
     <string name="paid_download_description">Вы сможете загрузить данный интерактивный 2D/3D/AR курс и/или образовательный игровой квест после оформления подписки. Нажмите «Оформить подписку», выберите план подиски или продолжите выбор в каталоге</string>
     <string name="loading_progress_message">загрузка…</string>
+    <string name="loading_progress_messages">загрузка: %s …</string>
     <string name="cancel">отменить</string>
 </resources>

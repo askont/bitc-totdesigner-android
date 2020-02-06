@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
+import timber.log.Timber
 
 /*
  * Created on 2019-11-27
@@ -80,5 +81,8 @@ fun ImageView.loadImage(url: String) {
         .load(url)
         .into(this)
 }
+
+fun <T> T.printDebug(message: String = "Test Debug"): T =
+    this.also { Timber.e("$message...$this") }
 
 

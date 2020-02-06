@@ -2,18 +2,18 @@ package ru.bitc.totdesigner.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
-import ru.bitc.totdesigner.model.entity.LoadingPackage
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.onEach
+import ru.bitc.totdesigner.R
+import ru.bitc.totdesigner.model.entity.loading.AllLoadingJob
 import ru.bitc.totdesigner.model.iteractor.DownloadPackageUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.platfom.navigation.AppScreens
 import ru.bitc.totdesigner.platfom.navigation.MainScreens
 import ru.bitc.totdesigner.system.ResourceManager
 import ru.bitc.totdesigner.system.notifier.DownloadNotifier
-import ru.bitc.totdesigner.system.notifier.model.FreeDownloadPackage
-import ru.bitc.totdesigner.ui.main.state.LoadingItem
 import ru.bitc.totdesigner.ui.main.state.MainState
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
@@ -33,54 +33,46 @@ class MainViewModel(
 
     private val action = MutableLiveData<MainState>()
     private val currentState
-        get() = action.value ?: MainState(listOf(), false)
+        get() = action.value ?: MainState("", 0, false)
     val viewState: LiveData<MainState>
-        get() = action.map { it.copy(downloadsItem = it.downloadsItem.distinct()) }
-    private val mapRequest = mutableMapOf<String, Job>()
+        get() = action
+    private var allLoadingJobs: Job
 
     init {
-        launch {
+        action.value = currentState
+        allLoadingJobs = createEventJob()
+    }
+
+    private fun createEventJob(): Job {
+        return launch {
             downloadNotifier.subscribeStatus()
-                .collect {
-                    val newItem = LoadingItem(it.lessonUrl, 1, "Загрузка \"${it.nameLesson}\"")
-                    val downloadsItem = currentState.downloadsItem.toMutableList()
-                    downloadsItem.add(newItem)
-                    action.value = currentState.copy(downloadsItem = downloadsItem, visibleDownload = true)
-                    mapRequest[it.lessonUrl] = loadPackage(it)
+                .flatMapLatest { downloadUseCase.loadPackage(it.lessonUrl) }
+                .onEach { Timber.e("test test test $it") }
+                .collect { progress ->
+                    when (progress) {
+                        is AllLoadingJob.Progress -> {
+                            val message =
+                                resourceManager.getString(R.string.loading_progress_messages, progress.countJob)
+                            updateState(message = message, progressDuration = progress.duration, visibleLoading = true)
+                        }
+                        is AllLoadingJob.Finish -> {
+                            updateState(visibleLoading = false)
+                        }
+                    }
                 }
         }
     }
 
-    private fun loadPackage(free: FreeDownloadPackage) = launch {
-
-        downloadUseCase.loadPackage(free.lessonUrl).collect { progress ->
-            Timber.d("$progress")
-            when (progress) {
-                is LoadingPackage.Loading -> {
-                    updateLoading(progress)
-                }
-                is LoadingPackage.Finish -> {
-                    finishRemoveItem(progress)
-                }
-            }
-        }
-    }
-
-    private fun finishRemoveItem(progress: LoadingPackage) {
-        val finishItem = currentState.downloadsItem.find { it.urlId == progress.urlId }
-        val removedItems = currentState.downloadsItem.toMutableList()
-        removedItems.remove(finishItem)
-        action.value = currentState.copy(downloadsItem = removedItems)
-    }
-
-    private fun updateLoading(progress: LoadingPackage.Loading) {
-        val updateItems = currentState.downloadsItem
-            .map {
-                if (it.urlId == progress.urlId) {
-                    it.copy(progress = progress.progress)
-                } else it
-            }
-        action.value = currentState.copy(downloadsItem = updateItems)
+    private fun updateState(
+        message: String = currentState.messageLoading, progressDuration: Int = currentState.durationProgress,
+        visibleLoading: Boolean = currentState.visibleDownload
+    ) {
+        val newState = currentState.copy(
+            messageLoading = message,
+            visibleDownload = visibleLoading,
+            durationProgress = progressDuration
+        )
+        action.value = newState
     }
 
     fun selectHomeScreen(): Boolean {
@@ -103,13 +95,10 @@ class MainViewModel(
         return true
     }
 
-    fun cancelLoading(item: LoadingItem) {
-        val cancelItem = currentState.downloadsItem.toMutableList()
-        cancelItem.removeAll(currentState.downloadsItem.filter { it.urlId == item.urlId })
-        val newState = currentState.copy(downloadsItem = cancelItem, visibleDownload = cancelItem.isNotEmpty())
-        action.value = newState
-        val job = mapRequest[item.urlId]
-        job?.cancel()
-        mapRequest.remove(item.urlId)
+    fun cancelAllJobLoading() {
+        downloadUseCase.cancelAllJob()
+        allLoadingJobs.cancel()
+        updateState(visibleLoading = false)
+        allLoadingJobs = createEventJob()
     }
 }

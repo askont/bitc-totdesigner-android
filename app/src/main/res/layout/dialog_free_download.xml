@@ -5,10 +5,16 @@
     android:id="@+id/containerDialogContent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
     android:background="@android:color/transparent"
     >
 
     <LinearLayout
+        android:id="@+id/containerContent"
+        android:clickable="true"
+        android:focusable="true"
+        android:duplicateParentState="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"

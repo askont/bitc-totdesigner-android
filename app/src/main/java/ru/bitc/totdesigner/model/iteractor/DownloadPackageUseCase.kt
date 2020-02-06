@@ -1,9 +1,12 @@
 package ru.bitc.totdesigner.model.iteractor
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
-import ru.bitc.totdesigner.model.entity.LoadingPackage
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.*
+import ru.bitc.totdesigner.model.entity.loading.AllLoadingJob
+import ru.bitc.totdesigner.model.entity.loading.LoadingPackage
 import ru.bitc.totdesigner.model.repository.DownloadPackageRepository
 
 /**
@@ -12,7 +15,39 @@ import ru.bitc.totdesigner.model.repository.DownloadPackageRepository
 
 class DownloadPackageUseCase(private val repository: DownloadPackageRepository) {
 
-    fun loadPackage(lessonUrl: String): Flow<LoadingPackage> {
-        return repository.downloadPackage(lessonUrl)
+    private val jobsLoading = mutableMapOf<String, Deferred<Flow<LoadingPackage>>>()
+
+    fun loadPackage(lessonUrl: String): Flow<AllLoadingJob> {
+        val async = CoroutineScope(Dispatchers.IO).async {
+            repository.downloadPackage(lessonUrl)
+        }
+        if (!jobsLoading.containsKey(lessonUrl)){
+            jobsLoading[lessonUrl] = async
+        }
+        return flow {
+            jobsLoading.map { it.value.await() }.asFlow()
+                .flattenConcat()
+                .onEach {
+                    if (it is LoadingPackage.Finish) {
+                        jobsLoading.remove(it.urlId)
+                    }
+                }
+                .map { jobsLoading.size }
+                .distinctUntilChanged()
+                .collect {
+                    if (it == 0) {
+                        emit(AllLoadingJob.Finish)
+                    } else {
+                        emit(AllLoadingJob.Progress(it, 2000 * it))
+                    }
+                }
+        }
+    }
+
+    fun cancelAllJob() {
+        jobsLoading.values.forEach { job ->
+            job.cancel()
+        }
+        jobsLoading.clear()
     }
 }

@@ -18,10 +18,10 @@ android {
         targetSdkVersion(AndroidConfig.TARGET_SDK_VERSION)
         versionCode = AndroidConfig.VERSION_CODE
         versionName = AndroidConfig.VERSION_NAME
-        multiDexEnabled  = AndroidConfig.MULTI_DEX_ENABLED
+        multiDexEnabled = AndroidConfig.MULTI_DEX_ENABLED
         vectorDrawables.useSupportLibrary = AndroidConfig.SUPPORT_LIBRARY_VECTOR_DRAWABLES
         testInstrumentationRunner = AndroidConfig.TEST_INSTRUMENTATION_RUNNER
-        testInstrumentationRunnerArgument("runnerBuilder",AndroidConfig.TEST_RUNNER_BUILDER)
+        testInstrumentationRunnerArgument("runnerBuilder", AndroidConfig.TEST_RUNNER_BUILDER)
         setProperty("archivesBaseName", AndroidConfig.APK_NAME)
 
         androidExtensions {
@@ -35,11 +35,11 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-            buildConfigField("String","ENDPOINT",Config.SERVER_ENDPOINT)
+            buildConfigField("String", "ENDPOINT", Config.SERVER_ENDPOINT)
         }
         getByName("debug") {
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-            buildConfigField("String","ENDPOINT",Config.SERVER_ENDPOINT)
+            buildConfigField("String", "ENDPOINT", Config.SERVER_ENDPOINT)
         }
     }
 
@@ -61,17 +61,17 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     //AndroidX
-    implementation (Libs.androidx_app_compat)
+    implementation(Libs.androidx_app_compat)
     implementation(Libs.androidx_constraintlayout)
-    implementation (Libs.androidx_core)
-    implementation (Libs.androidx_material)
-    implementation (Libs.androidx_recyclerview)
-    implementation (Libs.androidx_cardview)
-    implementation (Libs.androidx_fragment)
+    implementation(Libs.androidx_core)
+    implementation(Libs.androidx_material)
+    implementation(Libs.androidx_recyclerview)
+    implementation(Libs.androidx_cardview)
+    implementation(Libs.androidx_fragment)
 
     //Koin
-    implementation (Libs.koin_scope)
-    implementation (Libs.koin_viewmodel)
+    implementation(Libs.koin_scope)
+    implementation(Libs.koin_viewmodel)
 
     // cicerone
     implementation(Libs.cicerone)
@@ -82,25 +82,26 @@ dependencies {
     implementation(Libs.lifecycle_viewmodel)
 
     //Glide
-    implementation (Libs.glide_runtime)
-    kapt (Libs.glide_compiler)
+    implementation(Libs.glide_runtime)
+    kapt(Libs.glide_compiler)
 
     //adapterDelegat
     implementation(Libs.adapter_delegates)
     implementation(Libs.adapter_delegates_dsl)
 
     //Networking
-    implementation (Libs.tikxml_annotation)
-    implementation (Libs.tikxml_core)
+    implementation(Libs.tikxml_annotation)
+    implementation(Libs.tikxml_core)
     kapt(Libs.tikxml_kapt)
     implementation(Libs.okhttp_logging_interceptor)
     implementation(Libs.retrofit)
     implementation(Libs.tikxml_converter)
 
     // coroutines
+    implementation(Libs.coroutines_android)
     implementation(Libs.coroutines)
     // logger
-    implementation (Libs.stetho)
+    implementation(Libs.stetho)
 
     //Timber
     implementation(Libs.timber)
@@ -116,4 +117,13 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class).all {
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-Xuse-experimental=kotlinx.coroutines.ObsoleteCoroutinesApi"
+        )
+    }
 }

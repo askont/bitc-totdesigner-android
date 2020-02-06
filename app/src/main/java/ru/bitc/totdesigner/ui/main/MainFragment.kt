@@ -2,22 +2,15 @@ package ru.bitc.totdesigner.ui.main
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
-import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
-import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.android.synthetic.main.item_download.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.BaseFragment
 import ru.bitc.totdesigner.platfom.navigation.SupportDialogAppNavigator
 import ru.bitc.totdesigner.system.click
-import ru.bitc.totdesigner.system.dpToPx
-import ru.bitc.totdesigner.system.setData
 import ru.bitc.totdesigner.system.subscribe
-import ru.bitc.totdesigner.ui.main.state.LoadingItem
 import ru.bitc.totdesigner.ui.main.state.MainState
 import ru.terrakok.cicerone.Navigator
 
@@ -32,9 +25,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
     private val navigator: Navigator
         get() = SupportDialogAppNavigator(requireActivity(), childFragmentManager, R.id.mainContainer)
 
-    private val loadingAdapter by lazy {
-        ListDelegationAdapter<List<LoadingItem>>(loadingAdapter(viewModel::cancelLoading))
-    }
+    private val interpolator = LinearOutSlowInInterpolator()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -44,23 +35,24 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
     }
 
     private fun handleState(state: MainState) {
-        loadingAdapter.setData(state.downloadsItem)
-        rvDownloadHolder.isVisible = state.visibleDownload
-        if (state.downloadsItem.size <= MAX_LINES_LOADING) {
-            changeSizeDownloadHolder(FrameLayout.LayoutParams.WRAP_CONTENT)
+        containerLoading.isVisible = state.visibleDownload
+        val animator = ObjectAnimator.ofInt(pbLoading, "progress", 1, 101)
+        if (state.visibleDownload) {
+            animator.duration = state.durationProgress.toLong()
+            animator.interpolator = interpolator
+            animator.repeatMode = ObjectAnimator.RESTART
+            animator.repeatCount = ObjectAnimator.INFINITE
+            animator.start()
         } else {
-            changeSizeDownloadHolder(MAX_HEIGHT_LOADING.dpToPx())
+            animator.cancel()
         }
+        pbLoading.progress = state.durationProgress
+        tvProgressTitle.text = state.messageLoading
     }
 
-    private fun changeSizeDownloadHolder(height: Int) {
-        val layoutParams = rvDownloadHolder.layoutParams as FrameLayout.LayoutParams
-        layoutParams.height = height
-        rvDownloadHolder.layoutParams = layoutParams
-    }
 
     private fun setupView() {
-        rvDownloadHolder.adapter = loadingAdapter
+        tvCancelLoading.click { viewModel.cancelAllJobLoading() }
         bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.homeItem -> viewModel.selectHomeScreen()
@@ -70,6 +62,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                 else -> false
             }
         }
+
     }
 
     override fun onResume() {
@@ -82,27 +75,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         super.onPause()
     }
 
-
-    private fun loadingAdapter(cancelEvent: (LoadingItem) -> Unit) =
-        adapterDelegateLayoutContainer<LoadingItem, LoadingItem>(R.layout.item_download) {
-            tvCancelLoading.click {
-                cancelEvent(item)
-            }
-            bind {
-                val correctProgress = item.progress + pbLoading.progress
-                if (item.progress < 10) pbLoading.progress = 0
-                val animation = ObjectAnimator.ofInt(pbLoading, "progress", pbLoading.progress, correctProgress)
-                animation.duration = 800
-                animation.interpolator = LinearOutSlowInInterpolator()
-                animation.start()
-                tvProgressTitle.text = item.message
-
-            }
-        }
-
     companion object {
-        private const val MAX_LINES_LOADING = 2
-        private const val MAX_HEIGHT_LOADING = 72
         fun newInstance() = with(MainFragment()) {
             this
         }

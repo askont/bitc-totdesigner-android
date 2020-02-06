@@ -6,5 +6,7 @@ package ru.bitc.totdesigner.ui.main.state
 
 data class LoadingItem(
     val urlId: String,
-    val progress: Int, val message: String
+    val progress: Int,
+    val message: String,
+    val countJob: Int
 )

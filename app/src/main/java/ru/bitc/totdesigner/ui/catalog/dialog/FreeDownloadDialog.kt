@@ -30,6 +30,7 @@ class FreeDownloadDialog : BaseDialog(R.layout.dialog_free_download) {
             viewModel.download()
             dismiss()
         }
+        containerDialogContent.click { dismiss() }
     }
 
     private fun setDialogSize() {
