@@ -1,25 +1,24 @@
 package ru.bitc.totdesigner.ui.catalog
 
 import android.os.Bundle
-import android.view.View
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.android.synthetic.main.fragment_catalog.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.bitc.totdesigner.R
-import ru.bitc.totdesigner.ui.catalog.state.CatalogState
 import ru.bitc.totdesigner.platfom.BaseFragment
 import ru.bitc.totdesigner.platfom.adapter.QuestAdapterDelegate
 import ru.bitc.totdesigner.platfom.adapter.state.ButtonQuestItem
 import ru.bitc.totdesigner.platfom.adapter.state.QuestItem
+import ru.bitc.totdesigner.platfom.adapter.state.SearchHeaderItem
 import ru.bitc.totdesigner.platfom.adapter.state.TitleQuestItem
 import ru.bitc.totdesigner.platfom.decorator.GridPaddingItemDecoration
 import ru.bitc.totdesigner.platfom.state.State
 import ru.bitc.totdesigner.system.dpToPx
 import ru.bitc.totdesigner.system.setData
 import ru.bitc.totdesigner.system.subscribe
+import ru.bitc.totdesigner.ui.catalog.state.CatalogState
 
 /*
  * Created on 2019-12-06
@@ -30,21 +29,16 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
     private val viewModel by viewModel<CatalogViewModel>()
 
     private val adapter by lazy {
-        ListDelegationAdapter(QuestAdapterDelegate().createDelegate(::handleClick))
+        ListDelegationAdapter(QuestAdapterDelegate().createDelegate(::handleClick, viewModel::search))
     }
 
     private val decorator = GridPaddingItemDecoration(12.dpToPx())
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.updateState()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         setupManager()
         rvCardQuest.addItemDecoration(decorator)
-        containerDialogContent.outlineProvider = null
         rvCardQuest.adapter = adapter
-        inputTextSearch.addTextChangedListener {
-            viewModel.search(it?.toString() ?: "")
-        }
         subscribe(viewModel.viewState, ::handleState)
     }
 
@@ -57,7 +51,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
     private fun changerColumn(gridManager: GridLayoutManager) {
         gridManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return if (adapter.items[position] is TitleQuestItem || adapter.items[position] is ButtonQuestItem) 3 else 1
+                return if (adapter.items[position] is TitleQuestItem || adapter.items[position] is ButtonQuestItem || adapter.items[position] is SearchHeaderItem) 3 else 1
             }
         }
     }
@@ -69,26 +63,18 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
     private fun handleState(catalogState: CatalogState) {
         adapter.setData(catalogState.questItems)
         handleSearch(catalogState)
-        tvDescription.text = catalogState.description
-        tvTitle.text = catalogState.title
         handleLoading(catalogState)
         if (catalogState.scrollToStart) {
-            rvCardQuest.scrollToPosition(0)
-            containerDialogContent.setExpanded(true)
+            rvCardQuest.smoothScrollToPosition(0)
         }
     }
 
     private fun handleSearch(catalogState: CatalogState) {
-        rvCardQuest.isVisible = catalogState.questItemEmpty
         tvEmptySearch.isVisible = !catalogState.questItemEmpty
-        if (catalogState.questItemEmpty) {
-            tvEmptySearch.text = getString(R.string.search_empty_catalog, catalogState.lastSearchQuest)
-        }
+        tvEmptySearch.text = getString(R.string.search_empty_catalog, catalogState.lastSearchQuest)
     }
 
     private fun handleLoading(catalogState: CatalogState) {
-        containerDialogContent.isVisible = catalogState.state is State.Loaded
-        layoutSearch.isVisible = catalogState.state is State.Loaded
         pbLoading.isVisible = catalogState.state is State.Loading
     }
 

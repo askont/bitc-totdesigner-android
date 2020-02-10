@@ -81,17 +81,17 @@ class MainViewModel(
     }
 
     fun selectCatalogScreen(): Boolean {
-        router.replaceScreen(MainScreens.CatalogScreen)
+        router.newRootScreen(MainScreens.CatalogScreen)
         return true
     }
 
     fun selectOpenDisk(): Boolean {
-        router.replaceScreen(AppScreens.MockScreen("open disk"))
+        router.newRootScreen(AppScreens.MockScreen("open disk"))
         return true
     }
 
     fun selectSetting(): Boolean {
-        router.replaceScreen(AppScreens.MockScreen("open setting"))
+        router.newRootScreen(AppScreens.MockScreen("open setting"))
         return true
     }
 
@@ -100,5 +100,9 @@ class MainViewModel(
         allLoadingJobs.cancel()
         updateState(visibleLoading = false)
         allLoadingJobs = createEventJob()
+    }
+
+    fun navigateToLoadingDetails() {
+        router.navigateTo(MainScreens.LoadingDetailedScreen)
     }
 }

@@ -16,6 +16,11 @@ data class PaidCardQuestItem(
     val url: String
 ) : QuestItem()
 
+data class SearchHeaderItem(
+    val title: String,
+    val description: String
+) : QuestItem()
+
 data class TitleQuestItem(val title: String) : QuestItem()
 data class ButtonQuestItem(val name: String) : QuestItem()
 

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/margin_search_80"
+        android:layout_marginEnd="@dimen/margin_search_80"
+        android:theme="@style/AppTheme"
+        app:endIconDrawable="@drawable/ic_catalog_search"
+        app:endIconMode="custom"
+        app:layout_scrollFlags="scroll|snap">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputTextSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:maxLines="3"
+            android:imeOptions="flagNoExtractUi"
+            android:textSize="@dimen/font_21" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:textSize="@dimen/font_31"
+        app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+        tools:text="@string/title_catalog" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_24"
+        android:maxLines="3"
+        android:textSize="@dimen/font_13"
+        app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+        tools:text="@string/description_catalog" />
+
+</LinearLayout>

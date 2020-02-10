@@ -30,14 +30,14 @@ class FreeDownloadDialog : BaseDialog(R.layout.dialog_free_download) {
             viewModel.download()
             dismiss()
         }
-        containerDialogContent.click { dismiss() }
+        containerTitleContent.click { dismiss() }
     }
 
     private fun setDialogSize() {
         val defaultDisplay = requireActivity().windowManager.defaultDisplay
         val point = Point()
         defaultDisplay.getSize(point)
-        containerDialogContent.setPadding(
+        containerTitleContent.setPadding(
             (point.x * 0.2).toInt(),
             (point.x * 0.05).toInt(),
             (point.x * 0.2).toInt(),

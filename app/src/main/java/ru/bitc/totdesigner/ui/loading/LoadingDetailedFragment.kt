@@ -1,27 +1,26 @@
 package ru.bitc.totdesigner.ui.loading
 
-import android.animation.ObjectAnimator
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
-import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.BaseFragment
-import ru.bitc.totdesigner.ui.main.state.LoadingItem
+import ru.bitc.totdesigner.system.printDebug
+import timber.log.Timber
 
 /**
  * Created on 04.02.2020
  * @author YWeber */
 
-class AllLoadingFragment : BaseFragment(R.layout.fragment_all_loading) {
+class LoadingDetailedFragment : BaseFragment(R.layout.fragment_loading_detailed) {
 
-    private val viewModel by viewModel<AllLoadingViewModel>()
+    private val viewModel by viewModel<LoadingDetailedViewModel>()
 
     /*private val loadingAdapter by lazy {
         ListDelegationAdapter<List<LoadingItem>>(loadingAdapter(viewModel::cancelLoading))
     }*/
 
     override fun onBackPressed(): Boolean {
-        return super.onBackPressed()
+        viewModel.backTo()
+        return true
     }
 
    /* private fun loadingAdapter(cancelEvent: (LoadingItem) -> Unit) =
@@ -42,7 +41,7 @@ class AllLoadingFragment : BaseFragment(R.layout.fragment_all_loading) {
         }*/
 
     companion object {
-        fun newInstance() = with(AllLoadingFragment()) {
+        fun newInstance() = with(LoadingDetailedFragment()) {
             this
         }
     }

@@ -82,7 +82,9 @@ fun ImageView.loadImage(url: String) {
         .into(this)
 }
 
-fun <T> T.printDebug(message: String = "Test Debug"): T =
-    this.also { Timber.e("$message...$this") }
+inline fun <reified T> T.printDebug(message: String = "Test Debug"): T =
+    this.apply {
+        Timber.e("$message...$this")
+    }
 
 

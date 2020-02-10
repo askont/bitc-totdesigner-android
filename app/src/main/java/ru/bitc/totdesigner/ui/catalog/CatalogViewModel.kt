@@ -11,6 +11,7 @@ import ru.bitc.totdesigner.platfom.adapter.state.*
 import ru.bitc.totdesigner.platfom.navigation.MainScreens
 import ru.bitc.totdesigner.platfom.state.State
 import ru.bitc.totdesigner.system.ResourceManager
+import ru.bitc.totdesigner.system.printDebug
 import ru.bitc.totdesigner.ui.catalog.state.CatalogState
 import ru.terrakok.cicerone.Router
 
@@ -34,12 +35,14 @@ class CatalogViewModel(
         get() = action
 
     private fun defaultCatalogData(): CatalogState {
-        val title = resourceManager.getString(R.string.title_catalog)
-        val description = resourceManager.getString(R.string.description_catalog)
-        return CatalogState(State.Loaded, title, description, listOf(), false)
+        return CatalogState(State.Loaded, listOf(), false)
     }
 
-    fun updateState() {
+    init {
+        updateState()
+    }
+
+    private fun updateState() {
         launch {
             useCase.getLessonPreview(::handleState, ::handleLesson)
         }
@@ -47,9 +50,10 @@ class CatalogViewModel(
 
     fun search(nameQuest: String) {
         searchJob?.cancel()
+        action.value = currentState.copy(lastSearchQuest = nameQuest.printDebug())
         searchJob = launch {
             useCase.searchLessons(nameQuest, ::handleState, ::handleLesson)
-            action.value = currentState.copy(lastSearchQuest = nameQuest)
+
         }
     }
 
@@ -60,12 +64,16 @@ class CatalogViewModel(
 
     private fun handleLesson(previewLessons: PreviewLessons) {
         val fullItems = mutableListOf<QuestItem>()
+        val title = resourceManager.getString(R.string.title_catalog)
+        val description = resourceManager.getString(R.string.description_catalog)
+        fullItems.add(SearchHeaderItem(title, description))
         fullItems.addAll(addPaidItem(previewLessons.previews))
         fullItems.addAll(addFreeItem(previewLessons.previews))
         if (fullItems.size > MIN_SIZE_ITEM) {
             fullItems.add(ButtonQuestItem(""))
         }
-        action.value = currentState.copy(questItems = fullItems, questItemEmpty = fullItems.isNotEmpty())
+        action.value = currentState.copy(questItems = fullItems,
+            questItemEmpty = fullItems.any { it !is SearchHeaderItem })
     }
 
     private fun addFreeItem(lessons: List<PreviewLessons.Lesson>): List<QuestItem> {
@@ -98,9 +106,13 @@ class CatalogViewModel(
                 action.value = currentState.copy(scrollToStart = true)
             }
             is FreeCardQuestItem -> {
+                action.value = currentState.copy(scrollToStart = false)
                 router.navigateTo(MainScreens.FreeDownloadDialogScreen(questItem.name))
             }
-            is PaidCardQuestItem -> router.navigateTo(MainScreens.FreeDownloadDialogScreen(questItem.name))
+            is PaidCardQuestItem -> {
+                action.value = currentState.copy(scrollToStart = false)
+                router.navigateTo(MainScreens.FreeDownloadDialogScreen(questItem.name))
+            }
         }
     }
 

@@ -10,6 +10,7 @@ import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.BaseFragment
 import ru.bitc.totdesigner.platfom.navigation.SupportDialogAppNavigator
 import ru.bitc.totdesigner.system.click
+import ru.bitc.totdesigner.system.printDebug
 import ru.bitc.totdesigner.system.subscribe
 import ru.bitc.totdesigner.ui.main.state.MainState
 import ru.terrakok.cicerone.Navigator
@@ -53,6 +54,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
 
     private fun setupView() {
         tvCancelLoading.click { viewModel.cancelAllJobLoading() }
+        containerLoading.click { viewModel.navigateToLoadingDetails() }
         bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.homeItem -> viewModel.selectHomeScreen()
@@ -63,6 +65,13 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
             }
         }
 
+    }
+
+    override fun onBackPressed(): Boolean {
+        "onBackPressed".printDebug()
+        return  childFragmentManager.fragments.lastOrNull {
+            (it as? BaseFragment)?.onBackPressed() ?: false
+        }  is BaseFragment
     }
 
     override fun onResume() {

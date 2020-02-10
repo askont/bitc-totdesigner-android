@@ -13,7 +13,7 @@ import ru.bitc.totdesigner.ui.AppViewModel
 import ru.bitc.totdesigner.ui.catalog.CatalogViewModel
 import ru.bitc.totdesigner.ui.catalog.dialog.DownloadViewModel
 import ru.bitc.totdesigner.ui.home.HomeViewModel
-import ru.bitc.totdesigner.ui.loading.AllLoadingViewModel
+import ru.bitc.totdesigner.ui.loading.LoadingDetailedViewModel
 import ru.bitc.totdesigner.ui.main.MainViewModel
 import ru.bitc.totdesigner.ui.splash.SplashViewModel
 
@@ -56,6 +56,9 @@ object AppModules {
         }
         viewModel { HomeViewModel(get()) }
         viewModel { (nameQuest: String) -> DownloadViewModel(nameQuest, get(), get(), get()) }
-        viewModel { AllLoadingViewModel() }
+        viewModel {
+            val cicerone = get<LocalCiceroneHolder>()
+            LoadingDetailedViewModel(cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router)
+        }
     }
 }

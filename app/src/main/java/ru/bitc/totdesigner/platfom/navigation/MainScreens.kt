@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import ru.bitc.totdesigner.ui.catalog.CatalogFragment
 import ru.bitc.totdesigner.ui.catalog.dialog.FreeDownloadDialog
 import ru.bitc.totdesigner.ui.home.HomeFragment
-import ru.bitc.totdesigner.ui.loading.AllLoadingFragment
+import ru.bitc.totdesigner.ui.loading.LoadingDetailedFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 /**
@@ -32,9 +32,9 @@ class MainScreens {
         }
     }
 
-    object AllLoadingScreen : SupportAppScreen(){
+    object LoadingDetailedScreen : SupportAppScreen(){
         override fun getFragment(): Fragment {
-            return AllLoadingFragment.newInstance()
+            return LoadingDetailedFragment.newInstance()
         }
     }
 
