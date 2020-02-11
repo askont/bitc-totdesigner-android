@@ -7,18 +7,19 @@ package ru.bitc.totdesigner.platfom.adapter.state
 sealed class QuestItem
 
 data class FreeCardQuestItem(
-    val name: String,
-    val url: String
+        val name: String,
+        val url: String
 ) : QuestItem()
 
 data class PaidCardQuestItem(
-    val name: String,
-    val url: String
+        val name: String,
+        val url: String
 ) : QuestItem()
 
-data class SearchHeaderItem(
-    val title: String,
-    val description: String
+data class HeaderItem(
+        val title: String,
+        val description: String,
+        val lastSearchText: String
 ) : QuestItem()
 
 data class TitleQuestItem(val title: String) : QuestItem()

@@ -11,7 +11,6 @@ import ru.bitc.totdesigner.platfom.adapter.state.*
 import ru.bitc.totdesigner.platfom.navigation.MainScreens
 import ru.bitc.totdesigner.platfom.state.State
 import ru.bitc.totdesigner.system.ResourceManager
-import ru.bitc.totdesigner.system.printDebug
 import ru.bitc.totdesigner.ui.catalog.state.CatalogState
 import ru.terrakok.cicerone.Router
 
@@ -35,7 +34,7 @@ class CatalogViewModel(
         get() = action
 
     private fun defaultCatalogData(): CatalogState {
-        return CatalogState(State.Loaded, listOf(), false)
+        return CatalogState(State.Loaded, listOf(), scrollToStart = false)
     }
 
     init {
@@ -50,10 +49,11 @@ class CatalogViewModel(
 
     fun search(nameQuest: String) {
         searchJob?.cancel()
-        action.value = currentState.copy(lastSearchQuest = nameQuest.printDebug())
+        action.value = currentState.copy(
+            lastSearchQuest = nameQuest
+        )
         searchJob = launch {
             useCase.searchLessons(nameQuest, ::handleState, ::handleLesson)
-
         }
     }
 
@@ -66,14 +66,16 @@ class CatalogViewModel(
         val fullItems = mutableListOf<QuestItem>()
         val title = resourceManager.getString(R.string.title_catalog)
         val description = resourceManager.getString(R.string.description_catalog)
-        fullItems.add(SearchHeaderItem(title, description))
+        fullItems.add(HeaderItem(title, description, ""))
         fullItems.addAll(addPaidItem(previewLessons.previews))
         fullItems.addAll(addFreeItem(previewLessons.previews))
         if (fullItems.size > MIN_SIZE_ITEM) {
             fullItems.add(ButtonQuestItem(""))
         }
-        action.value = currentState.copy(questItems = fullItems,
-            questItemEmpty = fullItems.any { it !is SearchHeaderItem })
+        action.value = currentState.copy(
+            questItems = fullItems,
+            questItemEmpty = fullItems.any { it !is HeaderItem }
+        )
     }
 
     private fun addFreeItem(lessons: List<PreviewLessons.Lesson>): List<QuestItem> {

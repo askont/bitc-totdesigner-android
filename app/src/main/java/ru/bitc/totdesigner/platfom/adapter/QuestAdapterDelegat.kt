@@ -1,11 +1,10 @@
 package ru.bitc.totdesigner.platfom.adapter
 
-import androidx.core.widget.addTextChangedListener
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import kotlinx.android.synthetic.main.item_button.*
 import kotlinx.android.synthetic.main.item_quest.*
-import kotlinx.android.synthetic.main.item_search_header.*
+import kotlinx.android.synthetic.main.item_header.*
 import kotlinx.android.synthetic.main.item_title.*
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.adapter.state.*
@@ -17,21 +16,17 @@ import ru.bitc.totdesigner.system.loadImage
  */
 class QuestAdapterDelegate {
 
-    fun createDelegate(click: (QuestItem) -> Unit, search: (String) -> Unit): AdapterDelegatesManager<List<QuestItem>> =
+    fun createDelegate(click: (QuestItem) -> Unit): AdapterDelegatesManager<List<QuestItem>> =
         AdapterDelegatesManager<List<QuestItem>>()
-            .addDelegate(searchHeaderAdapter(search))
+            .addDelegate(headerAdapter())
             .addDelegate(freeQuestAdapter(click))
             .addDelegate(titleAdapter(click))
             .addDelegate(buttonItemAdapter(click))
             .addDelegate(paidQuestAdapter(click))
 
 
-    private fun searchHeaderAdapter(searchText: (search: String) -> Unit) =
-        adapterDelegateLayoutContainer<SearchHeaderItem, QuestItem>(R.layout.item_search_header) {
-            inputTextSearch.addTextChangedListener {
-                if (it == null) return@addTextChangedListener
-                searchText.invoke(it.toString())
-            }
+    private fun headerAdapter() =
+        adapterDelegateLayoutContainer<HeaderItem, QuestItem>(R.layout.item_header) {
             bind {
                 tvTitle.text = item.title
                 tvDescription.text = item.description

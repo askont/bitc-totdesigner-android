@@ -5,28 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layoutSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="@dimen/margin_search_80"
-        android:layout_marginEnd="@dimen/margin_search_80"
-        android:theme="@style/AppTheme"
-        app:endIconDrawable="@drawable/ic_catalog_search"
-        app:endIconMode="custom"
-        app:layout_scrollFlags="scroll|snap">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputTextSearch"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:maxLines="3"
-            android:imeOptions="flagNoExtractUi"
-            android:textSize="@dimen/font_21" />
-    </com.google.android.material.textfield.TextInputLayout>
-
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"

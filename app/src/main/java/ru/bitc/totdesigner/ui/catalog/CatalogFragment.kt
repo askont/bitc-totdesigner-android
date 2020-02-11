@@ -2,6 +2,7 @@ package ru.bitc.totdesigner.ui.catalog
 
 import android.os.Bundle
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.android.synthetic.main.fragment_catalog.*
@@ -10,8 +11,8 @@ import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.BaseFragment
 import ru.bitc.totdesigner.platfom.adapter.QuestAdapterDelegate
 import ru.bitc.totdesigner.platfom.adapter.state.ButtonQuestItem
+import ru.bitc.totdesigner.platfom.adapter.state.HeaderItem
 import ru.bitc.totdesigner.platfom.adapter.state.QuestItem
-import ru.bitc.totdesigner.platfom.adapter.state.SearchHeaderItem
 import ru.bitc.totdesigner.platfom.adapter.state.TitleQuestItem
 import ru.bitc.totdesigner.platfom.decorator.GridPaddingItemDecoration
 import ru.bitc.totdesigner.platfom.state.State
@@ -29,7 +30,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
     private val viewModel by viewModel<CatalogViewModel>()
 
     private val adapter by lazy {
-        ListDelegationAdapter(QuestAdapterDelegate().createDelegate(::handleClick, viewModel::search))
+        ListDelegationAdapter(QuestAdapterDelegate().createDelegate(::handleClick))
     }
 
     private val decorator = GridPaddingItemDecoration(12.dpToPx())
@@ -39,6 +40,10 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
         setupManager()
         rvCardQuest.addItemDecoration(decorator)
         rvCardQuest.adapter = adapter
+        inputTextSearch.addTextChangedListener {
+            if (it == null) return@addTextChangedListener
+            viewModel.search(it.toString())
+        }
         subscribe(viewModel.viewState, ::handleState)
     }
 
@@ -51,7 +56,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
     private fun changerColumn(gridManager: GridLayoutManager) {
         gridManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return if (adapter.items[position] is TitleQuestItem || adapter.items[position] is ButtonQuestItem || adapter.items[position] is SearchHeaderItem) 3 else 1
+                return if (adapter.items[position] is TitleQuestItem || adapter.items[position] is ButtonQuestItem || adapter.items[position] is HeaderItem) 3 else 1
             }
         }
     }
@@ -65,6 +70,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
         handleSearch(catalogState)
         handleLoading(catalogState)
         if (catalogState.scrollToStart) {
+            appBarLayoutSearch.setExpanded(true, true)
             rvCardQuest.smoothScrollToPosition(0)
         }
     }

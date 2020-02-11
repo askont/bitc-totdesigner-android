@@ -20,9 +20,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private val viewModel by viewModel<HomeViewModel>()
 
     private val adapter by lazy {
-        ListDelegationAdapter(QuestAdapterDelegate().createDelegate(::click) {
-
-        })
+        ListDelegationAdapter(QuestAdapterDelegate().createDelegate(::click))
     }
 
     private val decorator = GridPaddingItemDecoration(12.dpToPx())
