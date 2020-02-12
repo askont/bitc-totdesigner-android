@@ -2,7 +2,6 @@ package ru.bitc.totdesigner.ui.catalog
 
 import android.os.Bundle
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.android.synthetic.main.fragment_catalog.*
@@ -17,6 +16,7 @@ import ru.bitc.totdesigner.platfom.adapter.state.TitleQuestItem
 import ru.bitc.totdesigner.platfom.decorator.GridPaddingItemDecoration
 import ru.bitc.totdesigner.platfom.state.State
 import ru.bitc.totdesigner.system.dpToPx
+import ru.bitc.totdesigner.system.querySearch
 import ru.bitc.totdesigner.system.setData
 import ru.bitc.totdesigner.system.subscribe
 import ru.bitc.totdesigner.ui.catalog.state.CatalogState
@@ -40,8 +40,8 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
         setupManager()
         rvCardQuest.addItemDecoration(decorator)
         rvCardQuest.adapter = adapter
-        inputTextSearch.addTextChangedListener {
-            if (it == null) return@addTextChangedListener
+        inputTextSearch.querySearch {
+            if (it == null) return@querySearch
             viewModel.search(it.toString())
         }
         subscribe(viewModel.viewState, ::handleState)
@@ -77,6 +77,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
 
     private fun handleSearch(catalogState: CatalogState) {
         tvEmptySearch.isVisible = !catalogState.questItemEmpty
+        rvCardQuest.isVisible = catalogState.questItemEmpty
         tvEmptySearch.text = getString(R.string.search_empty_catalog, catalogState.lastSearchQuest)
     }
 

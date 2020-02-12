@@ -64,17 +64,19 @@ class CatalogViewModel(
 
     private fun handleLesson(previewLessons: PreviewLessons) {
         val fullItems = mutableListOf<QuestItem>()
-        val title = resourceManager.getString(R.string.title_catalog)
-        val description = resourceManager.getString(R.string.description_catalog)
-        fullItems.add(HeaderItem(title, description, ""))
         fullItems.addAll(addPaidItem(previewLessons.previews))
         fullItems.addAll(addFreeItem(previewLessons.previews))
         if (fullItems.size > MIN_SIZE_ITEM) {
             fullItems.add(ButtonQuestItem(""))
         }
+        if (fullItems.isNotEmpty()) {
+            val title = resourceManager.getString(R.string.title_catalog)
+            val description = resourceManager.getString(R.string.description_catalog)
+            fullItems.add(0,HeaderItem(title, description, ""))
+        }
         action.value = currentState.copy(
             questItems = fullItems,
-            questItemEmpty = fullItems.any { it !is HeaderItem }
+            questItemEmpty = fullItems.isNotEmpty()
         )
     }
 

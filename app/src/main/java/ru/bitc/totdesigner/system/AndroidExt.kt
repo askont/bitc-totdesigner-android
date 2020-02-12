@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
@@ -86,5 +87,18 @@ inline fun <reified T> T.printDebug(message: String = "Test Debug"): T =
     this.apply {
         Timber.e("$message...$this")
     }
+
+fun SearchView.querySearch(block: (String?) -> Unit) {
+    setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            block.invoke(newText)
+            return true
+        }
+    })
+}
 
 

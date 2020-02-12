@@ -38,31 +38,22 @@
             app:contentScrim="@color/colorPrimaryDark"
             app:layout_scrollFlags="scroll|snap">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layoutSearch"
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/inputTextSearch"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/margin_search_80"
+                android:layout_marginTop="@dimen/margin_16"
                 android:layout_marginEnd="@dimen/margin_search_80"
                 android:layout_marginBottom="@dimen/margin_16"
-                android:theme="@style/AppTheme"
-                app:endIconDrawable="@drawable/ic_catalog_search"
-                app:endIconMode="custom"
+                android:imeOptions="flagNoExtractUi"
+                android:maxLines="3"
+                android:textSize="@dimen/font_21"
+                app:iconifiedByDefault="false"
                 app:layout_collapseMode="parallax"
-                >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/inputTextSearch"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:imeOptions="flagNoExtractUi"
-                    android:maxLines="3"
-                    android:textSize="@dimen/font_21" />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:searchHintIcon="@drawable/ic_catalog_search" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
     </com.google.android.material.appbar.AppBarLayout>
 
 
