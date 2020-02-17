@@ -36,9 +36,9 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
     }
 
     private fun handleState(state: MainState) {
-        containerLoading.isVisible = state.visibleDownload
+        containerLoading.isVisible = state.visibleLoadingHolder()
         val animator = ObjectAnimator.ofInt(pbLoading, "progress", 1, 101)
-        if (state.visibleDownload) {
+        if (state.visibleLoadingHolder()) {
             animator.duration = state.durationProgress.toLong()
             animator.interpolator = interpolator
             animator.repeatMode = ObjectAnimator.RESTART
@@ -48,7 +48,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
             animator.cancel()
         }
         pbLoading.progress = state.durationProgress
-        tvProgressTitle.text = state.messageLoading
+        tvProgressHint.text = state.messageLoading
     }
 
 
@@ -69,9 +69,9 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
 
     override fun onBackPressed(): Boolean {
         "onBackPressed".printDebug()
-        return  childFragmentManager.fragments.lastOrNull {
+        return childFragmentManager.fragments.lastOrNull {
             (it as? BaseFragment)?.onBackPressed() ?: false
-        }  is BaseFragment
+        } is BaseFragment
     }
 
     override fun onResume() {

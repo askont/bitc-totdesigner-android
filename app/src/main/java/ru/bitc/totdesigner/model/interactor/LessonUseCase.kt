@@ -1,4 +1,4 @@
-package ru.bitc.totdesigner.model.iteractor
+package ru.bitc.totdesigner.model.interactor
 
 import kotlinx.coroutines.delay
 import ru.bitc.totdesigner.model.entity.PreviewLessons

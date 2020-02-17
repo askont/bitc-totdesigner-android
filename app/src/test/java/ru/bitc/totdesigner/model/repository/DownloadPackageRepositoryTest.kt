@@ -5,15 +5,15 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import okhttp3.MediaType
 import okhttp3.ResponseBody
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.Before
+import org.junit.Test
 import ru.bitc.totdesigner.model.http.SoapApi
 import ru.bitc.totdesigner.system.flow.TestDispatcher
-import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.Assumptions
 
 internal class DownloadPackageRepositoryTest {
     private lateinit var repository: DownloadPackageRepository
@@ -24,7 +24,7 @@ internal class DownloadPackageRepositoryTest {
     }
 
     private lateinit var dispatcher: TestDispatcher
-    @BeforeEach
+    @Before
     fun init() {
         dispatcher = TestDispatcher()
         repository = DownloadPackageRepository(api, dispatcher)
@@ -34,9 +34,9 @@ internal class DownloadPackageRepositoryTest {
     fun downloadPackage() {
         runBlockingTest {
             repository.downloadPackage("LessonsInfo.xml/package")
-                    .collect {
-                       Assertions.assertEquals(it.urlId,"LessonsInfo.xml/package")
-                    }
+                .collect {
+                    assertThat(it.urlId).isEqualTo("LessonsInfo.xml/package")
+                }
         }
     }
 }

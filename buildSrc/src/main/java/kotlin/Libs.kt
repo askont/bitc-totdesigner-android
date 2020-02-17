@@ -1,4 +1,3 @@
-
 object Libs {
     //Plugins
     const val android_gradle_plugin =
@@ -6,7 +5,8 @@ object Libs {
     const val kotlin_gradle_plugin =
         "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin_gradle_plugin}"
 
-    const val plugins_android_junit5 = "de.mannodermaus.gradle.plugins:android-junit5:${Versions.plugins_android_junit5}"
+    const val plugins_android_junit5 =
+        "de.mannodermaus.gradle.plugins:android-junit5:${Versions.plugins_android_junit5}"
     //AndroidX
     const val androidx_app_compat = "androidx.appcompat:appcompat:${Versions.androidx_appcompat}"
     const val androidx_recyclerview =
@@ -33,6 +33,7 @@ object Libs {
     //Koin
     const val koin_scope = "org.koin:koin-androidx-scope:${Versions.koin}"
     const val koin_viewmodel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
+    const val koin_test = "org.koin:koin-test:${Versions.koin}"
 
     //Lifecycle
     const val lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
@@ -87,8 +88,7 @@ object Libs {
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
     //Test
-    const val junit5 = "org.junit.jupiter:junit-jupiter-api:${Versions.junit5}"
-    const val junit5_engine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junit5}"
+    const val junit4 = "junit:junit:${Versions.junit4}"
     const val junit_ext = "androidx.test.ext:junit:${Versions.test_ext_junit}"
     const val runner = "androidx.test:runner:${Versions.test_runner}"
     const val rules = "androidx.test:rules:${Versions.test_rules}"

@@ -108,15 +108,12 @@ dependencies {
 
     // test
     testImplementation(Libs.kotlinx_coroutines_test)
-    testImplementation(Libs.junit5)
-    testRuntimeOnly(Libs.junit5_engine)
+    testImplementation(Libs.junit4)
+    testImplementation(Libs.assertj)
     testImplementation(Libs.junit_ext)
     testImplementation(Libs.mockito_core)
     testImplementation(Libs.mockito_kotlin)
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
+    testImplementation(Libs.koin_test)
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class).all {

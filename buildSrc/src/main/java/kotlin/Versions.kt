@@ -53,7 +53,7 @@ object Versions {
     const val timber = "4.7.1"
 
     //Test
-    const val junit5 = "5.5.2"
+    const val junit4 = "4.12"
     const val mockito_core = "3.1.0"
     const val test_runner = "1.1.0"
     const val test_rules = "1.1.0"

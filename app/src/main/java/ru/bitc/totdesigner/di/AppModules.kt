@@ -3,8 +3,8 @@ package ru.bitc.totdesigner.di
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import ru.bitc.totdesigner.model.CuratorSoapNetwork
-import ru.bitc.totdesigner.model.iteractor.DownloadPackageUseCase
-import ru.bitc.totdesigner.model.iteractor.LessonUseCase
+import ru.bitc.totdesigner.model.interactor.DownloadPackageUseCase
+import ru.bitc.totdesigner.model.interactor.LessonUseCase
 import ru.bitc.totdesigner.model.repository.DownloadPackageRepository
 import ru.bitc.totdesigner.model.repository.LessonRepository
 import ru.bitc.totdesigner.platfom.navigation.LocalCiceroneHolder
@@ -34,7 +34,7 @@ object AppModules {
 
         //download
         single { DownloadPackageRepository(get(), get()) }
-        single { DownloadPackageUseCase(get()) }
+        single { DownloadPackageUseCase(get(),get()) }
     }
 
     fun viewModelModule() = module {
@@ -58,7 +58,7 @@ object AppModules {
         viewModel { (nameQuest: String) -> DownloadViewModel(nameQuest, get(), get(), get()) }
         viewModel {
             val cicerone = get<LocalCiceroneHolder>()
-            LoadingDetailedViewModel(cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router)
+            LoadingDetailedViewModel(cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router, get(), get())
         }
     }
 }

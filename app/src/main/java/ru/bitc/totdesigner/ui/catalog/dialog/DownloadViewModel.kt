@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.model.entity.PreviewLessons
-import ru.bitc.totdesigner.model.iteractor.LessonUseCase
+import ru.bitc.totdesigner.model.interactor.LessonUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.system.ResourceManager
 import ru.bitc.totdesigner.system.notifier.DownloadNotifier

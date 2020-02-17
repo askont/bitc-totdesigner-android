@@ -7,5 +7,8 @@ package ru.bitc.totdesigner.ui.main.state
 data class MainState(
     val messageLoading: String,
     val durationProgress: Int,
-    val visibleDownload: Boolean
-)
+    val finishLoading: Boolean,
+    val visibleLoading: Boolean
+) {
+    fun visibleLoadingHolder() = finishLoading && visibleLoading
+}

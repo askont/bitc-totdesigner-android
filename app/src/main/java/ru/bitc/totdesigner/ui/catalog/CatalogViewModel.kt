@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Job
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.model.entity.PreviewLessons
-import ru.bitc.totdesigner.model.iteractor.LessonUseCase
+import ru.bitc.totdesigner.model.interactor.LessonUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.platfom.adapter.state.*
 import ru.bitc.totdesigner.platfom.navigation.MainScreens

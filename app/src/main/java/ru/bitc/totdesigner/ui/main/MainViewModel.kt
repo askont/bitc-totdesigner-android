@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.onEach
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.model.entity.loading.AllLoadingJob
-import ru.bitc.totdesigner.model.iteractor.DownloadPackageUseCase
+import ru.bitc.totdesigner.model.interactor.DownloadPackageUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.platfom.navigation.AppScreens
 import ru.bitc.totdesigner.platfom.navigation.MainScreens
@@ -33,7 +33,11 @@ class MainViewModel(
 
     private val action = MutableLiveData<MainState>()
     private val currentState
-        get() = action.value ?: MainState("", 0, false)
+        get() = action.value ?: MainState(
+            "", 0,
+            finishLoading = false,
+            visibleLoading = false
+        )
     val viewState: LiveData<MainState>
         get() = action
     private var allLoadingJobs: Job
@@ -41,22 +45,28 @@ class MainViewModel(
     init {
         action.value = currentState
         allLoadingJobs = createEventJob()
+        launch {
+            downloadNotifier.subscribeAllVisible()
+                .collect {
+                    updateState(visibleLoading = it)
+                }
+        }
     }
 
     private fun createEventJob(): Job {
         return launch {
             downloadNotifier.subscribeStatus()
-                .flatMapLatest { downloadUseCase.loadPackage(it.lessonUrl) }
+                .flatMapLatest { downloadUseCase.getAllLoadingPackage(it.lessonUrl) }
                 .onEach { Timber.e("test test test $it") }
                 .collect { progress ->
                     when (progress) {
                         is AllLoadingJob.Progress -> {
                             val message =
                                 resourceManager.getString(R.string.loading_progress_messages, progress.countJob)
-                            updateState(message = message, progressDuration = progress.duration, visibleLoading = true)
+                            updateState(message = message, progressDuration = progress.duration, finishLoading = true)
                         }
                         is AllLoadingJob.Finish -> {
-                            updateState(visibleLoading = false)
+                            updateState(finishLoading = false)
                         }
                     }
                 }
@@ -64,13 +74,16 @@ class MainViewModel(
     }
 
     private fun updateState(
-        message: String = currentState.messageLoading, progressDuration: Int = currentState.durationProgress,
-        visibleLoading: Boolean = currentState.visibleDownload
+        message: String = currentState.messageLoading,
+        progressDuration: Int = currentState.durationProgress,
+        finishLoading: Boolean = currentState.finishLoading,
+        visibleLoading: Boolean = currentState.visibleLoading
     ) {
         val newState = currentState.copy(
             messageLoading = message,
-            visibleDownload = visibleLoading,
-            durationProgress = progressDuration
+            finishLoading = finishLoading,
+            durationProgress = progressDuration,
+            visibleLoading = visibleLoading
         )
         action.value = newState
     }
@@ -98,11 +111,12 @@ class MainViewModel(
     fun cancelAllJobLoading() {
         downloadUseCase.cancelAllJob()
         allLoadingJobs.cancel()
-        updateState(visibleLoading = false)
+        updateState(finishLoading = false)
         allLoadingJobs = createEventJob()
     }
 
     fun navigateToLoadingDetails() {
+        downloadNotifier.eventVisible(false)
         router.navigateTo(MainScreens.LoadingDetailedScreen)
     }
 }

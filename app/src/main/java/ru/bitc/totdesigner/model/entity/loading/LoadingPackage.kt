@@ -9,6 +9,5 @@ sealed class LoadingPackage(open val urlId:String) {
     data class StartUnzip(override val urlId: String,val duration: Int) : LoadingPackage(urlId)
     data class Error(override val urlId: String,val message: String) : LoadingPackage(urlId)
     data class Finish(override val urlId: String) : LoadingPackage(urlId)
-
 }
 
