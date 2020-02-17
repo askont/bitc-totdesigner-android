@@ -16,7 +16,7 @@ class DownloadPackageUseCaseTest {
 
     private lateinit var downloadUseCase: DownloadPackageUseCase
     private val downloadRepository = mock<DownloadPackageRepository> {
-        on { downloadPackage(any()) }.thenReturn(flow { emit(LoadingPackage.Finish("test")) })
+
     }
     private val lessonRepository = mock<LessonRepository> {
         onBlocking { getPreviewLessons() }.thenReturn(
@@ -45,14 +45,7 @@ class DownloadPackageUseCaseTest {
                     println(it)
                 }
         }
-        runBlockingTest {
-            downloadUseCase.getListLoadingPackage()
-                .collect { it ->
-                    it.forEach {
-                        println(it)
-                    }
-                }
-        }
+
     }
 
     @Test

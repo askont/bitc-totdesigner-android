@@ -2,7 +2,8 @@ package ru.bitc.totdesigner.di
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import ru.bitc.totdesigner.model.CuratorSoapNetwork
+import ru.bitc.totdesigner.model.converter.ModelLessonToEntityPreviewConverter
+import ru.bitc.totdesigner.model.http.retrofit.CuratorSoapNetwork
 import ru.bitc.totdesigner.model.interactor.DownloadPackageUseCase
 import ru.bitc.totdesigner.model.interactor.LessonUseCase
 import ru.bitc.totdesigner.model.repository.DownloadPackageRepository
@@ -28,13 +29,14 @@ object AppModules {
 
     fun appModule() = module {
         single { ResourceManager(get()) }
+        single { ModelLessonToEntityPreviewConverter() }
         // lesson
         single { LessonUseCase(get()) }
-        single { LessonRepository(get()) }
+        single { LessonRepository(get(), get()) }
 
         //download
         single { DownloadPackageRepository(get(), get()) }
-        single { DownloadPackageUseCase(get(),get()) }
+        single { DownloadPackageUseCase(get(), get()) }
     }
 
     fun viewModelModule() = module {

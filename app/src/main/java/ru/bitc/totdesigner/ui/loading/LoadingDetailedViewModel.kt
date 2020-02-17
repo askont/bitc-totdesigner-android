@@ -29,12 +29,12 @@ class LoadingDetailedViewModel(
 
     init {
         launch {
-            loadingUseCase.getListLoadingPackage()
+           /* loadingUseCase.getListLoadingPackage()
                 .collect { detailedList ->
                     detailedList.forEach {
                         addItems(LoadingMiniItem(it.urlId, it.title, it.imageUrl, 100))
                     }
-                }
+                }*/
         }
     }
 

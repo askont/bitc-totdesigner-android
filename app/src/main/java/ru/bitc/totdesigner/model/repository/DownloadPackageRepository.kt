@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.flowOn
 import ru.bitc.totdesigner.model.entity.loading.LoadingPackage
 import ru.bitc.totdesigner.model.http.SoapApi
 import ru.bitc.totdesigner.system.flow.DispatcherProvider
+import timber.log.Timber
 
 /**
  * Created on 27.01.2020
@@ -16,13 +17,14 @@ class DownloadPackageRepository(
     private val dispatcher: DispatcherProvider
 ) {
 
-    fun downloadPackage(lessonUrl: String): Flow<LoadingPackage> = flow {
+    suspend fun downloadPackage(lessonUrl: String): Flow<LoadingPackage> = flow {
         emit(LoadingPackage.Loading(lessonUrl, 2000))
         try {
-            val downloadLessonPackage = api.downloadLessonPackage(lessonUrl)
+            api.downloadLessonPackage(lessonUrl)
             emit(LoadingPackage.Finish(lessonUrl))
         } catch (e: Exception) {
             emit(LoadingPackage.Error(lessonUrl, "Error download"))
+            Timber.e(e)
         }
     }.flowOn(dispatcher.io)
 
