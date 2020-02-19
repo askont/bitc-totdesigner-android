@@ -3,11 +3,13 @@ package ru.bitc.totdesigner.ui.loading
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.flow.collect
+import ru.bitc.totdesigner.model.entity.PreviewLessons
+import ru.bitc.totdesigner.model.entity.loading.LoadingPackage
 import ru.bitc.totdesigner.model.interactor.DownloadPackageUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.system.notifier.DownloadNotifier
+import ru.bitc.totdesigner.ui.loading.state.LoadingDetailed
 import ru.bitc.totdesigner.ui.loading.state.LoadingDetailedState
-import ru.bitc.totdesigner.ui.loading.state.LoadingMiniItem
 import ru.terrakok.cicerone.Router
 
 /**
@@ -29,22 +31,38 @@ class LoadingDetailedViewModel(
 
     init {
         launch {
-           /* loadingUseCase.getListLoadingPackage()
-                .collect { detailedList ->
-                    detailedList.forEach {
-                        addItems(LoadingMiniItem(it.urlId, it.title, it.imageUrl, 100))
-                    }
-                }*/
+            loadingUseCase.getListLoadingPackageJob()
+                .collect { detailed ->
+                    val detailedLoading = createDetailedLoading(detailed.first, detailed.second)
+                    addItems(detailedLoading)
+                }
         }
     }
 
-    private fun addItems(item: LoadingMiniItem) {
+    private fun addItems(item: LoadingDetailed) {
         val mutableItemsList = currentState.loadingMiniItems.toMutableList()
         mutableItemsList.add(item)
-        val newState = currentState.copy(mutableItemsList)
+        val newState = currentState.copy(loadingMiniItems = mutableItemsList.filterIsInstance<LoadingDetailed.Loading>())
         action.value = newState
 
     }
+
+    private fun createDetailedLoading(
+        loading: LoadingPackage,
+        lessons: PreviewLessons.Lesson
+    ): LoadingDetailed = when (loading) {
+        is LoadingPackage.Loading -> {
+            LoadingDetailed.Loading(lessons.lessonUrl, lessons.imageUrl, lessons.title)
+        }
+        is LoadingPackage.Finish -> {
+            LoadingDetailed.Finish(lessons.lessonUrl, lessons.imageUrl, lessons.title)
+        }
+        is LoadingPackage.Error -> {
+            LoadingDetailed.Error(lessons.lessonUrl, lessons.imageUrl, lessons.title)
+        }
+
+    }
+
 
     fun onVisible() {
         downloadNotifier.eventVisible(true)

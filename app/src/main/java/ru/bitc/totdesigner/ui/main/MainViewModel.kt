@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.onEach
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.model.entity.loading.AllLoadingJob
 import ru.bitc.totdesigner.model.interactor.DownloadPackageUseCase
@@ -17,7 +16,6 @@ import ru.bitc.totdesigner.system.notifier.DownloadNotifier
 import ru.bitc.totdesigner.ui.main.state.MainState
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
-import timber.log.Timber
 
 /*
  * Created on 2019-12-03
@@ -56,8 +54,7 @@ class MainViewModel(
     private fun createEventJob(): Job {
         return launch {
             downloadNotifier.subscribeStatus()
-                .flatMapLatest { downloadUseCase.getAllLoadingPackage(it.lessonUrl) }
-                .onEach { Timber.e("test test test $it") }
+                .flatMapLatest { downloadUseCase.getCountAllLoadingPackage(it.lessonUrl) }
                 .collect { progress ->
                     when (progress) {
                         is AllLoadingJob.Progress -> {

@@ -17,7 +17,7 @@ class DownloadPackageRepository(
     private val dispatcher: DispatcherProvider
 ) {
 
-    suspend fun downloadPackage(lessonUrl: String): Flow<LoadingPackage> = flow {
+    fun downloadPackage(lessonUrl: String): Flow<LoadingPackage> = flow {
         emit(LoadingPackage.Loading(lessonUrl, 2000))
         try {
             api.downloadLessonPackage(lessonUrl)

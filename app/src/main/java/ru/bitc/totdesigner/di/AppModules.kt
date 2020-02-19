@@ -36,7 +36,7 @@ object AppModules {
 
         //download
         single { DownloadPackageRepository(get(), get()) }
-        single { DownloadPackageUseCase(get(), get()) }
+        single { DownloadPackageUseCase(get(), get(), get()) }
     }
 
     fun viewModelModule() = module {

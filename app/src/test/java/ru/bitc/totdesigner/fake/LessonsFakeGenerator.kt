@@ -6,11 +6,10 @@ import ru.bitc.totdesigner.model.models.Lessons
 /**
  * Created on 17.02.2020
  * @author YWeber */
-
 val lessonInfoFake = Lessons.LessonInfo(
     "Вирус ВИЧ. Риски",
     "Free",
-    "https://totdesigner.s3.eu-central-1.amazonaws.com/lessons/%D0%9E%D0%BB%D0%B5%D0%BD%D1%8C+%D0%BE%D1%80%D0%B8%D0%B3%D0%B0%D0%BC%D0%B8.lsnx",
+    "http://test/package",
     "https://totdesigner.s3.eu-central-1.amazonaws.com/previews/OrigamiDeer.png"
 )
 
