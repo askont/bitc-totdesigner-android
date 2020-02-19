@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:background="#2C2C2C"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/margin_64"
+    android:paddingTop="@dimen/margin_16"
+    android:paddingEnd="@dimen/margin_64"
+    android:paddingBottom="@dimen/margin_16">
 
     <androidx.cardview.widget.CardView
         android:layout_width="100dp"
@@ -27,9 +32,9 @@
         android:layout_gravity="center"
         android:layout_marginStart="@dimen/margin_24"
         android:layout_weight="0.7"
-        android:gravity="center"
+        android:gravity="start"
         android:textColor="@color/colorWhiteText"
-        android:textSize="@dimen/font_13"
+        android:textSize="@dimen/font_16"
         tools:text="Оригами-квест Фламинго" />
 
     <TextView
@@ -39,10 +44,10 @@
         android:layout_gravity="center"
         android:layout_marginStart="@dimen/margin_16"
         android:layout_marginEnd="@dimen/margin_16"
-        android:gravity="center"
+        android:gravity="end"
         android:text="@string/loading_progress_message"
         android:textColor="@color/colorWhiteText"
-        android:textSize="@dimen/font_13" />
+        android:textSize="@dimen/font_16" />
 
     <ProgressBar
         android:id="@+id/pbLoading"
@@ -52,8 +57,8 @@
         android:layout_gravity="center"
         android:layout_marginStart="@dimen/margin_24"
         android:layout_weight="0.5"
-        android:max="100"
-        android:progress="10" />
+        android:max="1000"
+        android:progress="0" />
 
     <TextView
         android:id="@+id/tvCancelLoading"
@@ -64,6 +69,6 @@
         android:layout_marginStart="@dimen/margin_24"
         android:layout_marginEnd="@dimen/margin_24"
         android:text="@string/cancel"
-        android:textSize="@dimen/font_13" />
+        android:textSize="@dimen/font_14" />
 
 </LinearLayout>

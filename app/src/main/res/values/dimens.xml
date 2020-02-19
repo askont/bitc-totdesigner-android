@@ -26,4 +26,6 @@
     <dimen name="font_31">31sp</dimen>
     <dimen name="height_quest_item">250dp</dimen>
     <dimen name="padding_min_4">4dp</dimen>
+    <dimen name="margin_64">64dp</dimen>
+    <dimen name="margin_56">56dp</dimen>
 </resources>

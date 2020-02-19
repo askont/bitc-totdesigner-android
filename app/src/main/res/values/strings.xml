@@ -23,4 +23,7 @@
     <string name="loading_progress_message">загрузка…</string>
     <string name="loading_progress_messages">загрузка: %s …</string>
     <string name="cancel">отменить</string>
+    <string name="back_to_catalog">ВЕРНУТЬСЯ В КАТАЛОГ</string>
+    <string name="clear_list">ОЧИСТИТЬ СПИСОК</string>
+    <string name="cancel_all">ОТМЕНИТЬ ВСЕ</string>
 </resources>

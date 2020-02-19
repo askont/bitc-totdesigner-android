@@ -3,6 +3,8 @@ package ru.bitc.totdesigner.ui.loading
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.LinearInterpolator
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
@@ -12,10 +14,10 @@ import kotlinx.android.synthetic.main.item_loading_detailed.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.BaseFragment
+import ru.bitc.totdesigner.platfom.decorator.TopBottomSpaceDecorator
 import ru.bitc.totdesigner.system.click
 import ru.bitc.totdesigner.system.loadImage
 import ru.bitc.totdesigner.system.subscribe
-import ru.bitc.totdesigner.ui.loading.state.DetailedDiff
 import ru.bitc.totdesigner.ui.loading.state.LoadingDetailed
 import ru.bitc.totdesigner.ui.loading.state.LoadingDetailedState
 
@@ -29,7 +31,7 @@ class LoadingDetailedFragment : BaseFragment(R.layout.fragment_loading_detailed)
 
     private val loadingAdapter by lazy {
         AsyncListDifferDelegationAdapter<LoadingDetailed>(
-            DetailedDiff,
+            LoadingDetailed.DetailedDiff,
             AdapterDelegatesManager(loadingDetailedAdapter {})
         )
     }
@@ -38,6 +40,7 @@ class LoadingDetailedFragment : BaseFragment(R.layout.fragment_loading_detailed)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rvLoading.adapter = loadingAdapter
+        rvLoading.addItemDecoration(TopBottomSpaceDecorator())
         subscribe(viewModel.state, ::handleState)
     }
 
@@ -62,10 +65,9 @@ class LoadingDetailedFragment : BaseFragment(R.layout.fragment_loading_detailed)
             }
             bind {
                 ivLoading.loadImage(item.imageUrl)
-                val correctProgress = item.progress
-                val animation = ObjectAnimator.ofInt(pbLoading, "progress", pbLoading.progress, correctProgress)
-                animation.duration = 2000
-                animation.interpolator = LinearOutSlowInInterpolator()
+                val animation = ObjectAnimator.ofInt(pbLoading, "progress", 0, 1000)
+                animation.duration = item.durationProgress
+                animation.interpolator = DecelerateInterpolator()
                 animation.repeatCount = ObjectAnimator.INFINITE
                 animation.repeatMode = ObjectAnimator.RESTART
                 animation.start()

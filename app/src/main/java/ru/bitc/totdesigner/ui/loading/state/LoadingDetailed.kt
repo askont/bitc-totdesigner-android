@@ -1,6 +1,8 @@
 package ru.bitc.totdesigner.ui.loading.state
 
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
+import kotlin.random.Random
 
 /**
  * Created on 12.02.2020
@@ -11,7 +13,7 @@ sealed class LoadingDetailed(open val urlId: String) {
         override val urlId: String,
         val imageUrl: String,
         val title: String,
-        val progress: Int = 100
+        val durationProgress: Long = 10000 + Random.nextLong(10000) * Random.nextDouble(5.0).toInt()
     ) : LoadingDetailed(urlId)
 
     data class Finish(
@@ -26,27 +28,13 @@ sealed class LoadingDetailed(open val urlId: String) {
         val title: String
     ) : LoadingDetailed(urlId)
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+    object DetailedDiff : DiffUtil.ItemCallback<LoadingDetailed>() {
+        override fun areItemsTheSame(oldItem: LoadingDetailed, newItem: LoadingDetailed): Boolean =
+            oldItem.urlId == newItem.urlId
 
-        other as LoadingDetailed
-
-        if (urlId != other.urlId) return false
-
-        return true
+        @SuppressLint("DiffUtilEquals")
+        override fun areContentsTheSame(oldItem: LoadingDetailed, newItem: LoadingDetailed): Boolean =
+            oldItem == newItem
     }
 
-    override fun hashCode(): Int {
-        return urlId.hashCode()
-    }
-
-}
-
-object DetailedDiff : DiffUtil.ItemCallback<LoadingDetailed>() {
-    override fun areItemsTheSame(oldItem: LoadingDetailed, newItem: LoadingDetailed): Boolean =
-        oldItem.urlId == newItem.urlId
-
-    override fun areContentsTheSame(oldItem: LoadingDetailed, newItem: LoadingDetailed): Boolean =
-        oldItem == newItem
 }
