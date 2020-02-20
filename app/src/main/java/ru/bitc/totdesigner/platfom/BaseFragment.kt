@@ -11,5 +11,5 @@ import timber.log.Timber
 abstract class BaseFragment(@LayoutRes val layoutRes: Int) : Fragment(layoutRes) {
 
     // return true if fragment need custom navigation
-    fun onBackPressed(): Boolean  = false
+    open fun onBackPressed(): Boolean  = false
 }

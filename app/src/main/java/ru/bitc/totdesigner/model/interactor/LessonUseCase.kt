@@ -1,4 +1,4 @@
-package ru.bitc.totdesigner.model.iteractor
+package ru.bitc.totdesigner.model.interactor
 
 import kotlinx.coroutines.delay
 import ru.bitc.totdesigner.model.entity.PreviewLessons
@@ -27,17 +27,28 @@ class LessonUseCase(private val repository: LessonRepository) {
         }
     }
 
-    suspend fun searchLesson(nameQuest:String ,onState: (State) -> Unit,
-                  async: (PreviewLessons) -> Unit){
+    suspend fun searchLessons(
+        nameQuest: String, onState: (State) -> Unit,
+        async: (PreviewLessons) -> Unit
+    ) {
         try {
             delay(400)
             onState(State.Loading)
-            val lessons = searchPreviewLessons(nameQuest,repository.getPreviewLessons())
+            val lessons = searchPreviewLessons(nameQuest, repository.getPreviewLessons())
             async(lessons)
             onState.invoke(State.Loaded)
         } catch (e: Exception) {
             Timber.e(e)
             onState.invoke(State.Error(error = e))
+        }
+    }
+
+    suspend fun getLesson(name: String, eventElement: (PreviewLessons.Lesson) -> Unit) {
+        try {
+            val lesson = repository.getPreviewLessons().previews.find { it.title == name } ?: return
+            eventElement(lesson)
+        } catch (e: Exception) {
+            Timber.e("Not found element by name = $name.")
         }
     }
 

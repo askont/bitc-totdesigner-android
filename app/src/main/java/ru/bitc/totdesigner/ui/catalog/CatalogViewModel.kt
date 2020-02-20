@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Job
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.model.entity.PreviewLessons
-import ru.bitc.totdesigner.model.iteractor.LessonUseCase
+import ru.bitc.totdesigner.model.interactor.LessonUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.platfom.adapter.state.*
 import ru.bitc.totdesigner.platfom.navigation.MainScreens
@@ -34,12 +34,14 @@ class CatalogViewModel(
         get() = action
 
     private fun defaultCatalogData(): CatalogState {
-        val title = resourceManager.getString(R.string.title_catalog)
-        val description = resourceManager.getString(R.string.description_catalog)
-        return CatalogState(State.Loaded, title, description, listOf(), false)
+        return CatalogState(State.Loaded, listOf(), scrollToStart = false)
     }
 
-    fun updateState() {
+    init {
+        updateState()
+    }
+
+    private fun updateState() {
         launch {
             useCase.getLessonPreview(::handleState, ::handleLesson)
         }
@@ -47,9 +49,11 @@ class CatalogViewModel(
 
     fun search(nameQuest: String) {
         searchJob?.cancel()
+        action.value = currentState.copy(
+            lastSearchQuest = nameQuest
+        )
         searchJob = launch {
-            useCase.searchLesson(nameQuest, ::handleState, ::handleLesson)
-            action.value = currentState.copy(lastSearchQuest = nameQuest)
+            useCase.searchLessons(nameQuest, ::handleState, ::handleLesson)
         }
     }
 
@@ -65,7 +69,15 @@ class CatalogViewModel(
         if (fullItems.size > MIN_SIZE_ITEM) {
             fullItems.add(ButtonQuestItem(""))
         }
-        action.value = currentState.copy(questItems = fullItems, questItemEmpty = fullItems.isNotEmpty())
+        if (fullItems.isNotEmpty()) {
+            val title = resourceManager.getString(R.string.title_catalog)
+            val description = resourceManager.getString(R.string.description_catalog)
+            fullItems.add(0,HeaderItem(title, description, ""))
+        }
+        action.value = currentState.copy(
+            questItems = fullItems,
+            questItemEmpty = fullItems.isNotEmpty()
+        )
     }
 
     private fun addFreeItem(lessons: List<PreviewLessons.Lesson>): List<QuestItem> {
@@ -97,8 +109,14 @@ class CatalogViewModel(
             is ButtonQuestItem -> {
                 action.value = currentState.copy(scrollToStart = true)
             }
-            is FreeCardQuestItem -> router.navigateTo(MainScreens.FreeDownloadDialog)
-            is PaidCardQuestItem -> router.navigateTo(MainScreens.FreeDownloadDialog)
+            is FreeCardQuestItem -> {
+                action.value = currentState.copy(scrollToStart = false)
+                router.navigateTo(MainScreens.FreeDownloadDialogScreen(questItem.name))
+            }
+            is PaidCardQuestItem -> {
+                action.value = currentState.copy(scrollToStart = false)
+                router.navigateTo(MainScreens.FreeDownloadDialogScreen(questItem.name))
+            }
         }
     }
 

@@ -1,15 +1,20 @@
 package ru.bitc.totdesigner.system
 
 import android.content.Context
+import android.graphics.Point
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
+import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
+import timber.log.Timber
 
 /*
  * Created on 2019-11-27
@@ -22,6 +27,18 @@ fun View.showKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     this.requestFocus()
     imm.showSoftInput(this, 0)
+}
+
+fun ViewGroup.setDialogSize() {
+    val defaultDisplay = (context as FragmentActivity).windowManager.defaultDisplay
+    val point = Point()
+    defaultDisplay.getSize(point)
+    setPadding(
+        (point.x * 0.2).toInt(),
+        (point.x * 0.05).toInt(),
+        (point.x * 0.2).toInt(),
+        (point.x * 0.05).toInt()
+    )
 }
 
 fun View.hideKeyboard(): Boolean {
@@ -61,10 +78,32 @@ fun <T> AbsDelegationAdapter<T>.setData(data: T) {
     notifyDataSetChanged()
 }
 
+fun <T> AsyncListDifferDelegationAdapter<T>.setData(data: List<T>) {
+    items = data
+}
+
 fun ImageView.loadImage(url: String) {
     Glide.with(context)
         .load(url)
         .into(this)
+}
+
+inline fun <reified T> T.printDebug(message: String = "Test Debug"): T =
+    this.apply {
+        Timber.e("$message...$this")
+    }
+
+fun SearchView.querySearch(block: (String?) -> Unit) {
+    setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            block.invoke(newText)
+            return true
+        }
+    })
 }
 
 

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#2C2C2C"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/margin_64"
+    android:paddingTop="@dimen/margin_16"
+    android:paddingEnd="@dimen/margin_64"
+    android:paddingBottom="@dimen/margin_16">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="6dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivLoading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_setting" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_weight="0.7"
+        android:gravity="start"
+        android:textColor="@color/colorWhiteText"
+        android:textSize="@dimen/font_16"
+        tools:text="Оригами-квест Фламинго" />
+
+    <TextView
+        android:id="@+id/tvHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:gravity="end"
+        android:text="@string/loading_progress_message"
+        android:textColor="@color/colorWhiteText"
+        android:textSize="@dimen/font_16" />
+
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        style="@style/DownloadItem"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_weight="0.5"
+        android:max="1000"
+        android:progress="0" />
+
+    <TextView
+        android:id="@+id/tvCancelLoading"
+        style="@style/TextButtonMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginEnd="@dimen/margin_24"
+        android:text="@string/cancel"
+        android:textSize="@dimen/font_14" />
+
+</LinearLayout>

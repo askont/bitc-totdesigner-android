@@ -2,13 +2,19 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/containerDialogContent"
+    android:id="@+id/containerTitleContent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
     android:background="@android:color/transparent"
     >
 
     <LinearLayout
+        android:id="@+id/containerContent"
+        android:clickable="true"
+        android:focusable="true"
+        android:duplicateParentState="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -39,8 +45,8 @@
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorWhiteText"
             android:layout_margin="@dimen/margin_16"
+            android:textColor="@color/colorWhiteText"
             tools:text="Основы проектирования UX UI - Wireframe"
             />
 
@@ -56,22 +62,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="@dimen/margin_24"
             android:layout_marginStart="@dimen/margin_12"
             android:layout_marginEnd="@dimen/margin_12"
+            android:layout_marginBottom="@dimen/margin_24"
+            android:gravity="center"
             android:orientation="horizontal"
             >
 
             <TextView
                 android:id="@+id/tvBack"
+                style="@style/TextButtonMain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/font_14"
-                android:padding="@dimen/padding_min_4"
-                android:textAllCaps="true"
-                android:textColor="@color/colorSelectItem"
                 android:text="@string/back_catalog"
+                android:textSize="@dimen/font_14"
                 />
 
             <Space
@@ -82,14 +86,13 @@
 
             <TextView
                 android:id="@+id/tvDownload"
+                style="@style/TextButtonMain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:textSize="@dimen/font_14"
-                android:textAllCaps="true"
-                android:textColor="@color/colorSelectItem"
-                android:padding="@dimen/padding_min_4"
                 android:text="@string/download"
+                android:textSize="@dimen/font_14"
+
                 />
 
         </LinearLayout>

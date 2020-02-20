@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import ru.bitc.totdesigner.ui.catalog.CatalogFragment
 import ru.bitc.totdesigner.ui.catalog.dialog.FreeDownloadDialog
 import ru.bitc.totdesigner.ui.home.HomeFragment
-import ru.bitc.totdesigner.ui.main.MainFragment
+import ru.bitc.totdesigner.ui.loading.LoadingDetailedFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 /**
@@ -14,9 +14,9 @@ import ru.terrakok.cicerone.android.support.SupportAppScreen
 class MainScreens {
 
 
-    object FreeDownloadDialog : SupportAppScreen(){
+    data class FreeDownloadDialogScreen(private val nameQuest: String) : SupportAppScreen() {
         override fun getFragment(): Fragment {
-            return FreeDownloadDialog()
+            return FreeDownloadDialog.newInstance(nameQuest)
         }
     }
 
@@ -29,6 +29,12 @@ class MainScreens {
     object CatalogScreen : SupportAppScreen() {
         override fun getFragment(): Fragment {
             return CatalogFragment.newInstance()
+        }
+    }
+
+    object LoadingDetailedScreen : SupportAppScreen(){
+        override fun getFragment(): Fragment {
+            return LoadingDetailedFragment.newInstance()
         }
     }
 

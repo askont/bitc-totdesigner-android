@@ -1,4 +1,4 @@
-package ru.bitc.totdesigner.model
+package ru.bitc.totdesigner.model.http.retrofit
 
 import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory
 import okhttp3.OkHttpClient

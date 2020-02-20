@@ -10,10 +10,8 @@ import ru.bitc.totdesigner.platfom.state.State
 
 data class CatalogState(
     val state: State,
-    val title: String,
-    val description: String,
     val questItems: List<QuestItem>,
     val scrollToStart: Boolean,
-    val questItemEmpty:Boolean = false,
-    val lastSearchQuest:String = ""
+    val questItemEmpty: Boolean = false,
+    val lastSearchQuest: String = ""
 )
