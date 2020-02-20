@@ -2,11 +2,9 @@ package ru.bitc.totdesigner.ui.home
 
 import android.os.Bundle
 import android.view.View
-import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.bitc.totdesigner.R
-import ru.bitc.totdesigner.ui.home.state.HomeState
 import ru.bitc.totdesigner.platfom.BaseFragment
 import ru.bitc.totdesigner.platfom.adapter.QuestAdapterDelegate
 import ru.bitc.totdesigner.platfom.adapter.state.QuestItem
@@ -14,13 +12,14 @@ import ru.bitc.totdesigner.platfom.decorator.GridPaddingItemDecoration
 import ru.bitc.totdesigner.system.dpToPx
 import ru.bitc.totdesigner.system.setData
 import ru.bitc.totdesigner.system.subscribe
+import ru.bitc.totdesigner.ui.home.state.HomeState
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     private val viewModel by viewModel<HomeViewModel>()
 
     private val adapter by lazy {
-        ListDelegationAdapter(QuestAdapterDelegate().createDelegate(::click))
+        QuestAdapterDelegate().createDelegate(::click)
     }
 
     private val decorator = GridPaddingItemDecoration(12.dpToPx())

@@ -1,7 +1,9 @@
 package ru.bitc.totdesigner.platfom.adapter
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.view.animation.DecelerateInterpolator
+import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
@@ -23,7 +25,7 @@ class LoadingAdapterDelegate {
 
     fun createDelegate(click: (LoadingDetailed) -> Unit) =
         AsyncListDifferDelegationAdapter<LoadingDetailed>(
-            LoadingDetailed.DetailedDiff,
+            DetailedDiff,
             AdapterDelegatesManager<List<LoadingDetailed>>()
                 .addDelegate(loadingDetailedAdapter(click))
                 .addDelegate(errorLoadingAdapter(click))
@@ -34,7 +36,7 @@ class LoadingAdapterDelegate {
     private fun headerLoadingAdapter() =
         adapterDelegateLayoutContainer<LoadingDetailed.HeaderTitle, LoadingDetailed>(R.layout.item_header_loading) {
             bind {
-             tvHeader.text = item.title
+                tvHeader.text = item.title
             }
         }
 
@@ -83,6 +85,13 @@ class LoadingAdapterDelegate {
                 tvHint.text = "Повторить"
             }
         }
+}
 
+private object DetailedDiff : DiffUtil.ItemCallback<LoadingDetailed>() {
+    override fun areItemsTheSame(oldItem: LoadingDetailed, newItem: LoadingDetailed): Boolean =
+        oldItem.urlId == newItem.urlId
 
+    @SuppressLint("DiffUtilEquals")
+    override fun areContentsTheSame(oldItem: LoadingDetailed, newItem: LoadingDetailed): Boolean =
+        oldItem == newItem
 }

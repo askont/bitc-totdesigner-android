@@ -30,7 +30,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
     private val viewModel by viewModel<CatalogViewModel>()
 
     private val adapter by lazy {
-        ListDelegationAdapter(QuestAdapterDelegate().createDelegate(::handleClick))
+        QuestAdapterDelegate().createDelegate(::handleClick)
     }
 
     private val decorator = GridPaddingItemDecoration(12.dpToPx())

@@ -1,6 +1,9 @@
 package ru.bitc.totdesigner.platfom.adapter
 
+import android.annotation.SuppressLint
+import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
+import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import kotlinx.android.synthetic.main.item_button.*
 import kotlinx.android.synthetic.main.item_header.*
@@ -16,13 +19,15 @@ import ru.bitc.totdesigner.system.loadImage
  */
 class QuestAdapterDelegate {
 
-    fun createDelegate(click: (QuestItem) -> Unit): AdapterDelegatesManager<List<QuestItem>> =
-        AdapterDelegatesManager<List<QuestItem>>()
-            .addDelegate(headerAdapter())
-            .addDelegate(freeQuestAdapter(click))
-            .addDelegate(titleAdapter(click))
-            .addDelegate(buttonItemAdapter(click))
-            .addDelegate(paidQuestAdapter(click))
+    fun createDelegate(click: (QuestItem) -> Unit): AsyncListDifferDelegationAdapter<QuestItem> =
+        AsyncListDifferDelegationAdapter<QuestItem>(
+            DiffQuestItem, AdapterDelegatesManager<List<QuestItem>>()
+                .addDelegate(headerAdapter())
+                .addDelegate(freeQuestAdapter(click))
+                .addDelegate(titleAdapter(click))
+                .addDelegate(buttonItemAdapter(click))
+                .addDelegate(paidQuestAdapter(click))
+        )
 
 
     private fun headerAdapter() =
@@ -64,5 +69,11 @@ class QuestAdapterDelegate {
             }
         }
 
+}
 
+private object DiffQuestItem : DiffUtil.ItemCallback<QuestItem>() {
+    override fun areItemsTheSame(oldItem: QuestItem, newItem: QuestItem): Boolean = oldItem.hashId == newItem.hashId
+
+    @SuppressLint("DiffUtilEquals")
+    override fun areContentsTheSame(oldItem: QuestItem, newItem: QuestItem): Boolean = oldItem == newItem
 }

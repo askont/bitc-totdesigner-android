@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
+import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import timber.log.Timber
 
 /*
@@ -75,6 +76,10 @@ inline val Context.inflater: LayoutInflater
 fun <T> AbsDelegationAdapter<T>.setData(data: T) {
     items = data
     notifyDataSetChanged()
+}
+
+fun <T> AsyncListDifferDelegationAdapter<T>.setData(data: List<T>) {
+    items = data
 }
 
 fun ImageView.loadImage(url: String) {

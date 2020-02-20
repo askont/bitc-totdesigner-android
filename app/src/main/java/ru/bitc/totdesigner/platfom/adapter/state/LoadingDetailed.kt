@@ -29,14 +29,4 @@ sealed class LoadingDetailed(open val urlId: String) {
         val imageUrl: String,
         val title: String
     ) : LoadingDetailed(urlId)
-
-    object DetailedDiff : DiffUtil.ItemCallback<LoadingDetailed>() {
-        override fun areItemsTheSame(oldItem: LoadingDetailed, newItem: LoadingDetailed): Boolean =
-            oldItem.urlId == newItem.urlId
-
-        @SuppressLint("DiffUtilEquals")
-        override fun areContentsTheSame(oldItem: LoadingDetailed, newItem: LoadingDetailed): Boolean =
-            oldItem == newItem
-    }
-
 }
