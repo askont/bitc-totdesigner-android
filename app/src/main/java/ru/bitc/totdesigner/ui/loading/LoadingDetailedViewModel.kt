@@ -37,17 +37,13 @@ class LoadingDetailedViewModel(
                     loads.map { createDetailedLoading(it.first, it.second) }
                 }
                 .collect {
-                    stateItems(it)
-                    updateItems()
+                    sortRenderTypeItems(it)
                 }
         }
     }
 
-    private fun updateItems() {
 
-    }
-
-    private fun stateItems(items: List<LoadingDetailed>) {
+    private fun sortRenderTypeItems(items: List<LoadingDetailed>) {
         val renderList = mutableListOf<LoadingDetailed>()
         val listLoading = items.filterIsInstance<LoadingDetailed.Loading>()
         if (listLoading.isNotEmpty()) {
@@ -58,6 +54,11 @@ class LoadingDetailedViewModel(
         if (listFinish.isNotEmpty()) {
             renderList.add(LoadingDetailed.HeaderTitle("Готовы к запуску"))
             renderList.addAll(listFinish)
+        }
+        val listError = items.filterIsInstance<LoadingDetailed.Error>()
+        if (listError.isNotEmpty()) {
+            renderList.add(LoadingDetailed.HeaderTitle("Произошла ошибка"))
+            renderList.addAll(listError)
         }
         val newState = currentState.copy(loadingMiniItems = renderList)
         action.value = newState
@@ -85,7 +86,7 @@ class LoadingDetailedViewModel(
                 //TODO Open lesson
             }
             is LoadingDetailed.Loading -> {
-                loadingUseCase.deleteJobByKey(detailed.urlId)
+                downloadNotifier.eventStatus(detailed.urlId, true)
             }
             is LoadingDetailed.Error -> {
                 //TODO Retry job loading

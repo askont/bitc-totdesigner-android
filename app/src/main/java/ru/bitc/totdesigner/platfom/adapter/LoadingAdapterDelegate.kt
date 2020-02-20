@@ -66,8 +66,8 @@ class LoadingAdapterDelegate {
                 ivLoading.loadImage(item.imageUrl)
                 pbLoading.progress = 1000
                 tvTitle.text = item.title
-                tvCancelLoading.text = "открыть"
-                tvHint.text = "Готово"
+                tvCancelLoading.text = getString(R.string.open)
+                tvHint.text = getString(R.string.done)
             }
         }
 
@@ -79,10 +79,10 @@ class LoadingAdapterDelegate {
             }
             bind {
                 ivLoading.loadImage(item.imageUrl)
-                pbLoading.progress = 1000
+                pbLoading.progress = 0
                 tvTitle.text = item.title
-                tvCancelLoading.text = "При загрузке произошла ошибка"
-                tvHint.text = "Повторить"
+                tvHint.text = getString(R.string.download_error_hint)
+                tvCancelLoading.text = getString(R.string.retry)
             }
         }
 }

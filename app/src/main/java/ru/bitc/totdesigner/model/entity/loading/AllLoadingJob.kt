@@ -5,6 +5,7 @@ package ru.bitc.totdesigner.model.entity.loading
  * @author YWeber */
 
 sealed class AllLoadingJob {
-    data class Progress(val countJob: Int,val duration:Int) : AllLoadingJob()
+    data class Progress(val countJob: Int, val duration: Int) : AllLoadingJob()
     object Finish : AllLoadingJob()
+    object Error : AllLoadingJob()
 }

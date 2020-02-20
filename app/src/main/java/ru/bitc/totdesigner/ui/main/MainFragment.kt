@@ -2,6 +2,7 @@ package ru.bitc.totdesigner.ui.main
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -36,6 +37,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
     }
 
     private fun handleState(state: MainState) {
+
         containerLoading.isVisible = state.visibleLoadingHolder()
         val animator = ObjectAnimator.ofInt(pbLoading, "progress", 1, 101)
         if (state.visibleLoadingHolder()) {
@@ -49,6 +51,9 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         }
         pbLoading.progress = state.durationProgress
         tvProgressHint.text = state.messageLoading
+        if (state.isError) {
+            Toast.makeText(requireContext(), "Произошла ошибка", Toast.LENGTH_LONG).show()
+        }
     }
 
 

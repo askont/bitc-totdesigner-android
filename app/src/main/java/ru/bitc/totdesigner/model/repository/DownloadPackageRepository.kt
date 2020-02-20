@@ -27,7 +27,7 @@ class DownloadPackageRepository(
             emit(LoadingPackage.Error(lessonUrl, "Error download"))
             Timber.e(e)
         }
-    }.flowOn(dispatcher.io)
+    }
 
 
 }
