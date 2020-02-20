@@ -1,19 +1,21 @@
-package ru.bitc.totdesigner.ui.loading.state
+package ru.bitc.totdesigner.platfom.adapter.state
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
-import kotlin.random.Random
 
 /**
  * Created on 12.02.2020
  * @author YWeber */
 
 sealed class LoadingDetailed(open val urlId: String) {
+
+    data class HeaderTitle(val title: String) : LoadingDetailed("hash:${title.hashCode()}")
+
     data class Loading(
         override val urlId: String,
         val imageUrl: String,
         val title: String,
-        val durationProgress: Long = 10000 + Random.nextLong(10000) * Random.nextDouble(5.0).toInt()
+        val durationProgress: Long
     ) : LoadingDetailed(urlId)
 
     data class Finish(

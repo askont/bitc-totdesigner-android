@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="@dimen/margin_16"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_48"
+        android:textSize="@dimen/font_22"
+        android:textColor="@color/colorWhiteText"
+        tools:text="@string/title_catalog" />
+</FrameLayout>

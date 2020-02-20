@@ -3,8 +3,8 @@ package ru.bitc.totdesigner.platfom.adapter
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import kotlinx.android.synthetic.main.item_button.*
-import kotlinx.android.synthetic.main.item_quest.*
 import kotlinx.android.synthetic.main.item_header.*
+import kotlinx.android.synthetic.main.item_quest.*
 import kotlinx.android.synthetic.main.item_title.*
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.adapter.state.*
@@ -28,7 +28,7 @@ class QuestAdapterDelegate {
     private fun headerAdapter() =
         adapterDelegateLayoutContainer<HeaderItem, QuestItem>(R.layout.item_header) {
             bind {
-                tvTitle.text = item.title
+                tvHeaderTitle.text = item.title
                 tvDescription.text = item.description
             }
         }

@@ -9,13 +9,13 @@ import ru.bitc.totdesigner.system.notifier.model.FreeDownloadPackage
  * @author YWeber */
 class DownloadNotifier {
 
-    private val action = BroadcastChannel<FreeDownloadPackage>(10)
-    private val actionAllVisible = BroadcastChannel<Boolean>(10)
+    private val action = BroadcastChannel<String>(10)
+    private val actionAllVisible = BroadcastChannel<Boolean>(2)
 
     fun subscribeStatus() = action.asFlow()
 
-    fun eventStatus(newStatus: FreeDownloadPackage) {
-        action.offer(newStatus)
+    fun eventStatus(lessonUrl: String) {
+        action.offer(lessonUrl)
         eventVisible(true)
     }
 
@@ -24,5 +24,7 @@ class DownloadNotifier {
     fun eventVisible(visible: Boolean) {
         actionAllVisible.offer(visible)
     }
+
+
 
 }

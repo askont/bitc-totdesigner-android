@@ -54,7 +54,7 @@ class MainViewModel(
     private fun createEventJob(): Job {
         return launch {
             downloadNotifier.subscribeStatus()
-                .flatMapLatest { downloadUseCase.getCountAllLoadingPackage(it.lessonUrl) }
+                .flatMapLatest { downloadUseCase.getCountAllLoadingPackage(it) }
                 .collect { progress ->
                     when (progress) {
                         is AllLoadingJob.Progress -> {

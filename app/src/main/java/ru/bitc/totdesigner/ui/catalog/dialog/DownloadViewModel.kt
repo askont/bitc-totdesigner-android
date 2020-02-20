@@ -8,7 +8,6 @@ import ru.bitc.totdesigner.model.interactor.LessonUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.system.ResourceManager
 import ru.bitc.totdesigner.system.notifier.DownloadNotifier
-import ru.bitc.totdesigner.system.notifier.model.FreeDownloadPackage
 import ru.bitc.totdesigner.ui.catalog.dialog.state.DownloadViewState
 import timber.log.Timber
 
@@ -61,7 +60,7 @@ class DownloadViewModel(
     fun download() {
         Timber.d("lesson url ${currentState.lessonUrl}")
         if (currentState.lessonUrl.isEmpty()) return
-        downloadNotifier.eventStatus(FreeDownloadPackage(currentState.nameLesson,currentState.lessonUrl))
+        downloadNotifier.eventStatus(currentState.lessonUrl)
     }
 
 }

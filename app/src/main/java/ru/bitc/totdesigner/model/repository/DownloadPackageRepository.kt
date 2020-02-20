@@ -7,6 +7,7 @@ import ru.bitc.totdesigner.model.entity.loading.LoadingPackage
 import ru.bitc.totdesigner.model.http.SoapApi
 import ru.bitc.totdesigner.system.flow.DispatcherProvider
 import timber.log.Timber
+import kotlin.random.Random
 
 /**
  * Created on 27.01.2020
@@ -18,7 +19,7 @@ class DownloadPackageRepository(
 ) {
 
     fun downloadPackage(lessonUrl: String): Flow<LoadingPackage> = flow {
-        emit(LoadingPackage.Loading(lessonUrl, 2000))
+        emit(LoadingPackage.Loading(lessonUrl, 10000))
         try {
             api.downloadLessonPackage(lessonUrl)
             emit(LoadingPackage.Finish(lessonUrl))

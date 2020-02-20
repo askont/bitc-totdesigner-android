@@ -6,12 +6,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tvHeaderTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_16"
         android:textSize="@dimen/font_31"
-        app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
         tools:text="@string/title_catalog" />
 
     <TextView

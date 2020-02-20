@@ -72,7 +72,7 @@ class DownloadPackageUseCaseTest {
                 .collect()
         }
         runBlockingTest {
-            downloadUseCase.getListLoadingPackageJob()
+            downloadUseCase.getListPairLoadingAndPreview()
                 .collect {
                     println(it)
                 }
