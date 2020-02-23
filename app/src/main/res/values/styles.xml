@@ -24,7 +24,7 @@
     </style>
 
     <style name="Splash" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/img_splash_screen</item>
+        <item name="android:windowBackground">@drawable/img_splash_screen_new</item>
     </style>
 
     <style name="BottomNavigation">
