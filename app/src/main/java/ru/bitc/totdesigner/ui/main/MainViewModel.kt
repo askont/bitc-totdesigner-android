@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
@@ -117,7 +118,7 @@ class MainViewModel(
 
     fun cancelAllJobLoading() {
         downloadUseCase.cancelAllJob()
-        allLoadingJobs.cancel()
+        allLoadingJobs.cancelChildren()
         updateState(finishLoading = false, isError = false)
         allLoadingJobs = createEventJob()
     }

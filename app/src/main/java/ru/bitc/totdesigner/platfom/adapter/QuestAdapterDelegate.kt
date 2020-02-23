@@ -6,11 +6,12 @@ import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import kotlinx.android.synthetic.main.item_button.*
-import kotlinx.android.synthetic.main.item_header.*
+import kotlinx.android.synthetic.main.item_header_catalog.*
 import kotlinx.android.synthetic.main.item_quest.*
 import kotlinx.android.synthetic.main.item_title.*
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.adapter.state.*
+import ru.bitc.totdesigner.system.click
 import ru.bitc.totdesigner.system.loadImage
 
 /*
@@ -22,16 +23,16 @@ class QuestAdapterDelegate {
     fun createDelegate(click: (QuestItem) -> Unit): AsyncListDifferDelegationAdapter<QuestItem> =
         AsyncListDifferDelegationAdapter<QuestItem>(
             DiffQuestItem, AdapterDelegatesManager<List<QuestItem>>()
-                .addDelegate(headerAdapter())
+                .addDelegate(headerAdapter(click))
                 .addDelegate(freeQuestAdapter(click))
                 .addDelegate(titleAdapter(click))
                 .addDelegate(buttonItemAdapter(click))
                 .addDelegate(paidQuestAdapter(click))
         )
 
-
-    private fun headerAdapter() =
-        adapterDelegateLayoutContainer<HeaderItem, QuestItem>(R.layout.item_header) {
+    private fun headerAdapter(click: (QuestItem) -> Unit) =
+        adapterDelegateLayoutContainer<HeaderItem, QuestItem>(R.layout.item_header_catalog) {
+            tvDownloadDetailed.click { click(item) }
             bind {
                 tvHeaderTitle.text = item.title
                 tvDescription.text = item.description

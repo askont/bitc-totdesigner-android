@@ -2,8 +2,10 @@ package ru.bitc.totdesigner.ui.loading
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.flow.collect
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import ru.bitc.totdesigner.model.entity.PreviewLessons
 import ru.bitc.totdesigner.model.entity.loading.LoadingPackage
 import ru.bitc.totdesigner.model.interactor.DownloadPackageUseCase
@@ -31,15 +33,12 @@ class LoadingDetailedViewModel(
         get() = action
 
     init {
-        launch {
-            loadingUseCase.getListPairLoadingAndPreview()
-                .map { loads ->
-                    loads.map { createDetailedLoading(it.first, it.second) }
-                }
-                .collect {
-                    sortRenderTypeItems(it)
-                }
-        }
+        loadingUseCase.getListPairLoadingAndPreview()
+            .map { loads ->
+                loads.map { createDetailedLoading(it.first, it.second) }
+            }
+            .onEach { sortRenderTypeItems(it) }
+            .launchIn(viewModelScope)
     }
 
 
@@ -101,5 +100,16 @@ class LoadingDetailedViewModel(
 
     fun backTo() {
         mainRouter.exit()
+    }
+
+    fun cancelAll() {
+        currentState.loadingMiniItems.filterIsInstance<LoadingDetailed.Loading>()
+            .forEach {
+                downloadNotifier.eventStatus(it.urlId, true)
+            }
+    }
+
+    fun clearDoneAndError() {
+        loadingUseCase.clearFinishAndError()
     }
 }

@@ -44,7 +44,7 @@ object AppModules {
         viewModel { AppViewModel(get(), get()) }
         viewModel {
             val cicerone = get<LocalCiceroneHolder>()
-            CatalogViewModel(cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router, get(), get())
+            CatalogViewModel(cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router, get(), get(), get())
         }
         viewModel {
             val cicerone = get<LocalCiceroneHolder>()

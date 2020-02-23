@@ -3,6 +3,7 @@ package ru.bitc.totdesigner.model.interactor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import ru.bitc.totdesigner.model.entity.PreviewLessons
@@ -45,7 +46,7 @@ class DownloadPackageUseCase(
     }
 
     private fun deleteDuplicateJob(lessonUrl: String) {
-        jobsLoading[lessonUrl]?.cancel()
+        jobsLoading[lessonUrl]?.cancelChildren()
         jobsLoading.remove(lessonUrl)
         val loading = previewLoading
             .filterIsInstance<LoadingPackage.Loading>()
@@ -80,12 +81,14 @@ class DownloadPackageUseCase(
     }
 
 
-    suspend fun getListPairLoadingAndPreview(): Flow<List<Pair<LoadingPackage, PreviewLessons.Lesson>>> {
-        val lessonsPreview = lessonRepository.getPreviewLessons()
+    fun getListPairLoadingAndPreview(): Flow<List<Pair<LoadingPackage, PreviewLessons.Lesson>>> {
+        val lessonsPreview = CoroutineScope(dispatcher.io)
+            .async { lessonRepository.getPreviewLessons() }
         return eventUpdateFlow.asFlow()
+            .map { lessonsPreview.await() }
             .map {
                 previewLoading
-                    .map { load -> createPairLessonAndLoading(load, lessonsPreview) }
+                    .map { load -> createPairLessonAndLoading(load, it) }
                     .filterIsInstance<Pair<LoadingPackage, PreviewLessons.Lesson>>()
             }
     }
@@ -101,12 +104,19 @@ class DownloadPackageUseCase(
 
     fun cancelAllJob() {
         jobsLoading.values.forEach { job ->
-            job.cancel()
+            job.cancelChildren()
         }
         val notLoadingList = previewLoading.filter { it !is LoadingPackage.Loading }
         previewLoading.clear()
         previewLoading.addAll(notLoadingList)
         jobsLoading.clear()
+        eventUpdateFlow.offer(true)
+    }
+
+    fun clearFinishAndError() {
+        val loading = previewLoading.filterIsInstance<LoadingPackage.Loading>()
+        previewLoading.clear()
+        previewLoading.addAll(loading)
         eventUpdateFlow.offer(true)
     }
 }

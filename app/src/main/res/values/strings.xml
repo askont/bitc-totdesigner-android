@@ -30,4 +30,5 @@
     <string name="retry">Повторить</string>
     <string name="open">открыть</string>
     <string name="done">Готово</string>
+    <string name="download_list">ЗАГРУЗКИ</string>
 </resources>
