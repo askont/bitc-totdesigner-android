@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import ru.bitc.totdesigner.R
-import ru.bitc.totdesigner.model.entity.loading.AllLoadingJob
+import ru.bitc.totdesigner.model.entity.loading.ProcessDownloading
 import ru.bitc.totdesigner.model.interactor.DownloadPackageUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.platfom.navigation.AppScreens
@@ -56,10 +56,10 @@ class MainViewModel(
 
     private fun createEventJob(): Job {
         return downloadNotifier.subscribeStatus()
-            .flatMapLatest { downloadUseCase.getCountAllLoadingPackage(it.lessonUrl, it.isDelete) }
+            .flatMapLatest { downloadUseCase.processTaskEventLoadingCount(it.lessonUrl, it.isDelete) }
             .onEach { progress ->
                 when (progress) {
-                    is AllLoadingJob.Progress -> {
+                    is ProcessDownloading.Count -> {
                         val message = resourceManager.getString(R.string.loading_progress_messages, progress.countJob)
                         updateState(
                             message = message,
@@ -68,10 +68,10 @@ class MainViewModel(
                             isError = false
                         )
                     }
-                    is AllLoadingJob.Finish -> {
+                    is ProcessDownloading.Finish -> {
                         updateState(finishLoading = false, isError = false)
                     }
-                    is AllLoadingJob.Error -> {
+                    is ProcessDownloading.Error -> {
                         updateState(finishLoading = false, isError = true)
                     }
                 }

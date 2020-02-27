@@ -7,8 +7,8 @@ import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import ru.bitc.totdesigner.model.entity.PreviewLessons
-import ru.bitc.totdesigner.model.entity.loading.AllLoadingJob
 import ru.bitc.totdesigner.model.entity.loading.LoadingPackage
+import ru.bitc.totdesigner.model.entity.loading.ProcessDownloading
 import ru.bitc.totdesigner.model.repository.DownloadPackageRepository
 import ru.bitc.totdesigner.model.repository.LessonRepository
 import ru.bitc.totdesigner.system.flow.DispatcherProvider
@@ -26,12 +26,11 @@ class DownloadPackageUseCase(
     private val previewLoading = mutableListOf<LoadingPackage>()
     private val eventUpdateFlow = ConflatedBroadcastChannel<Boolean>()
 
-    fun getCountAllLoadingPackage(lessonUrl: String, isDelete: Boolean): Flow<AllLoadingJob> {
-        val async = CoroutineScope(dispatcher.ui).async {
-            repository.downloadPackage(lessonUrl)
-        }
+    fun processTaskEventLoadingCount(lessonUrl: String, isDelete: Boolean): Flow<ProcessDownloading> {
         if (!jobsLoading.containsKey(lessonUrl)) {
-            jobsLoading[lessonUrl] = async
+            jobsLoading[lessonUrl] = CoroutineScope(dispatcher.ui).async {
+                repository.downloadPackage(lessonUrl)
+            }
         } else if (isDelete) deleteDuplicateJob(lessonUrl)
 
         return if (jobsLoading.isNotEmpty()) {
@@ -42,7 +41,7 @@ class DownloadPackageUseCase(
                 .distinctUntilChanged()
                 .map { if (it is LoadingPackage.Error) -1 else jobsLoading.size }
                 .map { createEntityJob(it) }
-        } else flow { emit(AllLoadingJob.Finish) }
+        } else flow { emit(ProcessDownloading.Finish) }
     }
 
     private fun deleteDuplicateJob(lessonUrl: String) {
@@ -66,7 +65,7 @@ class DownloadPackageUseCase(
 
     private fun correctingEventLoading(loads: LoadingPackage) {
         if (loads !is LoadingPackage.Loading) {
-            jobsLoading.remove(loads.urlId)
+            jobsLoading.remove(loads.urlId)?.cancelChildren()
             val loading = previewLoading
                 .filterIsInstance<LoadingPackage.Loading>().firstOrNull { it.urlId == loads.urlId }
             previewLoading.remove(loading ?: return)
@@ -74,10 +73,10 @@ class DownloadPackageUseCase(
         eventUpdateFlow.offer(true)
     }
 
-    private fun createEntityJob(it: Int): AllLoadingJob = when (it) {
-        0 -> AllLoadingJob.Finish
-        -1 -> AllLoadingJob.Error
-        else -> AllLoadingJob.Progress(it, 2000 * it)
+    private fun createEntityJob(it: Int): ProcessDownloading = when (it) {
+        0 -> ProcessDownloading.Finish
+        -1 -> ProcessDownloading.Error
+        else -> ProcessDownloading.Count(it, 2000 * it * 2)
     }
 
 
@@ -113,7 +112,7 @@ class DownloadPackageUseCase(
         eventUpdateFlow.offer(true)
     }
 
-    fun clearFinishAndError() {
+    fun clearFinishAndErrorType() {
         val loading = previewLoading.filterIsInstance<LoadingPackage.Loading>()
         previewLoading.clear()
         previewLoading.addAll(loading)

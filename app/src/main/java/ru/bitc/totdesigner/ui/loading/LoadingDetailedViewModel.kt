@@ -110,6 +110,6 @@ class LoadingDetailedViewModel(
     }
 
     fun clearDoneAndError() {
-        loadingUseCase.clearFinishAndError()
+        loadingUseCase.clearFinishAndErrorType()
     }
 }

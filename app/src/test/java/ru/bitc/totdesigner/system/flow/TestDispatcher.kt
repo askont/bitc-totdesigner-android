@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 
 class TestDispatcher : DispatcherProvider {
-    private val testDispatcher = TestCoroutineDispatcher()
+    val testDispatcher = TestCoroutineDispatcher()
 
     override val ui: CoroutineDispatcher = testDispatcher
     override val io: CoroutineDispatcher = testDispatcher

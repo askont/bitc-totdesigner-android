@@ -39,7 +39,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
     private fun handleState(state: MainState) {
 
         containerLoading.isVisible = state.visibleLoadingHolder()
-        val animator = ObjectAnimator.ofInt(pbLoading, "progress", 1, 101)
+        val animator = ObjectAnimator.ofInt(pbLoading, "progress", 1, 1000)
         if (state.visibleLoadingHolder()) {
             animator.duration = state.durationProgress.toLong()
             animator.interpolator = interpolator
