@@ -2,11 +2,15 @@ package ru.bitc.totdesigner.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import ru.bitc.totdesigner.R
-import ru.bitc.totdesigner.model.entity.loading.AllLoadingJob
+import ru.bitc.totdesigner.model.entity.loading.ProcessDownloading
 import ru.bitc.totdesigner.model.interactor.DownloadPackageUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.platfom.navigation.AppScreens
@@ -30,14 +34,13 @@ class MainViewModel(
 ) : BaseViewModel(navigatorHolder) {
 
     private val action = MutableLiveData<MainState>()
+
     private val currentState
-        get() = action.value ?: MainState(
-            "", 0,
-            finishLoading = false,
-            visibleLoading = false
-        )
+        get() = action.value ?: MainState.DEFAULT
+
     val viewState: LiveData<MainState>
         get() = action
+
     private var allLoadingJobs: Job
 
     init {
@@ -52,35 +55,43 @@ class MainViewModel(
     }
 
     private fun createEventJob(): Job {
-        return launch {
-            downloadNotifier.subscribeStatus()
-                .flatMapLatest { downloadUseCase.getCountAllLoadingPackage(it) }
-                .collect { progress ->
-                    when (progress) {
-                        is AllLoadingJob.Progress -> {
-                            val message =
-                                resourceManager.getString(R.string.loading_progress_messages, progress.countJob)
-                            updateState(message = message, progressDuration = progress.duration, finishLoading = true)
-                        }
-                        is AllLoadingJob.Finish -> {
-                            updateState(finishLoading = false)
-                        }
+        return downloadNotifier.subscribeStatus()
+            .flatMapLatest { downloadUseCase.processTaskEventLoadingCount(it.lessonUrl, it.lessonName, it.isDelete) }
+            .onEach { progress ->
+                when (progress) {
+                    is ProcessDownloading.Count -> {
+                        val message = resourceManager.getString(R.string.loading_progress_messages, progress.countJob)
+                        updateState(
+                            message = message,
+                            progressDuration = progress.duration,
+                            finishLoading = true,
+                            isError = false
+                        )
+                    }
+                    is ProcessDownloading.Finish -> {
+                        updateState(finishLoading = false, isError = false)
+                    }
+                    is ProcessDownloading.Error -> {
+                        updateState(finishLoading = false, isError = true)
                     }
                 }
-        }
+            }
+            .launchIn(viewModelScope)
     }
 
     private fun updateState(
         message: String = currentState.messageLoading,
         progressDuration: Int = currentState.durationProgress,
         finishLoading: Boolean = currentState.finishLoading,
-        visibleLoading: Boolean = currentState.visibleLoading
+        visibleLoading: Boolean = currentState.visibleLoading,
+        isError: Boolean = currentState.isError
     ) {
         val newState = currentState.copy(
             messageLoading = message,
             finishLoading = finishLoading,
             durationProgress = progressDuration,
-            visibleLoading = visibleLoading
+            visibleLoading = visibleLoading,
+            isError = isError
         )
         action.value = newState
     }
@@ -107,8 +118,8 @@ class MainViewModel(
 
     fun cancelAllJobLoading() {
         downloadUseCase.cancelAllJob()
-        allLoadingJobs.cancel()
-        updateState(finishLoading = false)
+        allLoadingJobs.cancelChildren()
+        updateState(finishLoading = false, isError = false)
         allLoadingJobs = createEventJob()
     }
 

@@ -11,6 +11,7 @@ import ru.bitc.totdesigner.platfom.adapter.state.*
 import ru.bitc.totdesigner.platfom.navigation.MainScreens
 import ru.bitc.totdesigner.platfom.state.State
 import ru.bitc.totdesigner.system.ResourceManager
+import ru.bitc.totdesigner.system.notifier.DownloadNotifier
 import ru.bitc.totdesigner.ui.catalog.state.CatalogState
 import ru.terrakok.cicerone.Router
 
@@ -19,20 +20,18 @@ import ru.terrakok.cicerone.Router
  * @author YWeber
  */
 class CatalogViewModel(
-    private val router: Router,
+    private val mainRouter: Router,
     private val resourceManager: ResourceManager,
-    private val useCase: LessonUseCase
+    private val useCase: LessonUseCase,
+    private val downloadNotifier: DownloadNotifier
 ) : BaseViewModel() {
 
     private val action = MutableLiveData<CatalogState>()
     private var searchJob: Job? = null
-
     private val currentState
         get() = action.value ?: defaultCatalogData()
-
     val viewState: LiveData<CatalogState>
         get() = action
-
     private fun defaultCatalogData(): CatalogState {
         return CatalogState(State.Loaded, listOf(), scrollToStart = false)
     }
@@ -72,24 +71,12 @@ class CatalogViewModel(
         if (fullItems.isNotEmpty()) {
             val title = resourceManager.getString(R.string.title_catalog)
             val description = resourceManager.getString(R.string.description_catalog)
-            fullItems.add(0,HeaderItem(title, description, ""))
+            fullItems.add(0, HeaderItem(title, description, ""))
         }
         action.value = currentState.copy(
             questItems = fullItems,
             questItemEmpty = fullItems.isNotEmpty()
         )
-    }
-
-    private fun addFreeItem(lessons: List<PreviewLessons.Lesson>): List<QuestItem> {
-        val items = lessons
-            .filter { it.category == PreviewLessons.Category.FREE }
-            .map { FreeCardQuestItem(it.title, it.imageUrl) }
-        val currentItemsMutable = mutableListOf<QuestItem>()
-        if (items.isNotEmpty()) {
-            currentItemsMutable.add(TitleQuestItem(resourceManager.getString(R.string.title_free_quest_item)))
-        }
-        currentItemsMutable.addAll(items)
-        return currentItemsMutable.toList()
     }
 
     private fun addPaidItem(lessons: List<PreviewLessons.Lesson>): List<QuestItem> {
@@ -104,6 +91,18 @@ class CatalogViewModel(
         return currentItemsMutable.toList()
     }
 
+    private fun addFreeItem(lessons: List<PreviewLessons.Lesson>): List<QuestItem> {
+        val items = lessons
+            .filter { it.category == PreviewLessons.Category.FREE }
+            .map { FreeCardQuestItem(it.title, it.imageUrl) }
+        val currentItemsMutable = mutableListOf<QuestItem>()
+        if (items.isNotEmpty()) {
+            currentItemsMutable.add(TitleQuestItem(resourceManager.getString(R.string.title_free_quest_item)))
+        }
+        currentItemsMutable.addAll(items)
+        return currentItemsMutable.toList()
+    }
+
     fun eventClick(questItem: QuestItem) {
         when (questItem) {
             is ButtonQuestItem -> {
@@ -111,11 +110,15 @@ class CatalogViewModel(
             }
             is FreeCardQuestItem -> {
                 action.value = currentState.copy(scrollToStart = false)
-                router.navigateTo(MainScreens.FreeDownloadDialogScreen(questItem.name))
+                mainRouter.navigateTo(MainScreens.FreeDownloadDialogScreen(questItem.name))
             }
             is PaidCardQuestItem -> {
                 action.value = currentState.copy(scrollToStart = false)
-                router.navigateTo(MainScreens.FreeDownloadDialogScreen(questItem.name))
+                mainRouter.navigateTo(MainScreens.FreeDownloadDialogScreen(questItem.name))
+            }
+            is HeaderItem -> {
+                downloadNotifier.eventVisible(false)
+                mainRouter.navigateTo(MainScreens.LoadingDetailedScreen)
             }
         }
     }

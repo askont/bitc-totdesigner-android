@@ -26,4 +26,9 @@
     <string name="back_to_catalog">ВЕРНУТЬСЯ В КАТАЛОГ</string>
     <string name="clear_list">ОЧИСТИТЬ СПИСОК</string>
     <string name="cancel_all">ОТМЕНИТЬ ВСЕ</string>
+    <string name="download_error_hint">При загрузке произошла ошибка</string>
+    <string name="retry">Повторить</string>
+    <string name="open">открыть</string>
+    <string name="done">Готово</string>
+    <string name="download_list">ЗАГРУЗКИ</string>
 </resources>
