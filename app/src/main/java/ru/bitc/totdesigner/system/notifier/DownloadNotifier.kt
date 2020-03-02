@@ -14,8 +14,8 @@ class DownloadNotifier {
 
     fun subscribeStatus() = action.asFlow()
 
-    fun eventStatus(lessonUrl: String, isDelete: Boolean = false) {
-        action.offer(Event(lessonUrl, isDelete))
+    fun eventStatus(lessonUrl: String, lessonName: String, isDelete: Boolean = false) {
+        action.offer(Event(lessonUrl, lessonName, isDelete))
         eventVisible(!isDelete)
     }
 
@@ -27,6 +27,7 @@ class DownloadNotifier {
 
     data class Event(
         val lessonUrl: String,
+        val lessonName: String,
         val isDelete: Boolean
     )
 

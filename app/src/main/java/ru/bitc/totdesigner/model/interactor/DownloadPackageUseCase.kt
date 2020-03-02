@@ -26,10 +26,14 @@ class DownloadPackageUseCase(
     private val previewLoading = mutableListOf<LoadingPackage>()
     private val eventUpdateFlow = ConflatedBroadcastChannel<Boolean>()
 
-    fun processTaskEventLoadingCount(lessonUrl: String, isDelete: Boolean): Flow<ProcessDownloading> {
+    fun processTaskEventLoadingCount(
+        lessonUrl: String,
+        lessonName: String,
+        isDelete: Boolean
+    ): Flow<ProcessDownloading> {
         if (!jobsLoading.containsKey(lessonUrl)) {
             jobsLoading[lessonUrl] = CoroutineScope(dispatcher.ui).async {
-                repository.downloadPackage(lessonUrl)
+                repository.downloadPackage(lessonUrl, lessonName)
             }
         } else if (isDelete) deleteDuplicateJob(lessonUrl)
 

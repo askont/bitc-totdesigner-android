@@ -85,7 +85,7 @@ class LoadingDetailedViewModel(
                 //TODO Open lesson
             }
             is LoadingDetailed.Loading -> {
-                downloadNotifier.eventStatus(detailed.urlId, true)
+                downloadNotifier.eventStatus(detailed.urlId, detailed.title, true)
             }
             is LoadingDetailed.Error -> {
                 //TODO Retry job loading
@@ -105,7 +105,7 @@ class LoadingDetailedViewModel(
     fun cancelAll() {
         currentState.loadingMiniItems.filterIsInstance<LoadingDetailed.Loading>()
             .forEach {
-                downloadNotifier.eventStatus(it.urlId, true)
+                downloadNotifier.eventStatus(it.urlId, it.title, true)
             }
     }
 
