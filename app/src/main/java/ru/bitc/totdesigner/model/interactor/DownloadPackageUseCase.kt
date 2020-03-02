@@ -80,8 +80,11 @@ class DownloadPackageUseCase(
     }
 
 
-    fun getListPairLoadingAndPreview(): Flow<List<Pair<LoadingPackage, PreviewLessons.Lesson>>> {
-        val lessonsPreview = CoroutineScope(dispatcher.io)
+    /**
+     * hot list observe, when change lessonsPreview should new event pair
+     * */
+    fun eventListPairProcessLoadingAndPreview(): Flow<List<Pair<LoadingPackage, PreviewLessons.Lesson>>> {
+        val lessonsPreview = CoroutineScope(dispatcher.ui)
             .async { lessonRepository.getPreviewLessons() }
         return eventUpdateFlow.asFlow()
             .map { lessonsPreview.await() }

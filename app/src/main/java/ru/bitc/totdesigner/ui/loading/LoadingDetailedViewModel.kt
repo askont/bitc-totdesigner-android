@@ -33,7 +33,7 @@ class LoadingDetailedViewModel(
         get() = action
 
     init {
-        loadingUseCase.getListPairLoadingAndPreview()
+        loadingUseCase.eventListPairProcessLoadingAndPreview()
             .map { loads ->
                 loads.map { createDetailedLoading(it.first, it.second) }
             }

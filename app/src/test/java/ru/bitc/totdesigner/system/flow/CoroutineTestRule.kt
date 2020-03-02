@@ -12,6 +12,9 @@ import org.junit.runner.Description
  * @author YWeber */
 
 class CoroutineTestRule(private val dispatcherProvider: TestDispatcher = TestDispatcher()) : TestWatcher() {
+    val context
+        get() = dispatcherProvider.testDispatcher
+
     override fun starting(description: Description?) {
         super.starting(description)
         Dispatchers.setMain(dispatcher = dispatcherProvider.testDispatcher)
