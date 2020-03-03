@@ -24,7 +24,7 @@ class DownloadPackageUseCaseTest {
 
     private lateinit var downloadUseCase: DownloadPackageUseCase
     private val downloadRepository = mock<DownloadPackageRepository> {
-        on { downloadPackage(any()) }.thenReturn(flow {
+        on { downloadPackage(any(), any()) }.thenReturn(flow {
             emit(LoadingPackage.Loading(lessonInfoFake.lessonUrl, 100))
         })
     }
@@ -46,14 +46,14 @@ class DownloadPackageUseCaseTest {
     fun `when new task event subscribe should be return job process count `() {
         //given
         coroutineTest.test {
-            downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, false)
+            downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, "test", false)
                 .collect {
                     println(it)
                     Assertions.assertThat(it).isInstanceOf(ProcessDownloading.Count::class.java)
                 }
         }
         verifyBlocking(downloadRepository, {
-            downloadPackage(any())
+            downloadPackage(any(), any())
         })
     }
 
@@ -61,14 +61,14 @@ class DownloadPackageUseCaseTest {
     fun `when process task event finish should event process loading count and finish`() {
         //when
         coroutineTest.test {
-            whenever(downloadRepository.downloadPackage(any())).thenReturn(flow {
+            whenever(downloadRepository.downloadPackage(any(), any())).thenReturn(flow {
                 emit(LoadingPackage.Loading(lessonInfoFake.lessonUrl, 2000))
                 emit(LoadingPackage.Finish(lessonInfoFake.lessonUrl))
             })
         }
         //given
         coroutineTest.test {
-            downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, false)
+            downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, "test", false)
                 .collect {
                     println(it)
                     Assertions.assertThat(it)
@@ -79,7 +79,7 @@ class DownloadPackageUseCaseTest {
                 }
         }
         verifyBlocking(downloadRepository, {
-            downloadPackage(any())
+            downloadPackage(any(), any())
         })
     }
 
@@ -87,13 +87,13 @@ class DownloadPackageUseCaseTest {
     fun `when put url contains this and flag delete should new event emit and delete old job`() {
         //when
         coroutineTest.test {
-            whenever(downloadRepository.downloadPackage(any())).thenReturn(flow {
+            whenever(downloadRepository.downloadPackage(any(), any())).thenReturn(flow {
                 emit(LoadingPackage.Loading(lessonInfoFake.lessonUrl, 2000))
             })
         }
         //given
         coroutineTest.test {
-            downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, false)
+            downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, "test", false)
                 .collect {
                     println(it)
                     Assertions.assertThat(it)
@@ -101,10 +101,10 @@ class DownloadPackageUseCaseTest {
                 }
         }
         verifyBlocking(downloadRepository, times(1), {
-            downloadPackage(any())
+            downloadPackage(any(), any())
         })
         coroutineTest.test {
-            downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, true)
+            downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, "test", true)
                 .collect {
                     println(it)
                     Assertions.assertThat(it)
@@ -117,13 +117,13 @@ class DownloadPackageUseCaseTest {
     fun `when process error should be event error type process`() {
         //when
         coroutineTest.test {
-            whenever(downloadRepository.downloadPackage(any())).thenReturn(flow {
+            whenever(downloadRepository.downloadPackage(any(), any())).thenReturn(flow {
                 emit(LoadingPackage.Error(lessonInfoFake.lessonUrl, "return error server code 500"))
             })
         }
         // given
         coroutineTest.test {
-            downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, true)
+            downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, "test", true)
                 .collect {
                     println(it)
                     Assertions.assertThat(it)
@@ -137,7 +137,7 @@ class DownloadPackageUseCaseTest {
     fun `when process event start should be event list actual pair lessonPreview and process`() {
         // when
         coroutineTest.test {
-            whenever(downloadRepository.downloadPackage(any())).thenReturn(flow {
+            whenever(downloadRepository.downloadPackage(any(), any())).thenReturn(flow {
                 emit(LoadingPackage.Loading(lessonInfoFake.lessonUrl, 2000))
                 emit(LoadingPackage.Error(lessonInfoFake.lessonUrl, "response server code 500"))
                 emit(LoadingPackage.Finish(lessonInfoFake.lessonUrl))
@@ -148,7 +148,7 @@ class DownloadPackageUseCaseTest {
 
         //given
         coroutineTest.test {
-            downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, false)
+            downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, "test", false)
                 .collect {
                     Assertions.assertThat(it).isInstanceOfAny(
                         ProcessDownloading.Count::class.java,
@@ -172,7 +172,7 @@ class DownloadPackageUseCaseTest {
     fun `when cancel all process loading should be event process finish entity`() {
         //when
         coroutineTest.test {
-            whenever(downloadRepository.downloadPackage(any())).thenReturn(flow {
+            whenever(downloadRepository.downloadPackage(any(), any())).thenReturn(flow {
                 emit(LoadingPackage.Loading(lessonInfoFake.lessonUrl, 2000))
                 emit(LoadingPackage.Error(lessonInfoFake.lessonUrl, "response server code 500"))
                 emit(LoadingPackage.Finish(lessonInfoFake.lessonUrl))
@@ -180,7 +180,7 @@ class DownloadPackageUseCaseTest {
             whenever(lessonRepository.getPreviewLessons()).thenReturn(previewLessonsFake)
         }
         coroutineTest.test {
-            downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, false)
+            downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, "test", false)
                 .collect()
         }
         //given
@@ -199,7 +199,7 @@ class DownloadPackageUseCaseTest {
     fun `when clear error type and finish type should be even only loading type`() {
         //when
         coroutineTest.test {
-            whenever(downloadRepository.downloadPackage(any())).thenReturn(flow {
+            whenever(downloadRepository.downloadPackage(any(), any())).thenReturn(flow {
                 emit(LoadingPackage.Loading(lessonInfoFake.lessonUrl, 2000))
                 emit(LoadingPackage.Error(lessonInfoFake.lessonUrl, "response server code 500"))
                 emit(LoadingPackage.Finish(lessonInfoFake.lessonUrl))
@@ -207,7 +207,7 @@ class DownloadPackageUseCaseTest {
             whenever(lessonRepository.getPreviewLessons()).thenReturn(previewLessonsFake)
         }
         coroutineTest.test {
-            downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, false)
+            downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, "test", false)
                 .collect()
 
             //given
