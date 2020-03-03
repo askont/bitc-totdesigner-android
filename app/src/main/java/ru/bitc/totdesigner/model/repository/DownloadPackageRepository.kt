@@ -2,9 +2,12 @@ package ru.bitc.totdesigner.model.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import ru.bitc.totdesigner.model.database.dao.PathDao
+import ru.bitc.totdesigner.model.database.dto.LessonPath
 import ru.bitc.totdesigner.model.entity.loading.LoadingPackage
 import ru.bitc.totdesigner.model.http.SoapApi
 import ru.bitc.totdesigner.system.path.PathManager
+import ru.bitc.totdesigner.system.printDebug
 import ru.bitc.totdesigner.system.zip.UnpackingZip
 import timber.log.Timber
 import java.io.File
@@ -17,7 +20,8 @@ import java.io.InputStream
 class DownloadPackageRepository(
     private val api: SoapApi,
     private val path: PathManager,
-    private val unzip: UnpackingZip
+    private val unzip: UnpackingZip,
+    private val pathDao: PathDao
 ) {
 
     fun downloadPackage(lessonUrl: String, lessonName: String): Flow<LoadingPackage> = flow {
@@ -27,8 +31,10 @@ class DownloadPackageRepository(
             val zipFile = writeZipToDevices(
                 packageZip.byteStream(), lessonName
             )
-            unzip.unpackingFile(zipFile.toString(), lessonName)
+            val localPath = unzip.unpackingFile(zipFile.toString(), lessonName)
+            pathDao.insertPath(LessonPath(lessonUrl, localPath))
             zipFile.delete()
+            pathDao.gelAllPath().printDebug()
             emit(LoadingPackage.Finish(lessonUrl))
         } catch (e: Exception) {
             emit(LoadingPackage.Error(lessonUrl, "Error download"))

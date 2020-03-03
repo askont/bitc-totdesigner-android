@@ -31,7 +31,7 @@ object AppModules {
         single { LessonRepository(get(), get()) }
 
         //download
-        single { DownloadPackageRepository(get(), get(), get()) }
+        single { DownloadPackageRepository(get(), get(), get(), get()) }
         single { DownloadPackageUseCase(get(), get(), get()) }
     }
 
