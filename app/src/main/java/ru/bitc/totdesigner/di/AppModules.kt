@@ -28,10 +28,10 @@ object AppModules {
     fun appModule() = module {
         // lesson
         single { LessonUseCase(get()) }
-        single { LessonRepository(get(), get()) }
+        single { LessonRepository(get(), get(), get()) }
 
         //download
-        single { DownloadPackageRepository(get(), get(), get(), get()) }
+        single { DownloadPackageRepository(get(), get(), get(), get(),get()) }
         single { DownloadPackageUseCase(get(), get(), get()) }
     }
 

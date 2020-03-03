@@ -21,26 +21,13 @@ class HomeViewModel(private val resourceManager: ResourceManager) : BaseViewMode
     val viewState: LiveData<HomeState>
         get() = action
 
+    init {
+        action.value = currentState
+    }
+
     private fun defaultHomeData(): HomeState {
         val title = resourceManager.getString(R.string.title_home)
         val description = resourceManager.getString(R.string.description_home)
-        val listTitle = resourceManager.getString(R.string.title_quest_list)
-        return HomeState(State.Loaded, title, description, listTitle, listOf())
+        return HomeState(State.Loaded, title, description, listOf())
     }
-
-    fun updateState(){
-        action.value = currentState.copy(questItems = testCardData())
-    }
-
-    private fun testCardData() = listOf<QuestItem>(
-        FreeCardQuestItem("Оригами-квест Колибри","https://i.ytimg.com/vi/9q43os6jvM4/maxresdefault.jpg"),
-        FreeCardQuestItem("Оригами-квест Лисица","https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Solar_System_size_to_scale_ru.svg/1200px-Solar_System_size_to_scale_ru.svg.png"),
-        FreeCardQuestItem("Оригами-квест Лисица2","https://www.vladtime.ru/uploads/posts/2019-07/1563066764_snimok-ekrana-2019-07-14-v-11_10_14.jpg"),
-        FreeCardQuestItem("Оригами-квест Хамелеон","https://kipmu.ru/wp-content/uploads/pplzvkr.jpg"),
-        FreeCardQuestItem("Оригами-квест Медуза","https://img.gazeta.ru/files3/555/10733555/Untitled-1-pic905-895x505-41340.jpg"),
-        FreeCardQuestItem("Оригами-квест Осьминог","https://img.gazeta.ru/files3/555/10733555/Untitled-1-pic905-895x505-41340.jpg"),
-        FreeCardQuestItem("Основы проектирования UX UI","https://img.gazeta.ru/files3/555/10733555/Untitled-1-pic905-895x505-41340.jpg"),
-        FreeCardQuestItem("Планеты солнечной системы","https://img.gazeta.ru/files3/555/10733555/Untitled-1-pic905-895x505-41340.jpg"),
-        FreeCardQuestItem("Планеты солнечной системы","https://img.gazeta.ru/files3/555/10733555/Untitled-1-pic905-895x505-41340.jpg")
-    )
 }

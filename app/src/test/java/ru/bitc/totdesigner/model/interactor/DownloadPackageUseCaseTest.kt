@@ -29,7 +29,7 @@ class DownloadPackageUseCaseTest {
         })
     }
     private val lessonRepository = mock<LessonRepository> {
-        onBlocking { getPreviewLessons() }.thenReturn(PreviewLessons(listOf(previewLesson)))
+        onBlocking { getFilterLocalPreviewLessons() }.thenReturn(PreviewLessons(listOf(previewLesson)))
     }
     private lateinit var dispatcher: DispatcherProvider
 
@@ -142,7 +142,7 @@ class DownloadPackageUseCaseTest {
                 emit(LoadingPackage.Error(lessonInfoFake.lessonUrl, "response server code 500"))
                 emit(LoadingPackage.Finish(lessonInfoFake.lessonUrl))
             })
-            whenever(lessonRepository.getPreviewLessons()).thenReturn(previewLessonsFake)
+            whenever(lessonRepository.getAllRemoteLesson()).thenReturn(previewLessonsFake)
         }
 
 
@@ -177,7 +177,7 @@ class DownloadPackageUseCaseTest {
                 emit(LoadingPackage.Error(lessonInfoFake.lessonUrl, "response server code 500"))
                 emit(LoadingPackage.Finish(lessonInfoFake.lessonUrl))
             })
-            whenever(lessonRepository.getPreviewLessons()).thenReturn(previewLessonsFake)
+            whenever(lessonRepository.getAllRemoteLesson()).thenReturn(previewLessonsFake)
         }
         coroutineTest.test {
             downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, "test", false)
@@ -204,7 +204,7 @@ class DownloadPackageUseCaseTest {
                 emit(LoadingPackage.Error(lessonInfoFake.lessonUrl, "response server code 500"))
                 emit(LoadingPackage.Finish(lessonInfoFake.lessonUrl))
             })
-            whenever(lessonRepository.getPreviewLessons()).thenReturn(previewLessonsFake)
+            whenever(lessonRepository.getFilterLocalPreviewLessons()).thenReturn(previewLessonsFake)
         }
         coroutineTest.test {
             downloadUseCase.processTaskEventLoadingCount(lessonInfoFake.lessonUrl, "test", false)

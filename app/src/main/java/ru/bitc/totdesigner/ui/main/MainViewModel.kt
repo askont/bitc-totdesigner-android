@@ -58,6 +58,7 @@ class MainViewModel(
         return downloadNotifier.subscribeStatus()
             .flatMapLatest { downloadUseCase.processTaskEventLoadingCount(it.lessonUrl, it.lessonName, it.isDelete) }
             .onEach { progress ->
+                downloadNotifier.updateLessonsPreview()
                 when (progress) {
                     is ProcessDownloading.Count -> {
                         val message = resourceManager.getString(R.string.loading_progress_messages, progress.countJob)

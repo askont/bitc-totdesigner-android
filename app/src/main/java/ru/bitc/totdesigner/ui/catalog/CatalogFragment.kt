@@ -74,7 +74,6 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
             rvCardQuest.smoothScrollToPosition(0)
         }
     }
-
     private fun handleSearch(catalogState: CatalogState) {
         tvEmptySearch.isVisible = !catalogState.questItemEmpty
         rvCardQuest.isVisible = catalogState.questItemEmpty

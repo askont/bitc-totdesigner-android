@@ -7,6 +7,5 @@ data class HomeState(
     val state: State,
     val title: String,
     val description: String,
-    val listTitle: String,
     val questItems: List<QuestItem>
 )

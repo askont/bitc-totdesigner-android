@@ -26,7 +26,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.updateState()
         rvCardQuest.addItemDecoration(decorator)
         rvCardQuest.adapter = adapter
         subscribe(viewModel.viewState, ::handleState)
@@ -36,7 +35,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         adapter.setData(homeState.questItems)
         tvDescription.text = homeState.description
         tvTitle.text = homeState.title
-        tvListTitle.text = homeState.listTitle
     }
 
     private fun click(questItem: QuestItem) {

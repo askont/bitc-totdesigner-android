@@ -13,8 +13,10 @@ import okhttp3.ResponseBody
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
+import ru.bitc.totdesigner.model.database.dao.PathDao
 import ru.bitc.totdesigner.model.entity.loading.LoadingPackage
 import ru.bitc.totdesigner.model.http.SoapApi
+import ru.bitc.totdesigner.system.flow.TestDispatcher
 import ru.bitc.totdesigner.system.path.PathManager
 import ru.bitc.totdesigner.system.zip.UnpackingZip
 
@@ -25,22 +27,23 @@ class DownloadPackageRepositoryTest {
     }
     private val pathManager = mock<PathManager> { }
     private val unpackingZip = mock<UnpackingZip> { }
+    private val pathDao = mock<PathDao>()
 
     @Before
     fun init() {
-        repository = DownloadPackageRepository(api, pathManager, unpackingZip)
+        repository = DownloadPackageRepository(api, pathManager, unpackingZip, pathDao, TestDispatcher())
     }
 
     @Test
     fun `when invoke downloadPackage success should event loading and finish`() {
         //given
         runBlockingTest {
-            val count = repository.downloadPackage("LessonsInfo.xml/package","test")
+            val count = repository.downloadPackage("LessonsInfo.xml/package", "test")
                 .count()
             assertThat(count).isEqualTo(2)
         }
         runBlockingTest {
-            repository.downloadPackage("LessonsInfo.xml/package","test")
+            repository.downloadPackage("LessonsInfo.xml/package", "test")
                 .collect {
                     assertThat(it.urlId).isEqualTo("LessonsInfo.xml/package")
                     assertThat(it).isInstanceOfAny(
@@ -61,12 +64,12 @@ class DownloadPackageRepositoryTest {
         }
         //given
         runBlockingTest {
-            val count = repository.downloadPackage("LessonsInfo.xml/package","test")
+            val count = repository.downloadPackage("LessonsInfo.xml/package", "test")
                 .count()
             assertThat(count).isEqualTo(2)
         }
         runBlocking {
-            repository.downloadPackage("LessonsInfo.xml/package","test")
+            repository.downloadPackage("LessonsInfo.xml/package", "test")
                 .collect {
                     assertThat(it.urlId).isEqualTo("LessonsInfo.xml/package")
                     assertThat(it).isInstanceOfAny(

@@ -2,7 +2,10 @@ package ru.bitc.totdesigner.ui.catalog
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.model.entity.PreviewLessons
 import ru.bitc.totdesigner.model.interactor.LessonUseCase
@@ -32,12 +35,18 @@ class CatalogViewModel(
         get() = action.value ?: defaultCatalogData()
     val viewState: LiveData<CatalogState>
         get() = action
+
     private fun defaultCatalogData(): CatalogState {
         return CatalogState(State.Loaded, listOf(), scrollToStart = false)
     }
 
     init {
         updateState()
+        launch {
+            downloadNotifier.subscribeChangePreviewList()
+                .onEach { if (it) updateState() }
+                .launchIn(viewModelScope)
+        }
     }
 
     private fun updateState() {
