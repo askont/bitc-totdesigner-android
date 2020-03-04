@@ -54,7 +54,7 @@
             android:layout_marginEnd="@dimen/margin_32"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="3"
-            tools:listitem="@layout/item_quest"
+            tools:listitem="@layout/item_lesson"
             />
     </LinearLayout>
 

@@ -3,16 +3,15 @@ package ru.bitc.totdesigner.ui.catalog
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
-import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import kotlinx.android.synthetic.main.fragment_catalog.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.BaseFragment
 import ru.bitc.totdesigner.platfom.adapter.QuestAdapterDelegate
-import ru.bitc.totdesigner.platfom.adapter.state.ButtonQuestItem
+import ru.bitc.totdesigner.platfom.adapter.state.ButtonLessonItem
 import ru.bitc.totdesigner.platfom.adapter.state.HeaderItem
-import ru.bitc.totdesigner.platfom.adapter.state.QuestItem
-import ru.bitc.totdesigner.platfom.adapter.state.TitleQuestItem
+import ru.bitc.totdesigner.platfom.adapter.state.LessonItem
+import ru.bitc.totdesigner.platfom.adapter.state.TitleLessonItem
 import ru.bitc.totdesigner.platfom.decorator.GridPaddingItemDecoration
 import ru.bitc.totdesigner.platfom.state.State
 import ru.bitc.totdesigner.system.dpToPx
@@ -56,17 +55,17 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
     private fun changerColumn(gridManager: GridLayoutManager) {
         gridManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return if (adapter.items[position] is TitleQuestItem || adapter.items[position] is ButtonQuestItem || adapter.items[position] is HeaderItem) 3 else 1
+                return if (adapter.items[position] is TitleLessonItem || adapter.items[position] is ButtonLessonItem || adapter.items[position] is HeaderItem) 3 else 1
             }
         }
     }
 
-    private fun handleClick(questItem: QuestItem) {
-        viewModel.eventClick(questItem)
+    private fun handleClick(lessonItem: LessonItem) {
+        viewModel.eventClick(lessonItem)
     }
 
     private fun handleState(catalogState: CatalogState) {
-        adapter.setData(catalogState.questItems)
+        adapter.setData(catalogState.lessonItems)
         handleSearch(catalogState)
         handleLoading(catalogState)
         if (catalogState.scrollToStart) {

@@ -71,11 +71,11 @@ class CatalogViewModel(
     }
 
     private fun handleLesson(previewLessons: PreviewLessons) {
-        val fullItems = mutableListOf<QuestItem>()
+        val fullItems = mutableListOf<LessonItem>()
         fullItems.addAll(addPaidItem(previewLessons.previews))
         fullItems.addAll(addFreeItem(previewLessons.previews))
         if (fullItems.size > MIN_SIZE_ITEM) {
-            fullItems.add(ButtonQuestItem(""))
+            fullItems.add(ButtonLessonItem(""))
         }
         if (fullItems.isNotEmpty()) {
             val title = resourceManager.getString(R.string.title_catalog)
@@ -83,47 +83,47 @@ class CatalogViewModel(
             fullItems.add(0, HeaderItem(title, description, ""))
         }
         action.value = currentState.copy(
-            questItems = fullItems,
+            lessonItems = fullItems,
             questItemEmpty = fullItems.isNotEmpty()
         )
     }
 
-    private fun addPaidItem(lessons: List<PreviewLessons.Lesson>): List<QuestItem> {
+    private fun addPaidItem(lessons: List<PreviewLessons.Lesson>): List<LessonItem> {
         val items = lessons
             .filter { it.category == PreviewLessons.Category.PAID }
-            .map { PaidCardQuestItem(it.title, it.imageUrl) }
-        val currentItemsMutable = mutableListOf<QuestItem>()
+            .map { PaidCardLessonItem(it.title, it.imageUrl) }
+        val currentItemsMutable = mutableListOf<LessonItem>()
         if (items.isNotEmpty()) {
-            currentItemsMutable.add(TitleQuestItem(resourceManager.getString(R.string.title_paid_quest_item)))
+            currentItemsMutable.add(TitleLessonItem(resourceManager.getString(R.string.title_paid_quest_item)))
         }
         currentItemsMutable.addAll(items)
         return currentItemsMutable.toList()
     }
 
-    private fun addFreeItem(lessons: List<PreviewLessons.Lesson>): List<QuestItem> {
+    private fun addFreeItem(lessons: List<PreviewLessons.Lesson>): List<LessonItem> {
         val items = lessons
             .filter { it.category == PreviewLessons.Category.FREE }
-            .map { FreeCardQuestItem(it.title, it.imageUrl) }
-        val currentItemsMutable = mutableListOf<QuestItem>()
+            .map { FreeCardLessonItem(it.title, it.imageUrl) }
+        val currentItemsMutable = mutableListOf<LessonItem>()
         if (items.isNotEmpty()) {
-            currentItemsMutable.add(TitleQuestItem(resourceManager.getString(R.string.title_free_quest_item)))
+            currentItemsMutable.add(TitleLessonItem(resourceManager.getString(R.string.title_free_quest_item)))
         }
         currentItemsMutable.addAll(items)
         return currentItemsMutable.toList()
     }
 
-    fun eventClick(questItem: QuestItem) {
-        when (questItem) {
-            is ButtonQuestItem -> {
+    fun eventClick(lessonItem: LessonItem) {
+        when (lessonItem) {
+            is ButtonLessonItem -> {
                 action.value = currentState.copy(scrollToStart = true)
             }
-            is FreeCardQuestItem -> {
+            is FreeCardLessonItem -> {
                 action.value = currentState.copy(scrollToStart = false)
-                mainRouter.navigateTo(MainScreens.FreeDownloadDialogScreen(questItem.name))
+                mainRouter.navigateTo(MainScreens.FreeDownloadDialogScreen(lessonItem.name))
             }
-            is PaidCardQuestItem -> {
+            is PaidCardLessonItem -> {
                 action.value = currentState.copy(scrollToStart = false)
-                mainRouter.navigateTo(MainScreens.FreeDownloadDialogScreen(questItem.name))
+                mainRouter.navigateTo(MainScreens.FreeDownloadDialogScreen(lessonItem.name))
             }
             is HeaderItem -> {
                 downloadNotifier.eventVisible(false)

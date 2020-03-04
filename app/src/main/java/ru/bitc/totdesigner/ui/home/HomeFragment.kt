@@ -7,7 +7,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.BaseFragment
 import ru.bitc.totdesigner.platfom.adapter.QuestAdapterDelegate
-import ru.bitc.totdesigner.platfom.adapter.state.QuestItem
+import ru.bitc.totdesigner.platfom.adapter.state.LessonItem
 import ru.bitc.totdesigner.platfom.decorator.GridPaddingItemDecoration
 import ru.bitc.totdesigner.system.dpToPx
 import ru.bitc.totdesigner.system.setData
@@ -32,12 +32,12 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     private fun handleState(homeState: HomeState) {
-        adapter.setData(homeState.questItems)
+        adapter.setData(homeState.lessonItems)
         tvDescription.text = homeState.description
         tvTitle.text = homeState.title
     }
 
-    private fun click(questItem: QuestItem) {
+    private fun click(lessonItem: LessonItem) {
 
     }
 

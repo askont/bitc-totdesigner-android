@@ -7,7 +7,7 @@ import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import kotlinx.android.synthetic.main.item_button.*
 import kotlinx.android.synthetic.main.item_header_catalog.*
-import kotlinx.android.synthetic.main.item_quest.*
+import kotlinx.android.synthetic.main.item_lesson.*
 import kotlinx.android.synthetic.main.item_title.*
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.adapter.state.*
@@ -20,9 +20,9 @@ import ru.bitc.totdesigner.system.loadImage
  */
 class QuestAdapterDelegate {
 
-    fun createDelegate(click: (QuestItem) -> Unit): AsyncListDifferDelegationAdapter<QuestItem> =
-        AsyncListDifferDelegationAdapter<QuestItem>(
-            DiffQuestItem, AdapterDelegatesManager<List<QuestItem>>()
+    fun createDelegate(click: (LessonItem) -> Unit): AsyncListDifferDelegationAdapter<LessonItem> =
+        AsyncListDifferDelegationAdapter<LessonItem>(
+            DiffQuestItem, AdapterDelegatesManager<List<LessonItem>>()
                 .addDelegate(headerAdapter(click))
                 .addDelegate(freeQuestAdapter(click))
                 .addDelegate(titleAdapter(click))
@@ -30,8 +30,8 @@ class QuestAdapterDelegate {
                 .addDelegate(paidQuestAdapter(click))
         )
 
-    private fun headerAdapter(click: (QuestItem) -> Unit) =
-        adapterDelegateLayoutContainer<HeaderItem, QuestItem>(R.layout.item_header_catalog) {
+    private fun headerAdapter(click: (LessonItem) -> Unit) =
+        adapterDelegateLayoutContainer<HeaderItem, LessonItem>(R.layout.item_header_catalog) {
             tvDownloadDetailed.click { click(item) }
             bind {
                 tvHeaderTitle.text = item.title
@@ -39,21 +39,21 @@ class QuestAdapterDelegate {
             }
         }
 
-    private fun titleAdapter(click: (QuestItem) -> Unit) =
-        adapterDelegateLayoutContainer<TitleQuestItem, QuestItem>(R.layout.item_title) {
+    private fun titleAdapter(click: (LessonItem) -> Unit) =
+        adapterDelegateLayoutContainer<TitleLessonItem, LessonItem>(R.layout.item_title) {
             itemView.setOnClickListener { click(item) }
             bind {
                 tvTitleQuest.text = item.title
             }
         }
 
-    private fun buttonItemAdapter(click: (QuestItem) -> Unit) =
-        adapterDelegateLayoutContainer<ButtonQuestItem, QuestItem>(R.layout.item_button) {
+    private fun buttonItemAdapter(click: (LessonItem) -> Unit) =
+        adapterDelegateLayoutContainer<ButtonLessonItem, LessonItem>(R.layout.item_button) {
             btnScrollStart.setOnClickListener { click(item) }
         }
 
-    private fun freeQuestAdapter(click: (QuestItem) -> Unit) =
-        adapterDelegateLayoutContainer<FreeCardQuestItem, QuestItem>(R.layout.item_quest) {
+    private fun freeQuestAdapter(click: (LessonItem) -> Unit) =
+        adapterDelegateLayoutContainer<FreeCardLessonItem, LessonItem>(R.layout.item_lesson) {
             itemView.setOnClickListener { click(item) }
             bind {
                 tvNameQuest.text = item.name
@@ -61,8 +61,8 @@ class QuestAdapterDelegate {
             }
         }
 
-    private fun paidQuestAdapter(click: (QuestItem) -> Unit) =
-        adapterDelegateLayoutContainer<PaidCardQuestItem, QuestItem>(R.layout.item_quest) {
+    private fun paidQuestAdapter(click: (LessonItem) -> Unit) =
+        adapterDelegateLayoutContainer<PaidCardLessonItem, LessonItem>(R.layout.item_lesson) {
             itemView.setOnClickListener { click(item) }
             bind {
                 tvNameQuest.text = item.name
@@ -72,9 +72,9 @@ class QuestAdapterDelegate {
 
 }
 
-private object DiffQuestItem : DiffUtil.ItemCallback<QuestItem>() {
-    override fun areItemsTheSame(oldItem: QuestItem, newItem: QuestItem): Boolean = oldItem.hashId == newItem.hashId
+private object DiffQuestItem : DiffUtil.ItemCallback<LessonItem>() {
+    override fun areItemsTheSame(oldItem: LessonItem, newItem: LessonItem): Boolean = oldItem.hashId == newItem.hashId
 
     @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: QuestItem, newItem: QuestItem): Boolean = oldItem == newItem
+    override fun areContentsTheSame(oldItem: LessonItem, newItem: LessonItem): Boolean = oldItem == newItem
 }
