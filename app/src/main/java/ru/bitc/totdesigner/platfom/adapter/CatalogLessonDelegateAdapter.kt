@@ -18,16 +18,16 @@ import ru.bitc.totdesigner.system.loadImage
  * Created on 2019-12-09
  * @author YWeber
  */
-class QuestAdapterDelegate {
+class LessonAdapterDelegate {
 
-    fun createDelegate(click: (LessonItem) -> Unit): AsyncListDifferDelegationAdapter<LessonItem> =
+    fun createAdapter(click: (LessonItem) -> Unit): AsyncListDifferDelegationAdapter<LessonItem> =
         AsyncListDifferDelegationAdapter<LessonItem>(
-            DiffQuestItem, AdapterDelegatesManager<List<LessonItem>>()
+            DiffLessonItem, AdapterDelegatesManager<List<LessonItem>>()
                 .addDelegate(headerAdapter(click))
-                .addDelegate(freeQuestAdapter(click))
+                .addDelegate(freeLessonAdapter(click))
                 .addDelegate(titleAdapter(click))
                 .addDelegate(buttonItemAdapter(click))
-                .addDelegate(paidQuestAdapter(click))
+                .addDelegate(paidLessonAdapter(click))
         )
 
     private fun headerAdapter(click: (LessonItem) -> Unit) =
@@ -52,18 +52,20 @@ class QuestAdapterDelegate {
             btnScrollStart.setOnClickListener { click(item) }
         }
 
-    private fun freeQuestAdapter(click: (LessonItem) -> Unit) =
+    private fun freeLessonAdapter(click: (LessonItem) -> Unit) =
         adapterDelegateLayoutContainer<FreeCardLessonItem, LessonItem>(R.layout.item_lesson) {
             itemView.setOnClickListener { click(item) }
+            cvCardLesson.setOnClickListener { click(item) }
             bind {
                 tvNameQuest.text = item.name
                 ivImageQuest.loadImage(item.url)
             }
         }
 
-    private fun paidQuestAdapter(click: (LessonItem) -> Unit) =
+    private fun paidLessonAdapter(click: (LessonItem) -> Unit) =
         adapterDelegateLayoutContainer<PaidCardLessonItem, LessonItem>(R.layout.item_lesson) {
             itemView.setOnClickListener { click(item) }
+            cvCardLesson.setOnClickListener { click(item) }
             bind {
                 tvNameQuest.text = item.name
                 ivImageQuest.loadImage(item.url)
@@ -72,7 +74,7 @@ class QuestAdapterDelegate {
 
 }
 
-private object DiffQuestItem : DiffUtil.ItemCallback<LessonItem>() {
+private object DiffLessonItem : DiffUtil.ItemCallback<LessonItem>() {
     override fun areItemsTheSame(oldItem: LessonItem, newItem: LessonItem): Boolean = oldItem.hashId == newItem.hashId
 
     @SuppressLint("DiffUtilEquals")

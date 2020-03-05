@@ -22,7 +22,7 @@ class LoadingDetailedFragment : BaseFragment(R.layout.fragment_loading_detailed)
     private val viewModel by viewModel<LoadingDetailedViewModel>()
 
     private val loadingAdapter by lazy {
-        LoadingAdapterDelegate().createDelegate(viewModel::userEvent)
+        LoadingAdapterDelegate().createAdapter(viewModel::userEvent)
     }
 
 

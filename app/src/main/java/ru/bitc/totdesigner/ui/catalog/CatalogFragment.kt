@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.fragment_catalog.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.BaseFragment
-import ru.bitc.totdesigner.platfom.adapter.QuestAdapterDelegate
+import ru.bitc.totdesigner.platfom.adapter.LessonAdapterDelegate
 import ru.bitc.totdesigner.platfom.adapter.state.ButtonLessonItem
 import ru.bitc.totdesigner.platfom.adapter.state.HeaderItem
 import ru.bitc.totdesigner.platfom.adapter.state.LessonItem
@@ -29,7 +29,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
     private val viewModel by viewModel<CatalogViewModel>()
 
     private val adapter by lazy {
-        QuestAdapterDelegate().createDelegate(::handleClick)
+        LessonAdapterDelegate().createAdapter(::handleClick)
     }
 
     private val decorator = GridPaddingItemDecoration(12.dpToPx())
@@ -37,8 +37,8 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupManager()
-        rvCardQuest.addItemDecoration(decorator)
-        rvCardQuest.adapter = adapter
+        rvCardHomeLesson.addItemDecoration(decorator)
+        rvCardHomeLesson.adapter = adapter
         inputTextSearch.querySearch {
             if (it == null) return@querySearch
             viewModel.search(it.toString())
@@ -49,7 +49,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
     private fun setupManager() {
         val gridManager = GridLayoutManager(context, 3)
         changerColumn(gridManager)
-        rvCardQuest.layoutManager = gridManager
+        rvCardHomeLesson.layoutManager = gridManager
     }
 
     private fun changerColumn(gridManager: GridLayoutManager) {
@@ -70,12 +70,12 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
         handleLoading(catalogState)
         if (catalogState.scrollToStart) {
             appBarLayoutSearch.setExpanded(true, true)
-            rvCardQuest.smoothScrollToPosition(0)
+            rvCardHomeLesson.smoothScrollToPosition(0)
         }
     }
     private fun handleSearch(catalogState: CatalogState) {
         tvEmptySearch.isVisible = !catalogState.questItemEmpty
-        rvCardQuest.isVisible = catalogState.questItemEmpty
+        rvCardHomeLesson.isVisible = catalogState.questItemEmpty
         tvEmptySearch.text = getString(R.string.search_empty_catalog, catalogState.lastSearchQuest)
     }
 

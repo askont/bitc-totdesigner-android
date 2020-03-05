@@ -4,12 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_quest_item"
+    android:clickable="true"
+    android:focusable="true"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cvCardLesson"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
         app:cardCornerRadius="@dimen/margin_8">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -25,11 +31,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_8"
-        android:maxLines="1"
-        android:ellipsize="end"
         android:layout_marginTop="@dimen/margin_16"
         android:layout_marginEnd="@dimen/margin_8"
         android:layout_marginBottom="@dimen/margin_16"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textColor="@color/colorWhiteText"
         android:textSize="@dimen/font_13"
         tools:text="Оригами-квест Лисица" />

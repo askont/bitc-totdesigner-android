@@ -58,7 +58,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCardQuest"
+        android:id="@+id/rvCardHomeLesson"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/margin_32"

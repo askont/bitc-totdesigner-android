@@ -37,7 +37,7 @@ object AppModules {
         single { DownloadPackageUseCase(get(), get(), get()) }
 
         //home
-        single { HomeLessonRepository(get(), get()) }
+        single { HomeLessonRepository(get(), get(), get()) }
         single { HomeLessonUseCase(get()) }
     }
 
@@ -58,7 +58,7 @@ object AppModules {
                 cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).navigatorHolder
             )
         }
-        viewModel { HomeViewModel(get(), get()) }
+        viewModel { HomeViewModel(get(), get(),get()) }
         viewModel { (nameQuest: String) -> DownloadViewModel(nameQuest, get(), get(), get()) }
         viewModel {
             val cicerone = get<LocalCiceroneHolder>()

@@ -7,4 +7,6 @@ import ru.bitc.totdesigner.model.repository.HomeLessonRepository
  * @author YWeber */
 
 class HomeLessonUseCase(private val repository: HomeLessonRepository) {
+
+    fun getSavedLesson() = repository.getSaveLesson()
 }
