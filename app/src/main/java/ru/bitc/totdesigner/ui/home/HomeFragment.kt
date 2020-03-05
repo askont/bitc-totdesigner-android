@@ -10,7 +10,6 @@ import ru.bitc.totdesigner.platfom.BaseFragment
 import ru.bitc.totdesigner.platfom.adapter.HomeLessonDelegateAdapter
 import ru.bitc.totdesigner.platfom.adapter.state.BottomHomeLessonItem
 import ru.bitc.totdesigner.platfom.adapter.state.HeaderHomeLesson
-import ru.bitc.totdesigner.platfom.adapter.state.HomeLessonItem
 import ru.bitc.totdesigner.platfom.adapter.state.TitleHomeLessonItem
 import ru.bitc.totdesigner.platfom.decorator.GridPaddingItemDecoration
 import ru.bitc.totdesigner.system.dpToPx
@@ -23,7 +22,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private val viewModel by viewModel<HomeViewModel>()
 
     private val adapter by lazy {
-        HomeLessonDelegateAdapter().createAdapter(::click)
+        HomeLessonDelegateAdapter().createAdapter(viewModel::eventClick)
     }
 
     private val decorator = GridPaddingItemDecoration(12.dpToPx())
@@ -53,10 +52,9 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     private fun handleState(homeState: HomeState) {
         adapter.setData(homeState.lessonItems)
-    }
-
-    private fun click(lessonItem: HomeLessonItem) {
-
+        if (homeState.scrollToStart) {
+            rvCardHomeLesson.smoothScrollToPosition(0)
+        }
     }
 
     companion object {

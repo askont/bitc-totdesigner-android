@@ -9,7 +9,7 @@ import com.tickaroo.tikxml.annotation.*
 @Xml(name = "LessonPreview")
 data class SavedLessonPreview(
     @PropertyElement(name = "Name") val nameLesson: String,
-    @PropertyElement(name = "Authors") val authors: String?,
+/*    @PropertyElement(name = "Authors") val authors: String?,*/ // this list to Марс
     @Path("Tags") @Element(name = "string") val tags: List<TagString>?,
     @PropertyElement(name = "Description") val description: String,
     @PropertyElement(name = "MainPreview") val mainImage: String,

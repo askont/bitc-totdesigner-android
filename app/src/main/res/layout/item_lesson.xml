@@ -23,10 +23,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            tools:src="@drawable/ic_setting" />
+            tools:src="@drawable/img_logotype" />
     </androidx.cardview.widget.CardView>
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/tvNameQuest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

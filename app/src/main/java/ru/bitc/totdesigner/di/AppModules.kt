@@ -45,8 +45,8 @@ object AppModules {
         viewModel { SplashViewModel(get(), get()) }
         viewModel { AppViewModel(get(), get()) }
         viewModel {
-            val cicerone = get<LocalCiceroneHolder>()
-            CatalogViewModel(cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router, get(), get(), get())
+            val cicerone = get<LocalCiceroneHolder>().cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router
+            CatalogViewModel(cicerone, get(), get(), get())
         }
         viewModel {
             val cicerone = get<LocalCiceroneHolder>()
@@ -58,7 +58,10 @@ object AppModules {
                 cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).navigatorHolder
             )
         }
-        viewModel { HomeViewModel(get(), get(),get()) }
+        viewModel {
+            val cicerone = get<LocalCiceroneHolder>().cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router
+            HomeViewModel(get(), get(), get(), cicerone)
+        }
         viewModel { (nameQuest: String) -> DownloadViewModel(nameQuest, get(), get(), get()) }
         viewModel {
             val cicerone = get<LocalCiceroneHolder>()

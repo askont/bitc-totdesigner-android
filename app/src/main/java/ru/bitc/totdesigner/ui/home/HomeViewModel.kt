@@ -12,21 +12,28 @@ import ru.bitc.totdesigner.model.entity.SavedLesson
 import ru.bitc.totdesigner.model.interactor.HomeLessonUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.platfom.adapter.state.*
+import ru.bitc.totdesigner.platfom.navigation.MainScreens
 import ru.bitc.totdesigner.platfom.state.State
 import ru.bitc.totdesigner.system.ResourceManager
 import ru.bitc.totdesigner.system.notifier.DownloadNotifier
 import ru.bitc.totdesigner.ui.home.state.HomeState
+import ru.terrakok.cicerone.Router
 
 class HomeViewModel(
     private val resourceManager: ResourceManager,
     private val homeUseCase: HomeLessonUseCase,
-    private val downloadNotifier: DownloadNotifier
+    private val downloadNotifier: DownloadNotifier,
+    private val router: Router
 ) : BaseViewModel() {
 
     private val action = MutableLiveData<HomeState>()
 
     private val currentState
-        get() = action.value ?: HomeState(State.Loaded, listOf())
+        get() = action.value ?: HomeState(
+            State.Loaded,
+            scrollToStart = false,
+            lessonItems = listOf()
+        )
 
     val viewState: LiveData<HomeState>
         get() = action
@@ -44,6 +51,17 @@ class HomeViewModel(
                         job = startRenderItem()
                     }
                 }
+        }
+    }
+
+    fun eventClick(item: HomeLessonItem) {
+        when (item) {
+            is BottomHomeLessonItem -> {
+                action.value = currentState.copy(scrollToStart = true)
+            }
+            is SavedHomeLessonItem -> {
+                router.navigateTo(MainScreens.DetailedLessonDialogScreen(""))
+            }
         }
     }
 
@@ -67,7 +85,7 @@ class HomeViewModel(
         if (items.size > 6) {
             oldItems.add(BottomHomeLessonItem(resourceManager.getString(R.string.btn_text_scroll)))
         }
-        action.value = currentState.copy(lessonItems = oldItems)
+        action.value = currentState.copy(lessonItems = oldItems, scrollToStart = false)
     }
 
     private fun defaultHomeData(): HeaderHomeLesson {
