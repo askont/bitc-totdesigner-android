@@ -27,7 +27,7 @@
         <ImageView
             android:layout_width="250dp"
             android:layout_height="400dp"
-            android:background="@drawable/group_785"
+            android:background="@drawable/img_logotype"
             android:contentDescription="@string/todo"
             android:translationX="-90dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -59,7 +59,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/margin_24"
                 android:layout_weight="0.5"
-                android:max="100"
+                android:max="1000"
                 android:progress="10" />
 
             <TextView

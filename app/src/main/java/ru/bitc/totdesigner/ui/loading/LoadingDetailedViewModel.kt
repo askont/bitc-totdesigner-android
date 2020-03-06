@@ -2,8 +2,10 @@ package ru.bitc.totdesigner.ui.loading
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.flow.collect
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import ru.bitc.totdesigner.model.entity.PreviewLessons
 import ru.bitc.totdesigner.model.entity.loading.LoadingPackage
 import ru.bitc.totdesigner.model.interactor.DownloadPackageUseCase
@@ -31,23 +33,16 @@ class LoadingDetailedViewModel(
         get() = action
 
     init {
-        launch {
-            loadingUseCase.getListPairLoadingAndPreview()
-                .map { loads ->
-                    loads.map { createDetailedLoading(it.first, it.second) }
-                }
-                .collect {
-                    stateItems(it)
-                    updateItems()
-                }
-        }
+        loadingUseCase.eventListPairProcessLoadingAndPreview()
+            .map { loads ->
+                loads.map { createDetailedLoading(it.first, it.second) }
+            }
+            .onEach { sortRenderTypeItems(it) }
+            .launchIn(viewModelScope)
     }
 
-    private fun updateItems() {
 
-    }
-
-    private fun stateItems(items: List<LoadingDetailed>) {
+    private fun sortRenderTypeItems(items: List<LoadingDetailed>) {
         val renderList = mutableListOf<LoadingDetailed>()
         val listLoading = items.filterIsInstance<LoadingDetailed.Loading>()
         if (listLoading.isNotEmpty()) {
@@ -58,6 +53,11 @@ class LoadingDetailedViewModel(
         if (listFinish.isNotEmpty()) {
             renderList.add(LoadingDetailed.HeaderTitle("Готовы к запуску"))
             renderList.addAll(listFinish)
+        }
+        val listError = items.filterIsInstance<LoadingDetailed.Error>()
+        if (listError.isNotEmpty()) {
+            renderList.add(LoadingDetailed.HeaderTitle("Произошла ошибка"))
+            renderList.addAll(listError)
         }
         val newState = currentState.copy(loadingMiniItems = renderList)
         action.value = newState
@@ -85,7 +85,7 @@ class LoadingDetailedViewModel(
                 //TODO Open lesson
             }
             is LoadingDetailed.Loading -> {
-                loadingUseCase.deleteJobByKey(detailed.urlId)
+                downloadNotifier.eventStatus(detailed.urlId, detailed.title, true)
             }
             is LoadingDetailed.Error -> {
                 //TODO Retry job loading
@@ -100,5 +100,16 @@ class LoadingDetailedViewModel(
 
     fun backTo() {
         mainRouter.exit()
+    }
+
+    fun cancelAll() {
+        currentState.loadingMiniItems.filterIsInstance<LoadingDetailed.Loading>()
+            .forEach {
+                downloadNotifier.eventStatus(it.urlId, it.title, true)
+            }
+    }
+
+    fun clearDoneAndError() {
+        loadingUseCase.clearFinishAndErrorType()
     }
 }

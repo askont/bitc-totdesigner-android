@@ -89,6 +89,11 @@ dependencies {
     implementation(Libs.adapter_delegates)
     implementation(Libs.adapter_delegates_dsl)
 
+    //room
+    implementation(Libs.room_runtime)
+    implementation(Libs.room_ktx)
+    implementation(Libs.room_testing)
+    kapt(Libs.room_compiler)
     //Networking
     implementation(Libs.tikxml_annotation)
     implementation(Libs.tikxml_core)

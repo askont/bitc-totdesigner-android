@@ -1,7 +1,8 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar.Bridge">
+    <style name="AppTheme"
+        parent="Theme.MaterialComponents.NoActionBar.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -13,7 +14,8 @@
         <item name="android:navigationBarColor">@color/colorPrimary</item>
     </style>
 
-    <style name="DownloadDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+    <style name="DownloadDialog"
+        parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -23,15 +25,17 @@
         <item name="android:navigationBarColor">@color/colorPrimary</item>
     </style>
 
-    <style name="Splash" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/img_splash_screen</item>
+    <style name="Splash"
+        parent="AppTheme">
+        <item name="android:windowBackground">@drawable/img_splash_screen_new</item>
     </style>
 
     <style name="BottomNavigation">
         <item name="colorPrimary">@color/colorSelectItem</item>
     </style>
 
-    <style name="DownloadItem" parent="Widget.AppCompat.ProgressBar.Horizontal">
+    <style name="DownloadItem"
+        parent="Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_background</item>
     </style>
 
@@ -42,6 +46,16 @@
         <item name="android:padding">@dimen/margin_8</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/colorSelectItem</item>
+    </style>
+
+    <style name="DialogDescriptionText">
+        <item name="android:textSize">@dimen/font_16</item>
+        <item name="android:textColor">@color/colorWhiteTextOpa70</item>
+    </style>
+
+    <style name="DialogTitleText">
+        <item name="android:textSize">@dimen/font_20</item>
+        <item name="android:textColor">@color/colorWhiteText</item>
     </style>
 
 </resources>

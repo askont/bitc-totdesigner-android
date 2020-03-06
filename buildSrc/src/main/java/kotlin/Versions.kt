@@ -1,11 +1,11 @@
 object Versions {
     //Plugins
-    const val android_gradle_plugin = "3.5.0"
+    const val android_gradle_plugin = "3.6.0"
     const val kotlin_gradle_plugin = "1.3.61"
     const val plugins_android_junit5 = "1.5.2.0"
     //AndroidX
     const val androidx_appcompat = "1.1.0"
-    const val androidx_constraint_layout = "2.0.0-beta2"
+    const val androidx_constraint_layout = "2.0.0-beta4"
     const val androidx_material = "1.1.0-alpha09"
     const val androidx_cardview = "1.0.0"
     const val androidx_recyclerview = "1.1.0-beta03"
@@ -29,7 +29,7 @@ object Versions {
     const val conductor_controller = "3.0.0-rc1"
 
     //Room
-    const val room = "2.2.0-rc01"
+    const val room = "2.2.4"
 
     //Networking
     const val retrofit = "2.7.0"

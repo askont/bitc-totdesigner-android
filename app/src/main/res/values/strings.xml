@@ -13,7 +13,7 @@
     <string name="title_home">Мои курсы/квесты</string>
     <string name="description_home">Здесь расположены и будут располагаться приобретенные и загруженные интерактивные 2D/3D/AR курсы и образовательные-игровые квесты. Они расположены на этом Android устройстве. Вы можете скачать больше контента в Каталоге курсов/квестов TOTDESIGNER.</string>
     <string name="title_quest_list">Квесты / курсы по подписке</string>
-    <string name="search_empty_catalog"> %s   квеста с таким названием не найдено</string>
+    <string name="search_empty_catalog"> \'%s\'   квеста с таким названием не найдено</string>
     <string name="todo">TODO</string>
     <string name="back_catalog">Вернуться в КАТАЛОГ</string>
     <string name="download">СКАЧАТЬ</string>
@@ -26,4 +26,12 @@
     <string name="back_to_catalog">ВЕРНУТЬСЯ В КАТАЛОГ</string>
     <string name="clear_list">ОЧИСТИТЬ СПИСОК</string>
     <string name="cancel_all">ОТМЕНИТЬ ВСЕ</string>
+    <string name="download_error_hint">При загрузке произошла ошибка</string>
+    <string name="retry">Повторить</string>
+    <string name="open">открыть</string>
+    <string name="done">Готово</string>
+    <string name="delete">Удалить</string>
+    <string name="catalog">Каталог</string>
+    <string name="run_lesson">Запустить</string>
+    <string name="download_list">ЗАГРУЗКИ</string>
 </resources>

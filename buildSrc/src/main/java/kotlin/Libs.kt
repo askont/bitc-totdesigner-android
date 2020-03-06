@@ -50,6 +50,7 @@ object Libs {
     //Room
     const val room_runtime = "androidx.room:room-runtime:${Versions.room}"
     const val room_compiler = "androidx.room:room-compiler:${Versions.room}"
+    const val room_testing = "androidx.room:room-testing:${Versions.room}"
     const val room_ktx = "androidx.room:room-ktx:${Versions.room}"
 
     //Networking

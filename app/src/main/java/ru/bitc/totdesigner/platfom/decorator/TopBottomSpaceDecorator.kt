@@ -10,14 +10,14 @@ import ru.bitc.totdesigner.system.dpToPx
  * @author YWeber */
 
 class TopBottomSpaceDecorator(
-    private val marginTop: Int = 2.dpToPx(),
-    private val marginBottom: Int = 2.dpToPx()
+    private val marginTop: Int = 2,
+    private val marginBottom: Int = 2
 ) : RecyclerView.ItemDecoration() {
 
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
-        outRect.bottom = marginBottom
-        outRect.top = marginTop
+        outRect.bottom = marginBottom.dpToPx()
+        outRect.top = marginTop.dpToPx()
     }
 }

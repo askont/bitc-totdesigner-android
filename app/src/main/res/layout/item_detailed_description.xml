@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tvDetailedDescription"
+    style="@style/DialogDescriptionText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin_8"
+    android:layout_marginTop="@dimen/margin_16"
+    tools:text="Вы можете загрузить данный интерактивный 2D/3D/AR курс и/или образовательный игровой квест бесплатно, без подписки. Нажмите «Скачать курс» или продолжите выбор в каталоге" />
