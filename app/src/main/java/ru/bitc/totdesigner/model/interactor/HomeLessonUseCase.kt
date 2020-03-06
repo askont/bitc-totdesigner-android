@@ -8,5 +8,10 @@ import ru.bitc.totdesigner.model.repository.HomeLessonRepository
 
 class HomeLessonUseCase(private val repository: HomeLessonRepository) {
 
-    fun getSavedLesson() = repository.getSaveLesson()
+    fun getAllSavedLessons() = repository.getSaveLesson()
+
+    fun getSavedLesson(remotePath: String) = repository.findLessonByRemotePath(remotePath)
+    fun deleteSaveLesson() {
+        repository.deleteSaveLesson()
+    }
 }

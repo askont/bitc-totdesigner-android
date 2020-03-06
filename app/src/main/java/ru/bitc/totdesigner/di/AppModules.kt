@@ -14,6 +14,7 @@ import ru.bitc.totdesigner.ui.AppViewModel
 import ru.bitc.totdesigner.ui.catalog.CatalogViewModel
 import ru.bitc.totdesigner.ui.catalog.dialog.DownloadViewModel
 import ru.bitc.totdesigner.ui.home.HomeViewModel
+import ru.bitc.totdesigner.ui.home.dialog.DetailedLessonViewModel
 import ru.bitc.totdesigner.ui.loading.LoadingDetailedViewModel
 import ru.bitc.totdesigner.ui.main.MainViewModel
 import ru.bitc.totdesigner.ui.splash.SplashViewModel
@@ -66,6 +67,15 @@ object AppModules {
         viewModel {
             val cicerone = get<LocalCiceroneHolder>()
             LoadingDetailedViewModel(cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router, get(), get())
+        }
+        viewModel { (remotePath: String) ->
+            val cicerone = get<LocalCiceroneHolder>()
+            DetailedLessonViewModel(
+                remotePath,
+                get(),
+                get(),
+                cicerone.cicerone(LocalCiceroneHolder.APP_NAVIGATION).router
+            )
         }
     }
 }

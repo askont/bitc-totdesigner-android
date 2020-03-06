@@ -32,7 +32,7 @@ class CatalogFragment : BaseFragment(R.layout.fragment_catalog) {
         LessonAdapterDelegate().createAdapter(::handleClick)
     }
 
-    private val decorator = GridPaddingItemDecoration(12.dpToPx())
+    private val decorator = GridPaddingItemDecoration(12)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

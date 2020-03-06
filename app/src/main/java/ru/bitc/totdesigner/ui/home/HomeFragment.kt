@@ -25,7 +25,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         HomeLessonDelegateAdapter().createAdapter(viewModel::eventClick)
     }
 
-    private val decorator = GridPaddingItemDecoration(12.dpToPx())
+    private val decorator = GridPaddingItemDecoration(12)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

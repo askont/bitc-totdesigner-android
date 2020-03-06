@@ -3,15 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cvCardLesson"
-    android:layout_width="@dimen/width_detailed_card"
-    android:layout_height="@dimen/height_second_preview"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_detailed_card"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/margin_8">
-
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivOtherPreview"
+        android:id="@+id/ivMainPreview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"

@@ -11,4 +11,22 @@ data class SavedLesson(
     val descriptionLesson: String,
     val mainImage: String,
     val otherImage: List<String>
-)
+) {
+    companion object {
+        fun defaultSavedLesson(
+            localPathLesson: String = "",
+            remotePath: String = "",
+            nameLesson: String = "",
+            descriptionLesson: String = "",
+            mainImage: String = "",
+            otherImage: List<String> = listOf()
+        ) = SavedLesson(
+            localPathLesson,
+            remotePath,
+            nameLesson,
+            descriptionLesson,
+            mainImage,
+            otherImage
+        )
+    }
+}

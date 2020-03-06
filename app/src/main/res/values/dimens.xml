@@ -28,4 +28,7 @@
     <dimen name="padding_min_4">4dp</dimen>
     <dimen name="margin_64">64dp</dimen>
     <dimen name="margin_56">56dp</dimen>
+    <dimen name="height_detailed_card">280dp</dimen>
+    <dimen name="width_detailed_card">250dp</dimen>
+    <dimen name="height_second_preview">150dp</dimen>
 </resources>

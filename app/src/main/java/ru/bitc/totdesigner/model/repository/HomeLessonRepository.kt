@@ -1,7 +1,9 @@
 package ru.bitc.totdesigner.model.repository
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 import ru.bitc.totdesigner.model.converter.SavedLessonModelConverter
 import ru.bitc.totdesigner.model.database.dao.PathDao
 import ru.bitc.totdesigner.model.database.dto.LessonPath
@@ -19,15 +21,36 @@ class HomeLessonRepository(
     private val converterXmlToModel: SavedLessonModelConverter
 ) {
 
+    private var currentPath: LessonPath? = null
+
+    fun findLessonByRemotePath(remotePath: String) = flow {
+        val localPath = pathDao.findLessonPath(remotePath)
+        currentPath = localPath
+        val previewFile = previewFile(localPath.lessonLocalPath)
+        val xml = converterXmlToModel.convertFileToModel(previewFile)
+        emit(converterXmlToModel.convertToEntity(localPath, xml))
+    }.flowOn(dispatcher.io)
+
     fun getSaveLesson() = flow {
         val map = pathDao.gelAllPath().map(::mapEntity)
         emit(map)
     }.flowOn(dispatcher.io)
 
     private fun mapEntity(lessonPath: LessonPath): SavedLesson {
-        val localPath = File(lessonPath.lessonLocalPath + File.separator + FILE_PREVIEW_NAME)
-        val xml = converterXmlToModel.convertFileToModel(localPath)
+        val previewFile = previewFile(lessonPath.lessonLocalPath)
+        val xml = converterXmlToModel.convertFileToModel(previewFile)
         return converterXmlToModel.convertToEntity(lessonPath, xml)
+    }
+
+    private fun previewFile(localPathDir: String) =
+        File(localPathDir + File.separator + FILE_PREVIEW_NAME)
+
+    fun deleteSaveLesson() {
+        CoroutineScope(dispatcher.io).launch {
+            pathDao.deletePath(currentPath ?: return@launch)
+            val lessonDir = File(currentPath?.lessonLocalPath ?: "")
+            lessonDir.deleteRecursively()
+        }
     }
 
     private companion object {

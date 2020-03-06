@@ -60,14 +60,14 @@ class HomeViewModel(
                 action.value = currentState.copy(scrollToStart = true)
             }
             is SavedHomeLessonItem -> {
-                router.navigateTo(MainScreens.DetailedLessonDialogScreen(""))
+                router.navigateTo(MainScreens.DetailedLessonDialogScreen(item.lessonUrl))
             }
         }
     }
 
     private fun startRenderItem(): Job {
         return launch {
-            homeUseCase.getSavedLesson()
+            homeUseCase.getAllSavedLessons()
                 .onEach { updateItems(it) }
                 .launchIn(viewModelScope)
         }

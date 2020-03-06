@@ -9,7 +9,7 @@
         android:id="@+id/tvMock"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:gravity="center"
         android:text="test screen "
         android:textSize="24sp" />
 
