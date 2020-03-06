@@ -29,7 +29,7 @@ class UnpackingZip(private val pathManager: PathManager) {
                 zip.getInputStream(it).use { input ->
                     val targetPath = locationContentDir.absolutePath + File.separator + it.name
                     File(targetPath).outputStream().use { output ->
-                        input.copyTo(output)
+                        input.copyTo(output,512)
                     }
                 }
             }

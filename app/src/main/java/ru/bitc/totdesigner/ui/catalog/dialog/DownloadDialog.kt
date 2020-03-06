@@ -1,8 +1,8 @@
 package ru.bitc.totdesigner.ui.catalog.dialog
 
-import android.graphics.Point
 import android.os.Bundle
-import kotlinx.android.synthetic.main.dialog_free_download.*
+import android.view.ViewGroup
+import kotlinx.android.synthetic.main.dialog_download.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.bitc.totdesigner.R
@@ -16,13 +16,15 @@ import ru.bitc.totdesigner.ui.catalog.dialog.state.DownloadViewState
  * Created on 22.01.2020
  * @author YWeber */
 
-class FreeDownloadDialog : BaseDialog(R.layout.dialog_free_download) {
+class DownloadDialog : BaseDialog(R.layout.dialog_download) {
 
     private val viewModel by viewModel<DownloadViewModel> { parametersOf(arguments?.get(NAME_QUEST) ?: "") }
 
+    override val rootContainer: ViewGroup
+        get() = containerTitleContent
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setDialogSize()
         viewModel.initState()
         subscribe(viewModel.viewState, ::handleState)
         tvBack.click { dismiss() }
@@ -31,18 +33,6 @@ class FreeDownloadDialog : BaseDialog(R.layout.dialog_free_download) {
             dismiss()
         }
         containerTitleContent.click { dismiss() }
-    }
-
-    private fun setDialogSize() {
-        val defaultDisplay = requireActivity().windowManager.defaultDisplay
-        val point = Point()
-        defaultDisplay.getSize(point)
-        containerTitleContent.setPadding(
-            (point.x * 0.2).toInt(),
-            (point.x * 0.05).toInt(),
-            (point.x * 0.2).toInt(),
-            (point.x * 0.05).toInt()
-        )
     }
 
     private fun handleState(downloadViewState: DownloadViewState) {
@@ -64,7 +54,7 @@ class FreeDownloadDialog : BaseDialog(R.layout.dialog_free_download) {
 
     companion object {
         const val NAME_QUEST = "NAME_QUEST"
-        fun newInstance(quest: String) = with(FreeDownloadDialog()) {
+        fun newInstance(quest: String) = with(DownloadDialog()) {
             val bundle = Bundle()
             bundle.putString(NAME_QUEST, quest)
             arguments = bundle

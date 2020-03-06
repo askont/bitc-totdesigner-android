@@ -4,7 +4,6 @@ import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.test.runBlockingTest
 import okhttp3.MediaType
 import okhttp3.ResponseBody
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -13,6 +12,7 @@ import retrofit2.Response
 import ru.bitc.totdesigner.fake.lessonsFake
 import ru.bitc.totdesigner.fake.previewLesson
 import ru.bitc.totdesigner.model.converter.ModelLessonToEntityPreviewConverter
+import ru.bitc.totdesigner.model.database.dao.PathDao
 import ru.bitc.totdesigner.model.entity.PreviewLessons
 import ru.bitc.totdesigner.model.http.SoapApi
 import ru.bitc.totdesigner.model.models.Lessons
@@ -26,19 +26,21 @@ class LessonRepositoryTest {
         on { convertModelToEntity(any()) }.thenReturn(PreviewLessons(listOf(previewLesson)))
     }
 
+    private val pathDao = mock<PathDao>()
+
     private lateinit var repository: LessonRepository
 
     @Before
     fun init() {
-        repository = LessonRepository(soapApi, converter)
+        repository = LessonRepository(soapApi, converter,pathDao)
     }
 
     @Test
-    fun `when get lesson preview should return PreviewLessons`() {
+    fun `when get all remote lesson preview should return PreviewLessons`() {
         //given
         runBlockingTest {
-            val lesson = repository.getPreviewLessons().previews.first()
-           assertThat(lesson).isEqualTo(previewLesson)
+            val lesson = repository.getAllRemoteLesson().previews.first()
+            assertThat(lesson).isEqualTo(previewLesson)
         }
         verifyBlocking(soapApi, times(1), {
             getLessonsPreview()
@@ -47,7 +49,7 @@ class LessonRepositoryTest {
     }
 
     @Test(expected = HttpException::class)
-    fun `when get lesson preview should return error server code`() {
+    fun `when get all remote lesson preview should return error server code`() {
         runBlockingTest {
             whenever(soapApi.getLessonsPreview()).doAnswer {
                 throw HttpException(
@@ -58,6 +60,6 @@ class LessonRepositoryTest {
                 )
             }
         }
-        runBlockingTest { repository.getPreviewLessons() }
+        runBlockingTest { repository.getAllRemoteLesson() }
     }
 }

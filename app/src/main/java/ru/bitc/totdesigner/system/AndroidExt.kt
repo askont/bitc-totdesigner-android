@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import timber.log.Timber
+import java.io.File
 
 /*
  * Created on 2019-11-27
@@ -85,6 +86,12 @@ fun <T> AsyncListDifferDelegationAdapter<T>.setData(data: List<T>) {
 fun ImageView.loadImage(url: String) {
     Glide.with(context)
         .load(url)
+        .into(this)
+}
+
+fun ImageView.loadFileImage(url: String) {
+    Glide.with(context)
+        .load(File(url))
         .into(this)
 }
 

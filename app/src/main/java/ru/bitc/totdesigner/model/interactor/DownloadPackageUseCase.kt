@@ -69,7 +69,7 @@ class DownloadPackageUseCase(
 
     private fun correctingEventLoading(loads: LoadingPackage) {
         if (loads !is LoadingPackage.Loading) {
-            jobsLoading.remove(loads.urlId)?.cancelChildren()
+            jobsLoading.remove(loads.urlId)?.cancel()
             val loading = previewLoading
                 .filterIsInstance<LoadingPackage.Loading>().firstOrNull { it.urlId == loads.urlId }
             previewLoading.remove(loading ?: return)
@@ -89,7 +89,7 @@ class DownloadPackageUseCase(
      * */
     fun eventListPairProcessLoadingAndPreview(): Flow<List<Pair<LoadingPackage, PreviewLessons.Lesson>>> {
         val lessonsPreview = CoroutineScope(dispatcher.ui)
-            .async { lessonRepository.getPreviewLessons() }
+            .async { lessonRepository.getAllRemoteLesson() }
         return eventUpdateFlow.asFlow()
             .map { lessonsPreview.await() }
             .map {

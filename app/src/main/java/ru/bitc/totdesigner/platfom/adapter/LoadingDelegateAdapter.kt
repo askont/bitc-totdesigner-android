@@ -23,7 +23,7 @@ class LoadingAdapterDelegate {
 
     private val interpolator = DecelerateInterpolator()
 
-    fun createDelegate(click: (LoadingDetailed) -> Unit) =
+    fun createAdapter(click: (LoadingDetailed) -> Unit) =
         AsyncListDifferDelegationAdapter<LoadingDetailed>(
             DetailedDiff,
             AdapterDelegatesManager<List<LoadingDetailed>>()

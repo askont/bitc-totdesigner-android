@@ -1,6 +1,6 @@
 package ru.bitc.totdesigner.ui.catalog.state
 
-import ru.bitc.totdesigner.platfom.adapter.state.QuestItem
+import ru.bitc.totdesigner.platfom.adapter.state.LessonItem
 import ru.bitc.totdesigner.platfom.state.State
 
 /*
@@ -10,7 +10,7 @@ import ru.bitc.totdesigner.platfom.state.State
 
 data class CatalogState(
     val state: State,
-    val questItems: List<QuestItem>,
+    val lessonItems: List<LessonItem>,
     val scrollToStart: Boolean,
     val questItemEmpty: Boolean = false,
     val lastSearchQuest: String = ""

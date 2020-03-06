@@ -4,14 +4,17 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import ru.bitc.totdesigner.model.http.retrofit.CuratorSoapNetwork
 import ru.bitc.totdesigner.model.interactor.DownloadPackageUseCase
+import ru.bitc.totdesigner.model.interactor.HomeLessonUseCase
 import ru.bitc.totdesigner.model.interactor.LessonUseCase
 import ru.bitc.totdesigner.model.repository.DownloadPackageRepository
+import ru.bitc.totdesigner.model.repository.HomeLessonRepository
 import ru.bitc.totdesigner.model.repository.LessonRepository
 import ru.bitc.totdesigner.platfom.navigation.LocalCiceroneHolder
 import ru.bitc.totdesigner.ui.AppViewModel
 import ru.bitc.totdesigner.ui.catalog.CatalogViewModel
 import ru.bitc.totdesigner.ui.catalog.dialog.DownloadViewModel
 import ru.bitc.totdesigner.ui.home.HomeViewModel
+import ru.bitc.totdesigner.ui.home.dialog.DetailedLessonViewModel
 import ru.bitc.totdesigner.ui.loading.LoadingDetailedViewModel
 import ru.bitc.totdesigner.ui.main.MainViewModel
 import ru.bitc.totdesigner.ui.splash.SplashViewModel
@@ -28,19 +31,23 @@ object AppModules {
     fun appModule() = module {
         // lesson
         single { LessonUseCase(get()) }
-        single { LessonRepository(get(), get()) }
+        single { LessonRepository(get(), get(), get()) }
 
         //download
-        single { DownloadPackageRepository(get(), get(), get()) }
+        single { DownloadPackageRepository(get(), get(), get(), get(), get()) }
         single { DownloadPackageUseCase(get(), get(), get()) }
+
+        //home
+        single { HomeLessonRepository(get(), get(), get()) }
+        single { HomeLessonUseCase(get()) }
     }
 
     fun viewModelModule() = module {
         viewModel { SplashViewModel(get(), get()) }
         viewModel { AppViewModel(get(), get()) }
         viewModel {
-            val cicerone = get<LocalCiceroneHolder>()
-            CatalogViewModel(cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router, get(), get(), get())
+            val cicerone = get<LocalCiceroneHolder>().cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router
+            CatalogViewModel(cicerone, get(), get(), get())
         }
         viewModel {
             val cicerone = get<LocalCiceroneHolder>()
@@ -52,11 +59,23 @@ object AppModules {
                 cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).navigatorHolder
             )
         }
-        viewModel { HomeViewModel(get()) }
+        viewModel {
+            val cicerone = get<LocalCiceroneHolder>().cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router
+            HomeViewModel(get(), get(), get(), cicerone)
+        }
         viewModel { (nameQuest: String) -> DownloadViewModel(nameQuest, get(), get(), get()) }
         viewModel {
             val cicerone = get<LocalCiceroneHolder>()
             LoadingDetailedViewModel(cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router, get(), get())
+        }
+        viewModel { (remotePath: String) ->
+            val cicerone = get<LocalCiceroneHolder>()
+            DetailedLessonViewModel(
+                remotePath,
+                get(),
+                get(),
+                cicerone.cicerone(LocalCiceroneHolder.APP_NAVIGATION).router
+            )
         }
     }
 }

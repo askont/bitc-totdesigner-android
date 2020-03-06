@@ -29,7 +29,7 @@ object Versions {
     const val conductor_controller = "3.0.0-rc1"
 
     //Room
-    const val room = "2.2.0-rc01"
+    const val room = "2.2.4"
 
     //Networking
     const val retrofit = "2.7.0"
