@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import ru.bitc.totdesigner.ui.AppActivity
+import ru.bitc.totdesigner.ui.interaction.InteractionActivity
 import ru.bitc.totdesigner.ui.main.MainFragment
 import ru.bitc.totdesigner.ui.mock.MockFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
@@ -22,6 +23,12 @@ object AppScreens {
     object AppFlowScreen : SupportAppScreen() {
         override fun getActivityIntent(context: Context?): Intent {
             return Intent(context, AppActivity::class.java)
+        }
+    }
+
+    data class InteractionRootScreen(val remoteUrl: String) : SupportAppScreen() {
+        override fun getActivityIntent(context: Context?): Intent {
+            return Intent(context, InteractionActivity::class.java)
         }
     }
 

@@ -6,12 +6,14 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
+import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.model.entity.SavedLesson
 import ru.bitc.totdesigner.model.interactor.HomeLessonUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.platfom.adapter.state.*
 import ru.bitc.totdesigner.platfom.navigation.AppScreens
 import ru.bitc.totdesigner.platfom.state.State
+import ru.bitc.totdesigner.system.ResourceManager
 import ru.bitc.totdesigner.system.notifier.DownloadNotifier
 import ru.bitc.totdesigner.ui.home.dialog.state.DetailedLessonState
 import ru.terrakok.cicerone.Router
@@ -24,6 +26,7 @@ class DetailedLessonViewModel(
     private val remotePath: String,
     private val useCase: HomeLessonUseCase,
     private val downloadNotifier: DownloadNotifier,
+    private val resourceManager: ResourceManager,
     private val router: Router
 ) : BaseViewModel() {
 
@@ -39,7 +42,7 @@ class DetailedLessonViewModel(
         launch {
             useCase.getSavedLesson(remotePath)
                 .onStart { updateState(State.Loading) }
-                .catch { updateState(State.Error("Что-то пошло не так")) }
+                .catch { updateState(State.Error(resourceManager.getString(R.string.error_user_message))) }
                 .onCompletion { updateState(State.Loaded) }
                 .collect {
                     val createItems = createItems(it)
@@ -73,7 +76,8 @@ class DetailedLessonViewModel(
     }
 
     fun runInteractive() {
-        router.navigateTo(AppScreens.MockScreen("Test"))
+        router.navigateTo(AppScreens.InteractionRootScreen("Test"))
+        back()
     }
 
     fun back() {
