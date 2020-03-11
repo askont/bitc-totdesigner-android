@@ -85,13 +85,13 @@ class LoadingAdapterDelegate {
                 tvCancelLoading.text = getString(R.string.retry)
             }
         }
-}
 
-private object DetailedDiff : DiffUtil.ItemCallback<LoadingDetailed>() {
-    override fun areItemsTheSame(oldItem: LoadingDetailed, newItem: LoadingDetailed): Boolean =
-        oldItem.urlId == newItem.urlId
+    private object DetailedDiff : DiffUtil.ItemCallback<LoadingDetailed>() {
+        override fun areItemsTheSame(oldItem: LoadingDetailed, newItem: LoadingDetailed): Boolean =
+            oldItem.urlId == newItem.urlId
 
-    @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: LoadingDetailed, newItem: LoadingDetailed): Boolean =
-        oldItem == newItem
+        @SuppressLint("DiffUtilEquals")
+        override fun areContentsTheSame(oldItem: LoadingDetailed, newItem: LoadingDetailed): Boolean =
+            oldItem == newItem
+    }
 }

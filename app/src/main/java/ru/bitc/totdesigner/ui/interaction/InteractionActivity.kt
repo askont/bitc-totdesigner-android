@@ -11,7 +11,9 @@ import ru.terrakok.cicerone.Navigator
  * @author YWeber */
 
 class InteractionActivity : BaseActivity(R.layout.activity_interaction) {
+
     override val viewModel: InteractionViewModel by viewModel()
+
     override val navigator: Navigator
         get() = ActivityNavigatorProxy(this, R.id.rootContainerInteractive)
 }
