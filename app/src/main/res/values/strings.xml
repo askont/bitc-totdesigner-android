@@ -35,4 +35,5 @@
     <string name="run_lesson">Запустить</string>
     <string name="download_list">ЗАГРУЗКИ</string>
     <string name="error_user_message">Что-то пошло не так</string>
+    <string name="next_stage">СЛЕДУЮЩИЙ ЭТАП</string>
 </resources>
