@@ -55,17 +55,17 @@ class DetailedLessonViewModel(
         action.value = currentState.copy(state = newState)
     }
 
-    private fun createItems(it: SavedLesson): List<DetailedLessonItem> {
-        val images = it.otherImage.map { Preview(it) }
-        val mainPreview = Preview(it.mainImage)
+    private fun createItems(savedLesson: SavedLesson): List<DetailedLessonItem> {
+        val images = savedLesson.otherImage.map { Preview(it) }
+        val mainPreview = Preview(savedLesson.mainImage)
 
         val allImage = mutableListOf<Preview>()
         allImage.add(mainPreview.copy(isSelect = true))
         allImage.addAll(images)
 
         val galleryPreview = GalleryPreview(allImage)
-        val title = TitleDetailedItem(it.nameLesson)
-        val description = DescriptionDetailedItem(it.descriptionLesson)
+        val title = TitleDetailedItem(savedLesson.nameLesson)
+        val description = DescriptionDetailedItem(savedLesson.descriptionLesson)
         return listOf(mainPreview, galleryPreview, title, description)
     }
 
@@ -76,7 +76,7 @@ class DetailedLessonViewModel(
     }
 
     fun runInteractive() {
-        router.navigateTo(AppScreens.InteractionRootScreen("Test"))
+        router.navigateTo(AppScreens.InteractionRootScreen(currentState.remotePath))
         back()
     }
 

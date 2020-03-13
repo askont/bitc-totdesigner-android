@@ -1,9 +1,10 @@
 package ru.bitc.totdesigner.di
 
 import org.koin.dsl.module
+import ru.bitc.totdesigner.model.converter.InteractionModelConverter
 import ru.bitc.totdesigner.model.converter.ModelLessonToEntityPreviewConverter
-import ru.bitc.totdesigner.system.ResourceManager
 import ru.bitc.totdesigner.model.converter.SavedLessonModelConverter
+import ru.bitc.totdesigner.system.ResourceManager
 import ru.bitc.totdesigner.system.flow.AndroidDispatcher
 import ru.bitc.totdesigner.system.flow.DispatcherProvider
 import ru.bitc.totdesigner.system.notifier.DownloadNotifier
@@ -23,6 +24,7 @@ object SystemModule {
         single { ResourceManager(get()) }
         single { ModelLessonToEntityPreviewConverter() }
         single { SavedLessonModelConverter() }
+        single { InteractionModelConverter() }
         single<PathManager> { AndroidPathManager(get()) }
         single { UnpackingZip(get()) }
     }

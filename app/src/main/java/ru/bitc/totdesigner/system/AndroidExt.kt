@@ -95,7 +95,6 @@ fun ImageView.loadImage(url: String) {
 fun ImageView.loadFileImage(url: String) {
     Glide.with(context)
         .load(File(url))
-        .centerCrop()
         .into(this)
 }
 

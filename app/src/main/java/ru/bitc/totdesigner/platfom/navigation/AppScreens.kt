@@ -28,7 +28,7 @@ object AppScreens {
 
     data class InteractionRootScreen(val remoteUrl: String) : SupportAppScreen() {
         override fun getActivityIntent(context: Context?): Intent {
-            return Intent(context, InteractionActivity::class.java)
+            return InteractionActivity.newInstance(remoteUrl, context)
         }
     }
 
