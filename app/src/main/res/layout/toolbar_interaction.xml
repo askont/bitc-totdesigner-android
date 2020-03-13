@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/margin_16"
+    android:paddingTop="@dimen/margin_32"
+    android:paddingEnd="@dimen/margin_16"
+    android:paddingBottom="@dimen/margin_16">
+
+    <TextView
+        android:id="@+id/tvBackToCatalog"
+        style="@style/TextButtonMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back_catalog" />
+
+    <ImageButton
+        android:id="@+id/ivListPart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:contentDescription="@string/todo"
+        android:padding="@dimen/margin_16"
+        android:src="@drawable/ic_list_part" />
+
+    <ImageView
+        android:id="@+id/ivCube"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:contentDescription="@string/todo"
+        android:padding="@dimen/margin_16"
+        android:src="@drawable/ic_cube_3d" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/toolbar_title_main"
+        android:textSize="@dimen/font_22" />
+
+    <ImageView
+        android:id="@+id/ivPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:contentDescription="@string/todo"
+        android:padding="@dimen/margin_16"
+        android:src="@drawable/ic_run_play" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:contentDescription="@string/todo"
+        android:padding="@dimen/margin_16"
+        android:src="@drawable/ic_group_interaction" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:contentDescription="@string/todo"
+        android:padding="@dimen/margin_16"
+        android:src="@drawable/ic_more_vert" />
+
+    <TextView
+        android:id="@+id/tvNextStage"
+        style="@style/TextButtonMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:text="@string/next_stage" />
+
+</LinearLayout>

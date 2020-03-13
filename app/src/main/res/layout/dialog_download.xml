@@ -41,12 +41,14 @@
                 android:layout_weight="1"
                 app:cardCornerRadius="@dimen/margin_8">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <ImageView
                     android:id="@+id/ivImageQuest"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/todo"
                     android:scaleType="centerCrop"
-                    tools:src="@drawable/ic_setting" />
+                    android:background="@color/colorPrimary"
+                    android:src="@drawable/img_logotype" />
             </androidx.cardview.widget.CardView>
 
             <TextView
