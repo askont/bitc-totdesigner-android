@@ -38,7 +38,7 @@ object Versions {
     const val stetho = "1.5.1"
 
     //Glide
-    const val glide = "4.8.0"
+    const val glide = "4.11.0"
 
     //Cicerone
     const val cicerone = "5.0.0"

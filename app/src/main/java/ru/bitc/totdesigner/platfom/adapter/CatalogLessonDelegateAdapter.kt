@@ -72,11 +72,12 @@ class LessonAdapterDelegate {
             }
         }
 
-}
+    private object DiffLessonItem : DiffUtil.ItemCallback<LessonItem>() {
+        override fun areItemsTheSame(oldItem: LessonItem, newItem: LessonItem): Boolean =
+            oldItem.hashId == newItem.hashId
 
-private object DiffLessonItem : DiffUtil.ItemCallback<LessonItem>() {
-    override fun areItemsTheSame(oldItem: LessonItem, newItem: LessonItem): Boolean = oldItem.hashId == newItem.hashId
+        @SuppressLint("DiffUtilEquals")
+        override fun areContentsTheSame(oldItem: LessonItem, newItem: LessonItem): Boolean = oldItem == newItem
+    }
 
-    @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: LessonItem, newItem: LessonItem): Boolean = oldItem == newItem
 }

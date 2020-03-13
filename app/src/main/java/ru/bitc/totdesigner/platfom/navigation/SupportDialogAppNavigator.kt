@@ -7,8 +7,6 @@ import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 import ru.terrakok.cicerone.commands.*
 import java.util.*
-import kotlin.contracts.ExperimentalContracts
-
 
 /**
  * Created on 22.01.2020

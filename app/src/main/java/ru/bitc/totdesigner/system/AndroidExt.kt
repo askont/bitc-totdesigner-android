@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
+import ru.bitc.totdesigner.R
 import timber.log.Timber
 import java.io.File
 
@@ -86,6 +87,8 @@ fun <T> AsyncListDifferDelegationAdapter<T>.setData(data: List<T>) {
 fun ImageView.loadImage(url: String) {
     Glide.with(context)
         .load(url)
+        .centerCrop()
+        .placeholder(R.drawable.img_logotype)
         .into(this)
 }
 

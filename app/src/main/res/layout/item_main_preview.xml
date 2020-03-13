@@ -9,10 +9,12 @@
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/margin_8">
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivMainPreview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
         android:scaleType="centerCrop"
         tools:src="@drawable/img_logotype" />
 </androidx.cardview.widget.CardView>

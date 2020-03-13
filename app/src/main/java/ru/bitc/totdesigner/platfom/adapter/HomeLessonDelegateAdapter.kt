@@ -62,14 +62,13 @@ class HomeLessonDelegateAdapter {
                 ivImageQuest.loadFileImage(item.mainImageLocalPath)
             }
         }
-}
+    private object DiffHomeLessonItem : DiffUtil.ItemCallback<HomeLessonItem>() {
+        override fun areItemsTheSame(oldItem: HomeLessonItem, newItem: HomeLessonItem): Boolean =
+            oldItem.id == newItem.id
 
-private object DiffHomeLessonItem : DiffUtil.ItemCallback<HomeLessonItem>() {
-    override fun areItemsTheSame(oldItem: HomeLessonItem, newItem: HomeLessonItem): Boolean =
-        oldItem.id == newItem.id
+        @SuppressLint("DiffUtilEquals")
+        override fun areContentsTheSame(oldItem: HomeLessonItem, newItem: HomeLessonItem): Boolean =
+            oldItem == newItem
 
-    @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: HomeLessonItem, newItem: HomeLessonItem): Boolean =
-        oldItem == newItem
-
+    }
 }

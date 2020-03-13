@@ -12,13 +12,12 @@ import java.io.*
  * Created on 04.03.2020
  * @author YWeber */
 
-class SavedLessonModelConverter :
-    ConverterXmlToModel<SavedLessonPreview> {
+class SavedLessonModelConverter : ConverterXmlToModel<SavedLessonPreview> {
     private val build = TikXml.Builder()
         .exceptionOnUnreadXml(false)
         .build()
 
-    override fun convertFileToModel(file: File): SavedLessonPreview {
+    override fun loadXmlToModel(file: File): SavedLessonPreview {
         val fileReader: Reader = BufferedReader(InputStreamReader(FileInputStream(file)))
         return build.read(Buffer().writeUtf8(fileReader.readText()), SavedLessonPreview::class.java)
     }
