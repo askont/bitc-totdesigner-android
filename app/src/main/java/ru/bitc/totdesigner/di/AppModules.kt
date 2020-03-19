@@ -88,7 +88,14 @@ object AppModules {
                 get(qualifier = NavigationModules.mainRouter)
             )
         }
-        viewModel { (nameQuest: String) -> DownloadViewModel(nameQuest, get(), get(), get()) }
+        viewModel { (nameQuest: String) ->
+            DownloadViewModel(
+                nameQuest,
+                get(),
+                get(),
+                get()
+            )
+        }
         viewModel {
             LoadingDetailedViewModel(
                 get(qualifier = NavigationModules.mainRouter),
