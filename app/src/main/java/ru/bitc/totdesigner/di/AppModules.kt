@@ -50,48 +50,67 @@ object AppModules {
     }
 
     fun viewModelModule() = module {
-        viewModel { SplashViewModel(get(), get()) }
-        viewModel { AppViewModel(get(), get()) }
         viewModel {
-            val cicerone = get<LocalCiceroneHolder>().cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router
-            CatalogViewModel(cicerone, get(), get(), get())
+            SplashViewModel(
+                get(qualifier = NavigationModules.appRouter),
+                get(qualifier = NavigationModules.appHolder)
+            )
         }
         viewModel {
-            val cicerone = get<LocalCiceroneHolder>()
+            AppViewModel(
+                get(qualifier = NavigationModules.appRouter),
+                get(qualifier = NavigationModules.appHolder)
+            )
+        }
+        viewModel {
+            CatalogViewModel(
+                get(qualifier = NavigationModules.mainRouter),
+                get(),
+                get(),
+                get()
+            )
+        }
+        viewModel {
+            get<LocalCiceroneHolder>()
             MainViewModel(
                 get(),
                 get(),
                 get(),
-                cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router,
-                cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).navigatorHolder
+                get(qualifier = NavigationModules.mainRouter),
+                get(qualifier = NavigationModules.mainHolder)
             )
         }
         viewModel {
-            val cicerone = get<LocalCiceroneHolder>().cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router
-            HomeViewModel(get(), get(), get(), cicerone)
+            HomeViewModel(
+                get(),
+                get(),
+                get(),
+                get(qualifier = NavigationModules.mainRouter)
+            )
         }
         viewModel { (nameQuest: String) -> DownloadViewModel(nameQuest, get(), get(), get()) }
         viewModel {
-            val cicerone = get<LocalCiceroneHolder>()
             LoadingDetailedViewModel(
-                cicerone.cicerone(LocalCiceroneHolder.MAIN_NAVIGATION).router,
+                get(qualifier = NavigationModules.mainRouter),
                 get(),
                 get()
             )
         }
         viewModel { (remotePath: String) ->
-            val cicerone = get<LocalCiceroneHolder>()
             DetailedLessonViewModel(
                 remotePath,
                 get(),
                 get(),
                 get(),
-                cicerone.cicerone(LocalCiceroneHolder.APP_NAVIGATION).router
+                get(qualifier = NavigationModules.mainRouter)
             )
         }
 
         viewModel { (lessonPath: String) ->
-            InteractionViewModel(lessonPath, get())
+            InteractionViewModel(
+                lessonPath,
+                get()
+            )
         }
     }
 }
