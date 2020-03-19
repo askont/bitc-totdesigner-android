@@ -77,7 +77,7 @@ class LoadingDetailedViewModel(
         is LoadingPackage.Error -> {
             LoadingDetailed.Error(lessons.lessonUrl, lessons.imageUrl, lessons.title)
         }
-
+        is LoadingPackage.Cancel -> LoadingDetailed.Cancel(lessons.lessonUrl)
     }
 
     fun userEvent(detailed: LoadingDetailed) {

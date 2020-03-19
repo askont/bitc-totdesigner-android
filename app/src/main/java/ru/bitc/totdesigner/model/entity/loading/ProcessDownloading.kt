@@ -8,4 +8,5 @@ sealed class ProcessDownloading {
     data class Count(val countJob: Int, val duration: Int) : ProcessDownloading()
     object Finish : ProcessDownloading()
     object Error : ProcessDownloading()
+
 }
