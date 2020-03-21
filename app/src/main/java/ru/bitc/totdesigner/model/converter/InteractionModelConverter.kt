@@ -3,6 +3,8 @@ package ru.bitc.totdesigner.model.converter
 import com.tickaroo.tikxml.TikXml
 import okio.Buffer
 import ru.bitc.totdesigner.model.entity.interaction.Interaction
+import ru.bitc.totdesigner.model.entity.interaction.PartImage
+import ru.bitc.totdesigner.model.entity.interaction.Scene
 import ru.bitc.totdesigner.model.models.Settings
 import java.io.*
 
@@ -21,13 +23,32 @@ class InteractionModelConverter : ConverterXmlToModel<Settings> {
     }
 
     fun convertToEntity(lessonPath: String, settings: Settings): Interaction {
-        val partImages = settings.assets.map {
-            Interaction.Part(lessonPath + File.separator + it.preview, it.name)
+
+        val scenes = settings.stages.map { stage ->
+            Scene(
+                stage.position,
+                stage.description,
+                absolutePath(lessonPath, stage.preview),
+                stage.workItem
+                    .map {
+                        val asset = settings.findAsset(it.guid)
+                        PartImage(
+                            absolutePath(lessonPath, asset.preview),
+                            asset.name,
+                            it.isStatic,
+                            it.transformation.m13,
+                            it.transformation.m23,
+                            it.transformation.m22,
+                            it.transformation.m11
+                        )
+                    }
+
+            )
         }
-        val previews = settings.stages.map {
-            Interaction.Preview(lessonPath + File.separator + it.preview, it.position)
-        }
-        return Interaction(partImages, previews)
+        return Interaction(scenes)
     }
 
+    private fun Settings.findAsset(guid: String) = assets.first { it.guid == guid }
+
+    private fun absolutePath(path: String, name: String): String = "$path${File.separator}$name"
 }

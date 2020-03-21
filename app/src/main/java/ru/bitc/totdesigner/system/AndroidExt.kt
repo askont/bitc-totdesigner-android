@@ -2,12 +2,15 @@ package ru.bitc.totdesigner.system
 
 import android.content.Context
 import android.graphics.Point
+import android.os.Build
+import android.text.Html
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
@@ -98,6 +101,13 @@ fun ImageView.loadFileImage(url: String) {
         .into(this)
 }
 
+fun ImageView.loadFileImage(url: String, height: Int, width: Int) {
+    Glide.with(context)
+        .load(File(url))
+        .override(width, height)
+        .into(this)
+}
+
 inline fun <reified T> T.printDebug(message: String = "Test Debug"): T =
     this.apply {
         Timber.e("$message...$this")
@@ -114,6 +124,14 @@ fun SearchView.querySearch(block: (String?) -> Unit) {
             return true
         }
     })
+}
+
+fun TextView.htmlText(html: String) {
+    text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
+    } else {
+        Html.fromHtml(html);
+    }
 }
 
 

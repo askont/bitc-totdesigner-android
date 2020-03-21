@@ -11,9 +11,7 @@ class StartInteractionUseCase(private val repository: StartInteractionRepository
 
     suspend fun getStartLesson(lessonPath: String) =
         repository.getStartLesson(lessonPath).map { interaction ->
-            interaction.copy(
-                partImages = interaction.partImages,
-                previews = interaction.previews.sortedBy { it.position })
+            interaction.copy(scenes = interaction.scenes.sortedBy { it.position })
         }
 
 }

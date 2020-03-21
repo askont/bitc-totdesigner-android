@@ -19,16 +19,15 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.25" />
 
-    <ImageView
-        android:id="@+id/ivMainImage"
+    <FrameLayout
+        android:id="@+id/rootSceneContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:contentDescription="@string/todo"
         app:layout_constraintBottom_toTopOf="@id/rvPreviewInteraction"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/verticalGuideline"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        tools:src="@drawable/img_logotype" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPartImage"
@@ -40,6 +39,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:listitem="@layout/item_part_image" />
+
+    <TextView
+        android:id="@+id/hintEmptyPartImage"
+        style="@style/DialogTitleText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginTop="@dimen/margin_32"
+        android:layout_marginEnd="@dimen/margin_8"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:gravity="top|start"
+        android:scrollbars="vertical"
+        android:text="@string/hint_empty_part_image"
+        android:textSize="@dimen/font_17"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/verticalGuideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPreviewInteraction"

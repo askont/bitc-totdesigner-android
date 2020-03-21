@@ -13,6 +13,7 @@ sealed class InteractionPartItem {
 
     data class Preview(
         val path: String,
+        val position: Int,
         val isSelect: Boolean = false
     ) : InteractionPartItem()
 }
