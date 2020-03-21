@@ -11,37 +11,42 @@ import ru.bitc.totdesigner.platfom.adapter.state.InteractionPartItem
 import ru.bitc.totdesigner.ui.interaction.state.ImageParticle
 import ru.bitc.totdesigner.ui.interaction.state.InteractionState
 import ru.bitc.totdesigner.ui.interaction.state.SceneState
+import ru.terrakok.cicerone.NavigatorHolder
+import ru.terrakok.cicerone.Router
 
 /**
  * Created on 10.03.2020
  * @author YWeber */
 
 class InteractionViewModel(
-    private val lessonPath: String,
-    private val useCase: StartInteractionUseCase
-) : BaseViewModel() {
+        private val lessonPath: String,
+        private val useCase: StartInteractionUseCase,
+        private val router: Router,
+        navigatorHolder: NavigatorHolder
+) : BaseViewModel(navigatorHolder) {
 
     private val action = MutableLiveData<InteractionState>()
 
     private val currentState
         get() = action.value ?: InteractionState(
-            SceneState(
-                false,
-                0,
-                "",
-                listOf()
-            ), listOf()
+                SceneState(
+                        false,
+                        0,
+                        "",
+                        listOf()
+                ), listOf()
         )
     private var scenesState: MutableList<SceneState> = mutableListOf()
+    private val oldSceneState: MutableList<SceneState> = mutableListOf()
     val viewState: LiveData<InteractionState>
         get() = action
 
     init {
         launch {
             useCase.getStartLesson(lessonPath)
-                .collect {
-                    updateState(it)
-                }
+                    .collect {
+                        updateState(it)
+                    }
         }
     }
 
@@ -49,31 +54,32 @@ class InteractionViewModel(
         val sceneState = interaction.scenes.map { scene ->
             val notClickablePart = scene.partImages.any { !it.isStatic }
             SceneState(
-                !notClickablePart,
-                scene.position,
-                scene.description,
-                scene.partImages.filter { !it.isStatic }.map { InteractionPartItem.Part(it.pathImage, it.namePart) },
-                createParticle(scene),
-                notClickablePart
+                    !notClickablePart,
+                    scene.position,
+                    scene.description,
+                    scene.partImages.filter { !it.isStatic }.map { InteractionPartItem.Part(it.pathImage, it.namePart) },
+                    createParticle(scene),
+                    notClickablePart
             )
 
         }
         scenesState.addAll(sceneState)
         val previewList = interaction.scenes
-            .map { InteractionPartItem.Preview(it.previewImagePath, it.position, it.position == 0) }
+                .map { InteractionPartItem.Preview(it.previewImagePath, it.position, it.position == 0) }
         action.value = currentState.copy(sceneState = sceneState[0], previewImages = previewList)
     }
 
     private fun createParticle(scene: Scene) =
-        scene.partImages.map {
-            ImageParticle(
-                it.pathImage,
-                it.positionX,
-                it.positionY,
-                it.height,
-                it.width
-            )
-        }
+            scene.partImages.map {
+                ImageParticle(
+                        it.pathImage,
+                        it.positionX,
+                        it.positionY,
+                        it.height,
+                        it.width,
+                        it.isStatic
+                )
+            }
 
     fun selectImage(interactionItem: InteractionPartItem) {
 
@@ -89,7 +95,7 @@ class InteractionViewModel(
                     }
                 }
                 action.value =
-                    currentState.copy(sceneState = scenesState[interactionItem.position], previewImages = newPreview)
+                        currentState.copy(sceneState = scenesState[interactionItem.position], previewImages = newPreview)
                 scenesState.removeAt(oldSceneState.position)
                 scenesState.add(oldSceneState.position, oldSceneState)
             }
@@ -98,9 +104,42 @@ class InteractionViewModel(
 
     fun switchSide() {
         action.value = currentState.copy(
-            sceneState = currentState.sceneState
-                .copy(visibleDescription = !currentState.sceneState.visibleDescription)
+                sceneState = currentState.sceneState
+                        .copy(visibleDescription = !currentState.sceneState.visibleDescription)
         )
     }
 
+    fun back() {
+        router.exit()
+    }
+
+    fun nextScene() {
+        val oldPosition = currentState.sceneState.position
+        val oldScene = currentState.sceneState
+        val newPosition = if (oldPosition + 1 in 0 until scenesState.size) oldPosition + 1 else 0
+        val newPreview = currentState.previewImages.map {
+            if (it.position == newPosition) {
+                it.copy(isSelect = true)
+            } else {
+                it.copy(isSelect = false)
+            }
+        }
+        scenesState.removeAt(oldPosition)
+        scenesState.add(oldPosition, oldScene)
+        action.value =
+                currentState.copy(sceneState = scenesState[newPosition], previewImages = newPreview)
+    }
+
+    fun playOrStopInteractive() {
+        val startSceneState = currentState.sceneState
+        if (!currentState.sceneState.isRunPlay) {
+            val correctParticle = startSceneState.imageParticle.filter { it.isStatic }
+            oldSceneState.add(startSceneState)
+            action.value = currentState.copy(sceneState = startSceneState.copy(imageParticle = correctParticle, isRunPlay = true))
+        } else {
+            val oldScene = oldSceneState.first { it.position == startSceneState.position }
+            action.value = currentState.copy(sceneState = oldScene.copy(isRunPlay = false))
+            oldSceneState.remove(oldScene)
+        }
+    }
 }

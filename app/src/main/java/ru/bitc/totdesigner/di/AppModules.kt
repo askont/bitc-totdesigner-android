@@ -46,7 +46,7 @@ object AppModules {
 
         //start lesson
         single { StartInteractionRepository(get(), get(), get()) }
-        single { StartInteractionUseCase(get(), get()) }
+        single { StartInteractionUseCase(get(), get(), get()) }
     }
 
     fun viewModelModule() = module {
@@ -116,7 +116,9 @@ object AppModules {
         viewModel { (lessonPath: String) ->
             InteractionViewModel(
                 lessonPath,
-                get()
+                get(),
+                get(qualifier = NavigationModules.appRouter),
+                get(qualifier = NavigationModules.appHolder)
             )
         }
     }

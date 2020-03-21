@@ -17,7 +17,8 @@ data class SceneState(
     val description: String,
     val partImages: List<InteractionPartItem.Part>,
     val imageParticle: List<ImageParticle> = listOf(),
-    val disableSwitch: Boolean = false
+    val isContentInteractive: Boolean = false,
+    val isRunPlay: Boolean = false
 )
 
 data class ImageParticle(
@@ -25,5 +26,6 @@ data class ImageParticle(
     val positionX: Int = 0,
     val positionY: Int = 0,
     val height: Int = 0,
-    val width: Int = 0
+    val width: Int = 0,
+    val isStatic: Boolean
 )
