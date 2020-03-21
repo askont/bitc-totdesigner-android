@@ -8,6 +8,7 @@ import ru.bitc.totdesigner.system.ResourceManager
 import ru.bitc.totdesigner.system.flow.AndroidDispatcher
 import ru.bitc.totdesigner.system.flow.DispatcherProvider
 import ru.bitc.totdesigner.system.notifier.DownloadNotifier
+import ru.bitc.totdesigner.system.notifier.WindowsSizeNotifier
 import ru.bitc.totdesigner.system.path.AndroidPathManager
 import ru.bitc.totdesigner.system.path.PathManager
 import ru.bitc.totdesigner.system.zip.UnpackingZip
@@ -27,6 +28,7 @@ object SystemModule {
         single { InteractionModelConverter() }
         single<PathManager> { AndroidPathManager(get()) }
         single { UnpackingZip(get()) }
+        single { WindowsSizeNotifier() }
     }
 
 }

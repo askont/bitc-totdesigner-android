@@ -47,13 +47,14 @@ class InteractionViewModel(
 
     private fun updateState(interaction: Interaction) {
         val sceneState = interaction.scenes.map { scene ->
+            val notClickablePart = scene.partImages.any { !it.isStatic }
             SceneState(
-                scene.partImages.isEmpty(),
+                !notClickablePart,
                 scene.position,
                 scene.description,
                 scene.partImages.filter { !it.isStatic }.map { InteractionPartItem.Part(it.pathImage, it.namePart) },
                 createParticle(scene),
-                scene.partImages.isNotEmpty()
+                notClickablePart
             )
 
         }
