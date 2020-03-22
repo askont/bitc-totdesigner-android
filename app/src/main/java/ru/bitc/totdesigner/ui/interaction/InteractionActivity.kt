@@ -101,6 +101,7 @@ class InteractionActivity : BaseActivity(R.layout.activity_interaction) {
     }
 
     private fun renderInteractive(state: InteractionState) {
+        if (!state.sceneState.changeParticle) return
         rootSceneContainer.removeAllViews()
         state.sceneState.imageParticle.asSequence().forEach {
             val params = FrameLayout.LayoutParams(it.width, it.height)

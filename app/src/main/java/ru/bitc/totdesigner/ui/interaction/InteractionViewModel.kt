@@ -19,22 +19,22 @@ import ru.terrakok.cicerone.Router
  * @author YWeber */
 
 class InteractionViewModel(
-        private val lessonPath: String,
-        private val useCase: StartInteractionUseCase,
-        private val router: Router,
-        navigatorHolder: NavigatorHolder
+    private val lessonPath: String,
+    private val useCase: StartInteractionUseCase,
+    private val router: Router,
+    navigatorHolder: NavigatorHolder
 ) : BaseViewModel(navigatorHolder) {
 
     private val action = MutableLiveData<InteractionState>()
 
     private val currentState
         get() = action.value ?: InteractionState(
-                SceneState(
-                        false,
-                        0,
-                        "",
-                        listOf()
-                ), listOf()
+            SceneState(
+                false,
+                0,
+                "",
+                listOf()
+            ), listOf()
         )
     private var scenesState: MutableList<SceneState> = mutableListOf()
     private val oldSceneState: MutableList<SceneState> = mutableListOf()
@@ -44,9 +44,9 @@ class InteractionViewModel(
     init {
         launch {
             useCase.getStartLesson(lessonPath)
-                    .collect {
-                        updateState(it)
-                    }
+                .collect {
+                    updateState(it)
+                }
         }
     }
 
@@ -54,35 +54,35 @@ class InteractionViewModel(
         val sceneState = interaction.scenes.map { scene ->
             val notClickablePart = scene.partImages.any { !it.isStatic }
             SceneState(
-                    !notClickablePart,
-                    scene.position,
-                    scene.description,
-                    scene.partImages.filter { !it.isStatic }.map { InteractionPartItem.Part(it.pathImage, it.namePart) },
-                    createParticle(scene),
-                    notClickablePart
+                !notClickablePart,
+                scene.position,
+                scene.description,
+                scene.partImages.filter { !it.isStatic }.map { InteractionPartItem.Part(it.pathImage, it.namePart) },
+                createParticle(scene),
+                notClickablePart,
+                changeParticle = true
             )
 
         }
         scenesState.addAll(sceneState)
         val previewList = interaction.scenes
-                .map { InteractionPartItem.Preview(it.previewImagePath, it.position, it.position == 0) }
+            .map { InteractionPartItem.Preview(it.previewImagePath, it.position, it.position == 0) }
         action.value = currentState.copy(sceneState = sceneState[0], previewImages = previewList)
     }
 
     private fun createParticle(scene: Scene) =
-            scene.partImages.map {
-                ImageParticle(
-                        it.pathImage,
-                        it.positionX,
-                        it.positionY,
-                        it.height,
-                        it.width,
-                        it.isStatic
-                )
-            }
+        scene.partImages.map {
+            ImageParticle(
+                it.pathImage,
+                it.positionX,
+                it.positionY,
+                it.height,
+                it.width,
+                it.isStatic
+            )
+        }
 
     fun selectImage(interactionItem: InteractionPartItem) {
-
         when (interactionItem) {
             is InteractionPartItem.Preview -> {
                 val oldSceneState = currentState.sceneState
@@ -95,7 +95,10 @@ class InteractionViewModel(
                     }
                 }
                 action.value =
-                        currentState.copy(sceneState = scenesState[interactionItem.position], previewImages = newPreview)
+                    currentState.copy(
+                        sceneState = scenesState[interactionItem.position].copy(changeParticle = true),
+                        previewImages = newPreview
+                    )
                 scenesState.removeAt(oldSceneState.position)
                 scenesState.add(oldSceneState.position, oldSceneState)
             }
@@ -104,8 +107,11 @@ class InteractionViewModel(
 
     fun switchSide() {
         action.value = currentState.copy(
-                sceneState = currentState.sceneState
-                        .copy(visibleDescription = !currentState.sceneState.visibleDescription)
+            sceneState = currentState.sceneState
+                .copy(
+                    visibleDescription = !currentState.sceneState.visibleDescription,
+                    changeParticle = false
+                )
         )
     }
 
@@ -127,7 +133,10 @@ class InteractionViewModel(
         scenesState.removeAt(oldPosition)
         scenesState.add(oldPosition, oldScene)
         action.value =
-                currentState.copy(sceneState = scenesState[newPosition], previewImages = newPreview)
+            currentState.copy(
+                sceneState = scenesState[newPosition].copy(changeParticle = true),
+                previewImages = newPreview
+            )
     }
 
     fun playOrStopInteractive() {
@@ -135,10 +144,17 @@ class InteractionViewModel(
         if (!currentState.sceneState.isRunPlay) {
             val correctParticle = startSceneState.imageParticle.filter { it.isStatic }
             oldSceneState.add(startSceneState)
-            action.value = currentState.copy(sceneState = startSceneState.copy(imageParticle = correctParticle, isRunPlay = true))
+            action.value =
+                currentState.copy(
+                    sceneState = startSceneState.copy(
+                        imageParticle = correctParticle,
+                        isRunPlay = true,
+                        changeParticle = true
+                    )
+                )
         } else {
             val oldScene = oldSceneState.first { it.position == startSceneState.position }
-            action.value = currentState.copy(sceneState = oldScene.copy(isRunPlay = false))
+            action.value = currentState.copy(sceneState = oldScene.copy(isRunPlay = false, changeParticle = true))
             oldSceneState.remove(oldScene)
         }
     }
