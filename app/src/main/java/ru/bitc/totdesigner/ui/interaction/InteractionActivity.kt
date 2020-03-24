@@ -1,16 +1,22 @@
 package ru.bitc.totdesigner.ui.interaction
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.view.DragEvent
 import android.view.Gravity
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.view.setPadding
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
+import androidx.vectordrawable.graphics.drawable.ArgbEvaluator
 import kotlinx.android.synthetic.main.activity_interaction.*
 import kotlinx.android.synthetic.main.toolbar_interaction.*
 import org.koin.android.ext.android.inject
@@ -21,6 +27,7 @@ import ru.bitc.totdesigner.platfom.BaseActivity
 import ru.bitc.totdesigner.platfom.adapter.ineraction.InteractionPartDelegateAdapter
 import ru.bitc.totdesigner.platfom.decorator.GridPaddingItemDecoration
 import ru.bitc.totdesigner.platfom.decorator.TopBottomSpaceDecorator
+import ru.bitc.totdesigner.platfom.drag.ScaleDragShadowBuilder
 import ru.bitc.totdesigner.platfom.navigation.ActivityNavigatorProxy
 import ru.bitc.totdesigner.system.*
 import ru.bitc.totdesigner.system.notifier.WindowsSizeNotifier
@@ -64,13 +71,30 @@ class InteractionActivity : BaseActivity(R.layout.activity_interaction) {
         rvPartImage.addItemDecoration(TopBottomSpaceDecorator(4))
         rvPreviewInteraction.adapter = previewAdapter
         rvPreviewInteraction.addItemDecoration(GridPaddingItemDecoration(8))
-        hintEmptyPartImage.movementMethod = ScrollingMovementMethod()
+        tvHintEmptyPartImage.movementMethod = ScrollingMovementMethod()
         rootSceneContainer.viewTreeObserver.addOnGlobalLayoutListener {
             windowSizeNotifier.setNewWindowSize(WindowsSize(rootSceneContainer.height, rootSceneContainer.width))
         }
         tvBackToCatalog.click { viewModel.back() }
         tvNextStage.click { viewModel.nextScene() }
         ivPlay.click { viewModel.playOrStopInteractive() }
+        rootSceneContainer.setOnDragListener { _, event ->
+            when (event.action) {
+                DragEvent.ACTION_DRAG_STARTED -> {
+
+                }
+                DragEvent.ACTION_DROP -> {
+                    val clipPathId = event.clipData.getItemAt(0)
+                    if (clipPathId != null) {
+                        viewModel.handleDragParticle(clipPathId.text.toString(), event.x.toInt(), event.y.toInt())
+                    }
+                }
+                DragEvent.ACTION_DRAG_LOCATION -> {
+
+                }
+            }
+            true
+        }
     }
 
     private fun renderState(state: InteractionState) {
@@ -82,9 +106,16 @@ class InteractionActivity : BaseActivity(R.layout.activity_interaction) {
     }
 
     private fun renderRunPlay(state: InteractionState) {
+        tvHintDoneLesson.isVisible =
+            state.sceneState.isDoneInteractive && state.sceneState.isRunPlay && !state.sceneState.visibleDescription
         if (state.sceneState.isRunPlay) {
-            ivPlay.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_close_interactive))
             ivPlay.background = ContextCompat.getDrawable(this, R.drawable.bg_interactive)
+            if (state.sceneState.isDoneInteractive) {
+                ivPlay.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_done_run_button))
+            } else {
+                ivPlay.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_close_interactive))
+
+            }
         } else {
             ivPlay.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_run_play))
             ivPlay.background = null
@@ -94,32 +125,59 @@ class InteractionActivity : BaseActivity(R.layout.activity_interaction) {
 
     private fun renderContentInteractive(state: InteractionState) {
         ivListPart.isVisible = state.sceneState.isContentInteractive
-        hintEmptyPartImage.isVisible = state.sceneState.visibleDescription
-        hintEmptyPartImage.scrollTo(0, 0)
+        tvHintEmptyPartImage.isVisible = state.sceneState.visibleDescription
+        tvHintEmptyPartImage.scrollTo(0, 0)
         rvPartImage.isVisible = !state.sceneState.visibleDescription
-        hintEmptyPartImage.htmlText(state.sceneState.description)
+        tvHintEmptyPartImage.htmlText(state.sceneState.description)
     }
 
     private fun renderInteractive(state: InteractionState) {
         if (!state.sceneState.changeParticle) return
         rootSceneContainer.removeAllViews()
-        state.sceneState.imageParticle.asSequence().forEach {
-            val params = FrameLayout.LayoutParams(it.width, it.height)
+        state.sceneState.imageParticle.asSequence().forEach { particle ->
+            val params = FrameLayout.LayoutParams(particle.width, particle.height)
             val imageView = ImageView(this)
             imageView.scaleType = ImageView.ScaleType.FIT_XY
-            imageView.loadFileImage(it.path)
-            params.topMargin = it.positionY
-            params.marginStart = it.positionX
-            animationScene(it, state)
+            imageView.loadFileImage(particle.path)
+            if (!particle.isSuccessArea) {
+                imageView.background = ContextCompat.getDrawable(this, R.drawable.bg_drag_error)
+                imageView.setPadding(4.dpToPx())
+            } else if (particle.isSuccessArea && particle.isAddAnimate) {
+                val colorSuccess = ContextCompat.getColor(this, R.color.colorSuccess)
+                val colorTransparent = ContextCompat.getColor(this, R.color.transparentSuccess)
+                imageView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorSuccess))
+                ObjectAnimator.ofObject(ArgbEvaluator(), colorSuccess, colorTransparent).apply {
+                    duration = 1000
+                    addUpdateListener {
+                        imageView.setBackgroundColor(it.animatedValue as Int)
+                    }
+                }.start()
+            }
+            params.topMargin = particle.positionY
+            params.marginStart = particle.positionX
+            animationScene(particle, state)
+            if (!particle.isMoveAnimate) {
+                imageView.setOnLongClickListener {
+                    val dragDate = ScaleDragShadowBuilder.createDate(particle.id)
+                    val dragImg = View.DragShadowBuilder(imageView)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        it.startDragAndDrop(dragDate, dragImg, particle, 0)
+                    } else {
+                        it.startDrag(dragDate, dragImg, particle, 0)
+                    }
+                    true
+                }
+            }
             rootSceneContainer.addView(imageView, params)
         }
     }
+
 
     private fun animationScene(
         particle: ImageParticle,
         state: InteractionState
     ) {
-        if (!particle.isStatic) {
+        if (!particle.isStatic && particle.isMoveAnimate) {
             val slide = Slide(Gravity.START)
             slide.duration = 1000
             TransitionManager.beginDelayedTransition(rootSceneContainer, slide)

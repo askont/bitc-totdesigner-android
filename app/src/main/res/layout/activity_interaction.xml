@@ -41,7 +41,28 @@
         tools:listitem="@layout/item_part_image" />
 
     <TextView
-        android:id="@+id/hintEmptyPartImage"
+        android:id="@+id/tvHintDoneLesson"
+        style="@style/DialogTitleText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginTop="@dimen/margin_32"
+        android:layout_marginEnd="@dimen/margin_8"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:drawableBottom="@drawable/ic_done_interactive"
+        android:drawablePadding="50dp"
+        android:gravity="top|start"
+        android:scrollbars="vertical"
+        android:text="@string/done_lesson"
+        android:textSize="@dimen/font_17"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/verticalGuideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+
+    <TextView
+        android:id="@+id/tvHintEmptyPartImage"
         style="@style/DialogTitleText"
         android:layout_width="0dp"
         android:layout_height="0dp"

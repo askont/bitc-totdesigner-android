@@ -19,14 +19,19 @@ data class SceneState(
     val imageParticle: List<ImageParticle> = listOf(),
     val isContentInteractive: Boolean = false,
     val isRunPlay: Boolean = false,
-    val changeParticle: Boolean = true
+    val changeParticle: Boolean = true,
+    val isDoneInteractive: Boolean = false
 )
 
 data class ImageParticle(
+    val id: String,
     val path: String,
     val positionX: Int = 0,
     val positionY: Int = 0,
     val height: Int = 0,
     val width: Int = 0,
-    val isStatic: Boolean
+    val isStatic: Boolean,
+    val isMoveAnimate: Boolean = true,
+    val isSuccessArea: Boolean,
+    val isAddAnimate: Boolean = false
 )

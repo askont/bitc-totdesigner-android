@@ -12,6 +12,7 @@
         android:id="@+id/ivPartImage"
         android:layout_width="@dimen/margin_56"
         android:layout_height="@dimen/margin_56"
+        android:scaleType="fitCenter"
         android:contentDescription="@string/todo"
         android:src="@drawable/ic_run_play" />
 

@@ -11,13 +11,17 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
+import com.hannesdorfmann.adapterdelegates4.dsl.AdapterDelegateLayoutContainerViewHolder
 import ru.bitc.totdesigner.R
+import ru.bitc.totdesigner.platfom.BaseActivity
+import ru.bitc.totdesigner.platfom.BaseFragment
 import timber.log.Timber
 import java.io.File
 
@@ -134,4 +138,8 @@ fun TextView.htmlText(html: String) {
     }
 }
 
+fun BaseFragment.toast(message: CharSequence) = Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+fun BaseActivity.toast(message: CharSequence) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+fun AdapterDelegateLayoutContainerViewHolder<*>.toast(message: CharSequence) =
+    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 

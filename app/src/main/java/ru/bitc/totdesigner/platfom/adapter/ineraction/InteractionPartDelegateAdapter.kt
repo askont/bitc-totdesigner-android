@@ -1,6 +1,7 @@
 package ru.bitc.totdesigner.platfom.adapter.ineraction
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
@@ -10,8 +11,10 @@ import kotlinx.android.synthetic.main.item_interaction_preview.*
 import kotlinx.android.synthetic.main.item_part_image.*
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.adapter.state.InteractionPartItem
+import ru.bitc.totdesigner.platfom.drag.ScaleDragShadowBuilder
 import ru.bitc.totdesigner.system.click
 import ru.bitc.totdesigner.system.loadFileImage
+import ru.bitc.totdesigner.system.toast
 
 /**
  * Created on 11.03.2020
@@ -23,7 +26,7 @@ class InteractionPartDelegateAdapter {
         AsyncListDifferDelegationAdapter(
             DiffInteractionPart,
             AdapterDelegatesManager<List<InteractionPartItem>>()
-                .addDelegate(partAdapter(click))
+                .addDelegate(partAdapter())
                 .addDelegate(previewAdapter(click))
         )
 
@@ -44,9 +47,22 @@ class InteractionPartDelegateAdapter {
             }
         }
 
-    private fun partAdapter(click: (InteractionPartItem) -> Unit) =
+    private fun partAdapter() =
         adapterDelegateLayoutContainer<InteractionPartItem.Part, InteractionPartItem>(R.layout.item_part_image) {
-            itemView.click { click(item) }
+            itemView.setOnLongClickListener {
+                if (item.isPermissionDrop) {
+                    val dragDate = ScaleDragShadowBuilder.createDate(item.id)
+                    val dragImg = ScaleDragShadowBuilder(ivPartImage, item.height, item.height)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        it.startDragAndDrop(dragDate, dragImg, item, 0)
+                    } else {
+                        it.startDrag(dragDate, dragImg, item, 0)
+                    }
+                } else {
+                    toast("Для перемещения элеметов необходимо запустить урок")
+                }
+                return@setOnLongClickListener true
+            }
             bind {
                 tvNamePart.text = item.name
                 ivPartImage.loadFileImage(item.path)
@@ -55,7 +71,7 @@ class InteractionPartDelegateAdapter {
 
     private object DiffInteractionPart : DiffUtil.ItemCallback<InteractionPartItem>() {
         override fun areItemsTheSame(oldItem: InteractionPartItem, newItem: InteractionPartItem): Boolean =
-            oldItem == newItem
+            oldItem.id == newItem.id
 
         @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(oldItem: InteractionPartItem, newItem: InteractionPartItem): Boolean =
