@@ -89,8 +89,8 @@ class InteractionActivity : BaseActivity(R.layout.activity_interaction) {
                         viewModel.handleDragParticle(clipPathId.text.toString(), event.x.toInt(), event.y.toInt())
                     }
                 }
-                DragEvent.ACTION_DRAG_LOCATION -> {
-
+                DragEvent.ACTION_DRAG_ENDED -> {
+                    partAdapter.notifyDataSetChanged()
                 }
             }
             true

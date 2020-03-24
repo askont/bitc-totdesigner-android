@@ -3,6 +3,7 @@ package ru.bitc.totdesigner.platfom.adapter.ineraction
 import android.annotation.SuppressLint
 import android.os.Build
 import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
@@ -51,6 +52,12 @@ class InteractionPartDelegateAdapter {
         adapterDelegateLayoutContainer<InteractionPartItem.Part, InteractionPartItem>(R.layout.item_part_image) {
             itemView.setOnLongClickListener {
                 if (item.isPermissionDrop) {
+                    setIsRecyclable(false)
+                    val params = ivPartImage.layoutParams
+                    params.width = (params.width * 1.5).toInt()
+                    params.height = (params.height * 1.5).toInt()
+                    containerPartImage.background = ContextCompat.getDrawable(context, R.drawable.bg_select_part_image)
+                    ivPartImage.layoutParams = params
                     val dragDate = ScaleDragShadowBuilder.createDate(item.id)
                     val dragImg = ScaleDragShadowBuilder(ivPartImage, item.height, item.height)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

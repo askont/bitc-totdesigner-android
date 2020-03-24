@@ -7,7 +7,7 @@ package ru.bitc.totdesigner.platfom.adapter.state
 sealed class InteractionPartItem(open val id: String) {
 
     data class Part(
-        override val id:String,
+        override val id: String,
         val path: String,
         val name: String,
         val positionX: Int = 0,
