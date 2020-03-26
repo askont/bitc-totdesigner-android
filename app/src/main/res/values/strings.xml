@@ -36,4 +36,6 @@
     <string name="download_list">ЗАГРУЗКИ</string>
     <string name="error_user_message">Что-то пошло не так</string>
     <string name="next_stage">СЛЕДУЮЩИЙ ЭТАП</string>
+    <string name="hint_empty_part_image">Освойте текущию информацию</string>
+    <string name="done_lesson">Этап успешно завершен</string>
 </resources>

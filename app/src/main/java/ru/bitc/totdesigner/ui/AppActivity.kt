@@ -18,7 +18,4 @@ class AppActivity : BaseActivity(R.layout.activity_main) {
         viewModel.setMainFlowScreen()
     }
 
-    override fun onBack(): Boolean {
-        return super.onBack()
-    }
 }
