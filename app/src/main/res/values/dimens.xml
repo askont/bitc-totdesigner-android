@@ -11,6 +11,10 @@
     <dimen name="margin_search_80">80dp</dimen>
 
     <dimen name="height_bottom_bar">48dp</dimen>
+    <dimen name="height_select_preview">125dp</dimen>
+    <dimen name="width_select_preview">200dp</dimen>
+    <dimen name="height_preview">100dp</dimen>
+    <dimen name="width_preview">175dp</dimen>
 
     <dimen name="font_12">12sp</dimen>
     <dimen name="font_13">13sp</dimen>
@@ -24,6 +28,7 @@
     <dimen name="font_21">21sp</dimen>
     <dimen name="font_22">22sp</dimen>
     <dimen name="font_31">31sp</dimen>
+
     <dimen name="height_quest_item">250dp</dimen>
     <dimen name="padding_min_4">4dp</dimen>
     <dimen name="margin_64">64dp</dimen>

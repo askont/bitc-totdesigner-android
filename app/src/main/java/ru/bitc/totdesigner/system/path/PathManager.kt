@@ -8,4 +8,8 @@ interface PathManager {
     val externalDirLocalFile: String
     val zipType: String
         get() = "lsnx"
+    val preview
+        get() = "Preview.xml"
+    val setting
+        get() = "Settings.xml"
 }

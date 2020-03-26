@@ -1,9 +1,6 @@
 package ru.bitc.totdesigner.model.interactor
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
-import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import ru.bitc.totdesigner.model.entity.PreviewLessons
@@ -12,6 +9,7 @@ import ru.bitc.totdesigner.model.entity.loading.ProcessDownloading
 import ru.bitc.totdesigner.model.repository.DownloadPackageRepository
 import ru.bitc.totdesigner.model.repository.LessonRepository
 import ru.bitc.totdesigner.system.flow.DispatcherProvider
+import timber.log.Timber
 
 /**
  * Created on 27.01.2020
@@ -22,42 +20,51 @@ class DownloadPackageUseCase(
     private val lessonRepository: LessonRepository,
     private val dispatcher: DispatcherProvider
 ) {
-    private val jobsLoading = mutableMapOf<String, Deferred<Flow<LoadingPackage>>>()
+    private val jobsLoading = mutableMapOf<String, Job>()
     private val previewLoading = mutableListOf<LoadingPackage>()
     private val eventUpdateFlow = ConflatedBroadcastChannel<Boolean>()
+    private val eventLoading = ConflatedBroadcastChannel<LoadingPackage>()
 
-    fun processTaskEventLoadingCount(
+
+    suspend fun processTaskEventLoadingCount(
         lessonUrl: String,
         lessonName: String,
         isDelete: Boolean
     ): Flow<ProcessDownloading> {
         if (!jobsLoading.containsKey(lessonUrl)) {
-            jobsLoading[lessonUrl] = CoroutineScope(dispatcher.ui).async {
-                repository.downloadPackage(lessonUrl, lessonName)
+            jobsLoading[lessonUrl] = CoroutineScope(dispatcher.ui).launch {
+                try {
+                    repository.downloadPackage(lessonUrl, lessonName)
+                        .collect {
+                            handleEventLoading(it)
+                            eventLoading.offer(it)
+                        }
+                } catch (ex: CancellationException) {
+                    eventLoading.offer(LoadingPackage.Cancel(lessonUrl))
+                    Timber.e("cancel use case")
+                }
             }
+
         } else if (isDelete) deleteDuplicateJob(lessonUrl)
 
         return if (jobsLoading.isNotEmpty()) {
-            jobsLoading.values.asFlow()
-                .map { it.await() }
-                .flattenMerge()
-                .onEach { loads -> handleEventLoading(loads) }
-                .distinctUntilChanged()
+            eventLoading.asFlow()
                 .map { if (it is LoadingPackage.Error) -1 else jobsLoading.size }
                 .map { createEntityJob(it) }
+                .flowOn(dispatcher.ui)
         } else flow { emit(ProcessDownloading.Finish) }
     }
 
     private fun deleteDuplicateJob(lessonUrl: String) {
-        jobsLoading[lessonUrl]?.cancelChildren()
+        jobsLoading[lessonUrl]?.cancel()
         jobsLoading.remove(lessonUrl)
         val loading = previewLoading
             .filterIsInstance<LoadingPackage.Loading>()
-            .firstOrNull { it.urlId == lessonUrl }
-        if (loading != null) {
-            previewLoading.remove(loading)
-            eventUpdateFlow.offer(true)
+            .filter { it.urlId == lessonUrl }
+        if (loading.isNotEmpty()) {
+            previewLoading.removeAll(loading)
         }
+        eventUpdateFlow.offer(true)
     }
 
     private fun handleEventLoading(loads: LoadingPackage) {
@@ -65,16 +72,16 @@ class DownloadPackageUseCase(
             previewLoading.add(loads)
         }
         correctingEventLoading(loads)
+        eventUpdateFlow.offer(true)
     }
 
     private fun correctingEventLoading(loads: LoadingPackage) {
         if (loads !is LoadingPackage.Loading) {
-            jobsLoading.remove(loads.urlId)?.cancel()
+            jobsLoading.remove(loads.urlId)
             val loading = previewLoading
-                .filterIsInstance<LoadingPackage.Loading>().firstOrNull { it.urlId == loads.urlId }
-            previewLoading.remove(loading ?: return)
+                .filterIsInstance<LoadingPackage.Loading>().filter { it.urlId == loads.urlId }
+            previewLoading.removeAll(loading)
         }
-        eventUpdateFlow.offer(true)
     }
 
     private fun createEntityJob(it: Int): ProcessDownloading = when (it) {
@@ -100,23 +107,24 @@ class DownloadPackageUseCase(
     }
 
     private fun createPairLessonAndLoading(
-        load: LoadingPackage,
+        load: LoadingPackage?,
         lessonsPreview: PreviewLessons
-    ): Pair<LoadingPackage, PreviewLessons.Lesson?> {
+    ): Pair<LoadingPackage?, PreviewLessons.Lesson?> {
         return load to lessonsPreview
             .previews
-            .firstOrNull { load.urlId == it.lessonUrl }
+            .firstOrNull { load?.urlId == it.lessonUrl }
     }
 
     fun cancelAllJob() {
         jobsLoading.values.forEach { job ->
-            job.cancelChildren()
+            job.cancel()
         }
         val notLoadingList = previewLoading.filter { it !is LoadingPackage.Loading }
         previewLoading.clear()
-        previewLoading.addAll(notLoadingList)
         jobsLoading.clear()
         eventUpdateFlow.offer(true)
+        previewLoading.addAll(notLoadingList)
+
     }
 
     fun clearFinishAndErrorType() {

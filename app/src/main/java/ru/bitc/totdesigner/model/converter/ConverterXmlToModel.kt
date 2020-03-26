@@ -7,5 +7,5 @@ import java.io.File
  * @author YWeber */
 
 interface ConverterXmlToModel<T : Any> {
-    fun convertFileToModel(file: File): T
+    fun loadXmlToModel(file: File): T
 }

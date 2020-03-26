@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerPartImage"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_dark_select"
+    android:foreground="?attr/selectableItemBackground"
+    android:gravity="center"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="horizontal"
+    android:padding="@dimen/margin_16">
+
+    <ImageView
+        android:id="@+id/ivPartImage"
+        android:layout_width="@dimen/margin_56"
+        android:layout_height="@dimen/margin_56"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/ic_run_play" />
+
+    <TextView
+        android:id="@+id/tvNamePart"
+        style="@style/DialogDescriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/margin_16"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/font_14"
+        tools:text="@string/loading_progress_message" />
+
+</LinearLayout>

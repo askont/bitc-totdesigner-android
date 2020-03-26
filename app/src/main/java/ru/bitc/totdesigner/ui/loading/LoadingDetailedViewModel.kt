@@ -11,6 +11,7 @@ import ru.bitc.totdesigner.model.entity.loading.LoadingPackage
 import ru.bitc.totdesigner.model.interactor.DownloadPackageUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.platfom.adapter.state.LoadingDetailed
+import ru.bitc.totdesigner.platfom.navigation.MainScreens
 import ru.bitc.totdesigner.system.notifier.DownloadNotifier
 import ru.bitc.totdesigner.ui.loading.state.LoadingDetailedState
 import ru.terrakok.cicerone.Router
@@ -76,19 +77,21 @@ class LoadingDetailedViewModel(
         is LoadingPackage.Error -> {
             LoadingDetailed.Error(lessons.lessonUrl, lessons.imageUrl, lessons.title)
         }
-
+        is LoadingPackage.Cancel -> LoadingDetailed.Cancel(lessons.lessonUrl)
     }
 
     fun userEvent(detailed: LoadingDetailed) {
         when (detailed) {
             is LoadingDetailed.Finish -> {
-                //TODO Open lesson
+                mainRouter.navigateTo(MainScreens.DetailedLessonDialogScreen(detailed.urlId))
             }
             is LoadingDetailed.Loading -> {
                 downloadNotifier.eventStatus(detailed.urlId, detailed.title, true)
             }
             is LoadingDetailed.Error -> {
-                //TODO Retry job loading
+/*
+                downloadNotifier.eventStatus(detailed.urlId, detailed.title)
+*/
             }
         }
     }

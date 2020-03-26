@@ -8,4 +8,8 @@
     <color name="colorWhiteText">@color/colorAccent</color>
     <color name="colorWhiteTextOpa70">#B3FFFFFF</color>
     <color name="colorItemLoading">#B2333333</color>
+    <color name="color_dark_select">#2C2C2C</color>
+    <color name="colorError">#F44336</color>
+    <color name="colorSuccess">#9A4CAF50</color>
+    <color name="transparentSuccess">#00000000</color>
 </resources>

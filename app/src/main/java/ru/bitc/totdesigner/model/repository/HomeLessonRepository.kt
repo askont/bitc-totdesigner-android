@@ -9,6 +9,7 @@ import ru.bitc.totdesigner.model.database.dao.PathDao
 import ru.bitc.totdesigner.model.database.dto.LessonPath
 import ru.bitc.totdesigner.model.entity.SavedLesson
 import ru.bitc.totdesigner.system.flow.DispatcherProvider
+import ru.bitc.totdesigner.system.path.PathManager
 import java.io.File
 
 /**
@@ -18,6 +19,7 @@ import java.io.File
 class HomeLessonRepository(
     private val pathDao: PathDao,
     private val dispatcher: DispatcherProvider,
+    private val pathManager: PathManager,
     private val converterXmlToModel: SavedLessonModelConverter
 ) {
 
@@ -27,7 +29,7 @@ class HomeLessonRepository(
         val localPath = pathDao.findLessonPath(remotePath)
         currentPath = localPath
         val previewFile = previewFile(localPath.lessonLocalPath)
-        val xml = converterXmlToModel.convertFileToModel(previewFile)
+        val xml = converterXmlToModel.loadXmlToModel(previewFile)
         emit(converterXmlToModel.convertToEntity(localPath, xml))
     }.flowOn(dispatcher.io)
 
@@ -38,12 +40,12 @@ class HomeLessonRepository(
 
     private fun mapEntity(lessonPath: LessonPath): SavedLesson {
         val previewFile = previewFile(lessonPath.lessonLocalPath)
-        val xml = converterXmlToModel.convertFileToModel(previewFile)
+        val xml = converterXmlToModel.loadXmlToModel(previewFile)
         return converterXmlToModel.convertToEntity(lessonPath, xml)
     }
 
     private fun previewFile(localPathDir: String) =
-        File(localPathDir + File.separator + FILE_PREVIEW_NAME)
+        File(localPathDir + File.separator + pathManager.preview)
 
     fun deleteSaveLesson() {
         CoroutineScope(dispatcher.io).launch {
@@ -52,9 +54,4 @@ class HomeLessonRepository(
             lessonDir.deleteRecursively()
         }
     }
-
-    private companion object {
-        const val FILE_PREVIEW_NAME = "Preview.xml"
-    }
-
 }

@@ -1,7 +1,7 @@
 object Versions {
     //Plugins
     const val android_gradle_plugin = "3.6.0"
-    const val kotlin_gradle_plugin = "1.3.61"
+    const val kotlin_gradle_plugin = "1.3.7"
     const val plugins_android_junit5 = "1.5.2.0"
     //AndroidX
     const val androidx_appcompat = "1.1.0"
@@ -37,8 +37,9 @@ object Versions {
     const val okhttp_logging_interceptor = "3.12.0"
     const val stetho = "1.5.1"
 
+
     //Glide
-    const val glide = "4.8.0"
+    const val glide = "4.11.0"
 
     //Cicerone
     const val cicerone = "5.0.0"
