@@ -26,7 +26,7 @@ allprojects {
 }
 
 plugins {
-    id("com.github.ben-manes.versions") version "0.27.0"
+    id("com.github.ben-manes.versions") version "0.28.0"
 }
 
 task("clean") {

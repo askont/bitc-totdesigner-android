@@ -29,4 +29,6 @@ sealed class LoadingDetailed(open val urlId: String) {
         val imageUrl: String,
         val title: String
     ) : LoadingDetailed(urlId)
+
+    data class Cancel(override val urlId: String) : LoadingDetailed(urlId)
 }
