@@ -21,7 +21,7 @@ import ru.bitc.totdesigner.system.loadImage
 class LessonAdapterDelegate {
 
     fun createAdapter(click: (LessonItem) -> Unit): AsyncListDifferDelegationAdapter<LessonItem> =
-        AsyncListDifferDelegationAdapter<LessonItem>(
+        AsyncListDifferDelegationAdapter(
             DiffLessonItem, AdapterDelegatesManager<List<LessonItem>>()
                 .addDelegate(headerAdapter(click))
                 .addDelegate(freeLessonAdapter(click))
