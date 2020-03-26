@@ -10,9 +10,3 @@
 * 'Interactor' общаеться с Repository который инкапсулирует всю логику работы с Data layer(Database,network,prefs и др.)
 * Связь репозитория напрямую в слой предстовления не желател, так же как и связь внутри слоя
 * Для адаптеров у RecyclerView использовать [AdapterDelegates][2]
---------
-## MVVM 
-* Содержить 3 сущности Model-View-ViewModel
-* Model == Interactor
-* View == Activity||Fragment
-* ViewModel сущность содержит стейт для отображения данных во View, может содержать бизнес логику для работы с View(так называем стейт)
