@@ -132,9 +132,9 @@ fun SearchView.querySearch(block: (String?) -> Unit) {
 
 fun TextView.htmlText(html: String) {
     text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
+        Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
     } else {
-        Html.fromHtml(html);
+        Html.fromHtml(html)
     }
 }
 

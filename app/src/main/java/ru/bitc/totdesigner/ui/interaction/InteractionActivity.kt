@@ -80,9 +80,6 @@ class InteractionActivity : BaseActivity(R.layout.activity_interaction) {
         ivPlay.click { viewModel.playOrStopInteractive() }
         rootSceneContainer.setOnDragListener { _, event ->
             when (event.action) {
-                DragEvent.ACTION_DRAG_STARTED -> {
-
-                }
                 DragEvent.ACTION_DROP -> {
                     val clipPathId = event.clipData.getItemAt(0)
                     if (clipPathId != null) {
@@ -113,7 +110,7 @@ class InteractionActivity : BaseActivity(R.layout.activity_interaction) {
             if (state.sceneState.isDoneInteractive) {
                 ivPlay.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_done_run_button))
             } else {
-                ivPlay.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_close_interactive))
+                ivPlay.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_stop))
 
             }
         } else {
