@@ -2,19 +2,26 @@ package ru.bitc.totdesigner.system
 
 import android.content.Context
 import android.graphics.Point
+import android.os.Build
+import android.text.Html
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
+import com.hannesdorfmann.adapterdelegates4.dsl.AdapterDelegateLayoutContainerViewHolder
 import ru.bitc.totdesigner.R
+import ru.bitc.totdesigner.platfom.BaseActivity
+import ru.bitc.totdesigner.platfom.BaseFragment
 import timber.log.Timber
 import java.io.File
 
@@ -98,6 +105,13 @@ fun ImageView.loadFileImage(url: String) {
         .into(this)
 }
 
+fun ImageView.loadFileImage(url: String, height: Int, width: Int) {
+    Glide.with(context)
+        .load(File(url))
+        .override(width, height)
+        .into(this)
+}
+
 inline fun <reified T> T.printDebug(message: String = "Test Debug"): T =
     this.apply {
         Timber.e("$message...$this")
@@ -116,4 +130,16 @@ fun SearchView.querySearch(block: (String?) -> Unit) {
     })
 }
 
+fun TextView.htmlText(html: String) {
+    text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
+    } else {
+        Html.fromHtml(html)
+    }
+}
+
+fun BaseFragment.toast(message: CharSequence) = Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+fun BaseActivity.toast(message: CharSequence) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+fun AdapterDelegateLayoutContainerViewHolder<*>.toast(message: CharSequence) =
+    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 

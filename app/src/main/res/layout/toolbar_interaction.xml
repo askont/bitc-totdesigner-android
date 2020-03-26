@@ -48,7 +48,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16"
         android:contentDescription="@string/todo"
-        android:padding="@dimen/margin_16"
+        android:padding="@dimen/margin_8"
+        android:background="@drawable/bg_interactive"
         android:src="@drawable/ic_run_play" />
 
     <ImageView
