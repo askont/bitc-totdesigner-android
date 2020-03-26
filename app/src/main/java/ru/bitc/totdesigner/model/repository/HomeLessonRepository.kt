@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import ru.bitc.totdesigner.model.converter.SavedLessonModelConverter
+import ru.bitc.totdesigner.platfom.converter.SavedLessonModelConverter
 import ru.bitc.totdesigner.model.database.dao.PathDao
 import ru.bitc.totdesigner.model.database.dto.LessonPath
 import ru.bitc.totdesigner.model.entity.SavedLesson

@@ -1,9 +1,8 @@
 package ru.bitc.totdesigner.model.repository
 
 import kotlinx.coroutines.flow.flow
-import ru.bitc.totdesigner.model.converter.InteractionModelConverter
+import ru.bitc.totdesigner.platfom.converter.InteractionModelConverter
 import ru.bitc.totdesigner.model.database.dao.PathDao
-import ru.bitc.totdesigner.model.entity.interaction.Interaction
 import ru.bitc.totdesigner.system.path.PathManager
 import java.io.File
 

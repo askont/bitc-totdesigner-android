@@ -1,6 +1,6 @@
 package ru.bitc.totdesigner.fake
 
-import ru.bitc.totdesigner.model.converter.ModelLessonToEntityPreviewConverter
+import ru.bitc.totdesigner.platfom.converter.ModelLessonToEntityPreviewConverter
 import ru.bitc.totdesigner.model.models.Lessons
 
 /**

@@ -11,7 +11,7 @@ import retrofit2.HttpException
 import retrofit2.Response
 import ru.bitc.totdesigner.fake.lessonsFake
 import ru.bitc.totdesigner.fake.previewLesson
-import ru.bitc.totdesigner.model.converter.ModelLessonToEntityPreviewConverter
+import ru.bitc.totdesigner.platfom.converter.ModelLessonToEntityPreviewConverter
 import ru.bitc.totdesigner.model.database.dao.PathDao
 import ru.bitc.totdesigner.model.entity.PreviewLessons
 import ru.bitc.totdesigner.model.http.SoapApi

@@ -1,4 +1,4 @@
-package ru.bitc.totdesigner.model.converter
+package ru.bitc.totdesigner.platfom.converter
 
 import com.tickaroo.tikxml.TikXml
 import okio.Buffer
@@ -7,6 +7,7 @@ import ru.bitc.totdesigner.model.entity.interaction.PartImage
 import ru.bitc.totdesigner.model.entity.interaction.Scene
 import ru.bitc.totdesigner.model.models.Settings
 import java.io.*
+import java.lang.Exception
 
 /**
  * Created on 13.03.2020
@@ -19,6 +20,7 @@ class InteractionModelConverter : ConverterXmlToModel<Settings> {
 
     override fun loadXmlToModel(file: File): Settings {
         val fileReader: Reader = BufferedReader(InputStreamReader(FileInputStream(file)))
+        throw Exception()
         return xmlParser.read(Buffer().writeUtf8(fileReader.readText()), Settings::class.java)
     }
 
@@ -45,6 +47,7 @@ class InteractionModelConverter : ConverterXmlToModel<Settings> {
 
             )
         }
+        throw Exception()
         return Interaction(scenes)
     }
 
