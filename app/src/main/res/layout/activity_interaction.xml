@@ -23,6 +23,7 @@
         android:id="@+id/rootSceneContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="4dp"
         app:layout_constraintBottom_toTopOf="@id/rvPreviewInteraction"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/verticalGuideline"

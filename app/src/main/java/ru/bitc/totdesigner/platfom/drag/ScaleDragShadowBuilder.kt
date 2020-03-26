@@ -4,7 +4,9 @@ import android.content.ClipData
 import android.content.ClipDescription
 import android.graphics.Canvas
 import android.graphics.Point
+import android.os.Build
 import android.view.View
+import android.widget.ImageView
 
 /**
  * Created on 22.03.2020
@@ -36,5 +38,16 @@ class ScaleDragShadowBuilder(view: View, val height: Int, val width: Int) : View
             val type = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
             return ClipData("Test", type, clipItem)
         }
+    }
+}
+
+fun View.dragView(
+    dragDate: ClipData,
+    dragImg: View.DragShadowBuilder
+) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        startDragAndDrop(dragDate, dragImg, null, 0)
+    } else {
+        startDrag(dragDate, dragImg, null, 0)
     }
 }

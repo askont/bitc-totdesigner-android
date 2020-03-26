@@ -3,7 +3,6 @@ package ru.bitc.totdesigner.ui.interaction
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.DragEvent
@@ -28,6 +27,7 @@ import ru.bitc.totdesigner.platfom.adapter.ineraction.InteractionPartDelegateAda
 import ru.bitc.totdesigner.platfom.decorator.GridPaddingItemDecoration
 import ru.bitc.totdesigner.platfom.decorator.TopBottomSpaceDecorator
 import ru.bitc.totdesigner.platfom.drag.ScaleDragShadowBuilder
+import ru.bitc.totdesigner.platfom.drag.dragView
 import ru.bitc.totdesigner.platfom.navigation.ActivityNavigatorProxy
 import ru.bitc.totdesigner.system.*
 import ru.bitc.totdesigner.system.notifier.WindowsSizeNotifier
@@ -160,11 +160,7 @@ class InteractionActivity : BaseActivity(R.layout.activity_interaction) {
                 imageView.setOnLongClickListener {
                     val dragDate = ScaleDragShadowBuilder.createDate(particle.id)
                     val dragImg = View.DragShadowBuilder(imageView)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        it.startDragAndDrop(dragDate, dragImg, particle, 0)
-                    } else {
-                        it.startDrag(dragDate, dragImg, particle, 0)
-                    }
+                    it.dragView(dragDate, dragImg)
                     true
                 }
             }

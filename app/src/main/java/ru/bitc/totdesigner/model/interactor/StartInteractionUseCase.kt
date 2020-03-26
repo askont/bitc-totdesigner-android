@@ -1,10 +1,8 @@
 package ru.bitc.totdesigner.model.interactor
 
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.combineTransform
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.*
+import ru.bitc.totdesigner.model.entity.interaction.Interaction
 import ru.bitc.totdesigner.model.entity.interaction.Scene
 import ru.bitc.totdesigner.model.repository.StartInteractionRepository
 import ru.bitc.totdesigner.system.flow.DispatcherProvider
@@ -20,7 +18,7 @@ class StartInteractionUseCase(
     private val offsetWindowsSize: WindowsSizeNotifier,
     private val dispatcher: DispatcherProvider
 ) {
-    suspend fun getStartLesson(lessonPath: String) =
+    suspend fun getStartLesson(lessonPath: String):Flow<Interaction> =
         repository.getStartLesson(lessonPath)
             .combineTransform(offsetWindowsSize.sizeChanges().take(1)) { interaction, size ->
                 val offsetWidth = (1920F / size.width)

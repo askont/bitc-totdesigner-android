@@ -1,7 +1,6 @@
 package ru.bitc.totdesigner.platfom.adapter.ineraction
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
@@ -13,6 +12,7 @@ import kotlinx.android.synthetic.main.item_part_image.*
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.adapter.state.InteractionPartItem
 import ru.bitc.totdesigner.platfom.drag.ScaleDragShadowBuilder
+import ru.bitc.totdesigner.platfom.drag.dragView
 import ru.bitc.totdesigner.system.click
 import ru.bitc.totdesigner.system.loadFileImage
 import ru.bitc.totdesigner.system.toast
@@ -50,29 +50,25 @@ class InteractionPartDelegateAdapter {
 
     private fun partAdapter() =
         adapterDelegateLayoutContainer<InteractionPartItem.Part, InteractionPartItem>(R.layout.item_part_image) {
-            itemView.setOnLongClickListener {
+            containerPartImage.setOnLongClickListener {
                 if (item.isPermissionDrop) {
-                    setIsRecyclable(false)
-                    val params = ivPartImage.layoutParams
-                    params.width = (params.width * 1.5).toInt()
-                    params.height = (params.height * 1.5).toInt()
-                    containerPartImage.background = ContextCompat.getDrawable(context, R.drawable.bg_select_part_image)
-                    ivPartImage.layoutParams = params
+                    containerPartImage.background = ContextCompat.getDrawable(context, R.drawable.bg_select_part)
                     val dragDate = ScaleDragShadowBuilder.createDate(item.id)
                     val dragImg = ScaleDragShadowBuilder(ivPartImage, item.height, item.height)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        it.startDragAndDrop(dragDate, dragImg, item, 0)
-                    } else {
-                        it.startDrag(dragDate, dragImg, item, 0)
-                    }
+                    it.dragView(dragDate, dragImg)
                 } else {
                     toast("Для перемещения элеметов необходимо запустить урок")
                 }
-                return@setOnLongClickListener true
+                true
             }
             bind {
                 tvNamePart.text = item.name
                 ivPartImage.loadFileImage(item.path)
+                if (!item.isPermissionDrop) {
+                    containerPartImage.background = ContextCompat.getDrawable(context, R.drawable.bg_select_part_image)
+                } else {
+                    containerPartImage.background = null
+                }
             }
         }
 
