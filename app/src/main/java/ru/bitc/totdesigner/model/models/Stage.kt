@@ -8,13 +8,13 @@ import com.tickaroo.tikxml.annotation.*
 
 @Xml(name = "ConstructorStage")
 data class Stage(
-    @Path("WorkItems") @Element(name = "WorkItem") val workItem: List<WorkItem>,
+    @Path("WorkItems") @Element(name = "WorkItem") val workItem: List<WorkItem>?,
     @PropertyElement(name = "Name") val name: String,
     @PropertyElement(name = "Description") val description: String,
     @PropertyElement(name = "Preview") val preview: String,
     @PropertyElement(name = "Position") val position: Int,
     @Element(name = "GridSettings") val gridSetting: GridSetting,
-    @Path("Assets") @Element(name = "guid") val assetsGuid: List<StageAsset>
+    @Path("Assets") @Element(name = "guid") val assetsGuid: List<StageAsset>?
 
 )
 
