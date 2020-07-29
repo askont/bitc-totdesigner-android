@@ -1,4 +1,4 @@
-package ru.bitc.totdesigner.model.converter
+package ru.bitc.totdesigner.platfom.converter
 
 import ru.bitc.totdesigner.model.entity.PreviewLessons
 import ru.bitc.totdesigner.model.models.Lessons

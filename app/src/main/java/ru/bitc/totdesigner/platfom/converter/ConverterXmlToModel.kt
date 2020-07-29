@@ -1,4 +1,4 @@
-package ru.bitc.totdesigner.model.converter
+package ru.bitc.totdesigner.platfom.converter
 
 import java.io.File
 

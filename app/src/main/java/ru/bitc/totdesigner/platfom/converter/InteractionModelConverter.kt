@@ -1,4 +1,4 @@
-package ru.bitc.totdesigner.model.converter
+package ru.bitc.totdesigner.platfom.converter
 
 import com.tickaroo.tikxml.TikXml
 import okio.Buffer
@@ -6,6 +6,7 @@ import ru.bitc.totdesigner.model.entity.interaction.Interaction
 import ru.bitc.totdesigner.model.entity.interaction.PartImage
 import ru.bitc.totdesigner.model.entity.interaction.Scene
 import ru.bitc.totdesigner.model.models.Settings
+import ru.bitc.totdesigner.model.models.WorkItem
 import java.io.*
 
 /**
@@ -29,7 +30,7 @@ class InteractionModelConverter : ConverterXmlToModel<Settings> {
                 stage.position,
                 stage.description,
                 absolutePath(lessonPath, stage.preview),
-                stage.workItem
+                (stage.workItem ?: listOf<WorkItem>())
                     .map {
                         val asset = settings.findAsset(it.guid)
                         PartImage(
