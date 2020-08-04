@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="70dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingStart="@dimen/margin_16"
-    android:paddingTop="@dimen/margin_32"
+    android:paddingTop="4dp"
     android:paddingEnd="@dimen/margin_16"
-    android:paddingBottom="@dimen/margin_16">
+    android:paddingBottom="4dp">
 
     <TextView
         android:id="@+id/tvBackToCatalog"
@@ -47,9 +47,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16"
+        android:background="@drawable/bg_interactive"
         android:contentDescription="@string/todo"
         android:padding="@dimen/margin_8"
-        android:background="@drawable/bg_interactive"
         android:src="@drawable/ic_run_play" />
 
     <ImageView

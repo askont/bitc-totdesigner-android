@@ -9,7 +9,6 @@ import ru.bitc.totdesigner.model.entity.interaction.Scene
 import ru.bitc.totdesigner.model.interactor.StartInteractionUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.platfom.adapter.state.InteractionPartItem
-import ru.bitc.totdesigner.system.printDebug
 import ru.bitc.totdesigner.ui.interaction.state.ImageParticle
 import ru.bitc.totdesigner.ui.interaction.state.InteractionState
 import ru.bitc.totdesigner.ui.interaction.state.SceneState
@@ -195,7 +194,7 @@ class InteractionViewModel(
 
     fun handleDragParticle(id: String, newX: Int, newY: Int) {
         val scene = scenesState[currentState.sceneState.position]
-        val particle = allParticleList.find { it.id.printDebug("pre") == id.printDebug("post") } ?: return
+        val particle = allParticleList.find { it.id == id } ?: return
         val newPositionParticle = particle.copy(
             positionY = newY - particle.height / 2,
             positionX = newX - particle.width / 2,
