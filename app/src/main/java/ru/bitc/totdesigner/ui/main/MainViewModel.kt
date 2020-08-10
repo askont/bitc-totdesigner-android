@@ -113,7 +113,7 @@ class MainViewModel(
     }
 
     fun selectSetting(): Boolean {
-        router.newRootScreen(AppScreens.MockScreen("open setting"))
+        router.newRootScreen(AppScreens.SettingScreen)
         return true
     }
 

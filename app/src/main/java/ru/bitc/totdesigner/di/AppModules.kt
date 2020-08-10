@@ -20,6 +20,7 @@ import ru.bitc.totdesigner.ui.home.dialog.DetailedLessonViewModel
 import ru.bitc.totdesigner.ui.interaction.InteractionViewModel
 import ru.bitc.totdesigner.ui.loading.LoadingDetailedViewModel
 import ru.bitc.totdesigner.ui.main.MainViewModel
+import ru.bitc.totdesigner.ui.setting.SettingViewModel
 import ru.bitc.totdesigner.ui.splash.SplashViewModel
 
 object AppModules {
@@ -121,5 +122,7 @@ object AppModules {
                 get(qualifier = NavigationModules.appHolder)
             )
         }
+
+        viewModel { SettingViewModel() }
     }
 }

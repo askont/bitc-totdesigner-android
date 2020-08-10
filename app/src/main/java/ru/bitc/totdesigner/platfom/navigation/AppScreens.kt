@@ -7,6 +7,7 @@ import ru.bitc.totdesigner.ui.AppActivity
 import ru.bitc.totdesigner.ui.interaction.InteractionActivity
 import ru.bitc.totdesigner.ui.main.MainFragment
 import ru.bitc.totdesigner.ui.mock.MockFragment
+import ru.bitc.totdesigner.ui.setting.SettingFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 /**
@@ -35,6 +36,12 @@ object AppScreens {
     data class MockScreen(private val mockMessage: String) : SupportAppScreen() {
         override fun getFragment(): Fragment {
             return MockFragment.newInstance(mockMessage)
+        }
+    }
+
+    object SettingScreen : SupportAppScreen() {
+        override fun getFragment(): Fragment {
+            return SettingFragment.newInstance()
         }
     }
 

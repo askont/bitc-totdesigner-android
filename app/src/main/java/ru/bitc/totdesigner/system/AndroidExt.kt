@@ -98,6 +98,13 @@ fun ImageView.loadImage(url: String) {
         .placeholder(R.drawable.img_logotype)
         .into(this)
 }
+fun ImageView.loadImage(resId: Int) {
+    Glide.with(context)
+        .load(resId)
+        .centerCrop()
+        .placeholder(R.drawable.img_logotype)
+        .into(this)
+}
 
 fun ImageView.loadFileImage(url: String) {
     Glide.with(context)

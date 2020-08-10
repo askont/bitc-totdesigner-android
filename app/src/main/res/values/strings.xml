@@ -38,4 +38,6 @@
     <string name="next_stage">СЛЕДУЮЩИЙ ЭТАП</string>
     <string name="hint_empty_part_image">Освойте текущию информацию</string>
     <string name="done_lesson">Этап успешно завершен</string>
+    <string name="design_title">Дизайн</string>
+    <string name="design_description">Выберите фоновое изображение для разделов «Мои курсы/квесты» , «Каталог» и нажмите применить.</string>
 </resources>

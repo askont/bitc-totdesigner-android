@@ -15,9 +15,6 @@ import timber.log.Timber
  */
 abstract class BaseViewModel(private val navigatorHolder: NavigatorHolder? = null) : ViewModel() {
 
-
-
-
     protected open fun handleState(state: State) {
         Timber.d(state.toString())
     }
@@ -25,11 +22,11 @@ abstract class BaseViewModel(private val navigatorHolder: NavigatorHolder? = nul
     protected fun launch(func: suspend () -> Unit) =
         viewModelScope.launch(Dispatchers.Main) { func.invoke() }
 
-    fun addNavigator(navigator: Navigator){
+    fun addNavigator(navigator: Navigator) {
         navigatorHolder?.setNavigator(navigator)
     }
 
-    fun deleteNavigator(){
+    fun deleteNavigator() {
         navigatorHolder?.removeNavigator()
     }
 }
