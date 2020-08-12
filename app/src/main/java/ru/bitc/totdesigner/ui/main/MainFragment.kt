@@ -11,6 +11,7 @@ import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.BaseFragment
 import ru.bitc.totdesigner.platfom.navigation.SupportDialogAppNavigator
 import ru.bitc.totdesigner.system.click
+import ru.bitc.totdesigner.system.loadImageBlur
 import ru.bitc.totdesigner.system.printDebug
 import ru.bitc.totdesigner.system.subscribe
 import ru.bitc.totdesigner.ui.main.state.MainState
@@ -37,6 +38,11 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
     }
 
     private fun handleState(state: MainState) {
+        ivDefaultBackground.isVisible = state.background == R.drawable.img_totdesign
+        ivChangeMainBackground.isVisible = state.background != R.drawable.img_totdesign
+        if (state.background != R.drawable.img_totdesign) {
+            ivChangeMainBackground.loadImageBlur(state.background)
+        }
 
         containerLoading.isVisible = state.visibleLoadingHolder()
         val animator = ObjectAnimator.ofInt(pbLoading, "progress", 1, 1000)

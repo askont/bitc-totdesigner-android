@@ -17,7 +17,7 @@ object Versions {
     const val transition_transition = "1.2.0"
 
     //Kotlin
-    const val kotlin_coroutines = "1.3.3"
+    const val kotlin_coroutines = "1.3.8"
 
     //Koin
     const val koin = "2.0.1"

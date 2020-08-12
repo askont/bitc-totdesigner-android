@@ -24,7 +24,8 @@ class DownloadPackageUseCase(
     private val previewLoading = mutableListOf<LoadingPackage>()
     private val eventUpdateFlow = ConflatedBroadcastChannel<Boolean>()
     private val eventLoading = ConflatedBroadcastChannel<LoadingPackage>()
-
+    val currentBackground
+        get() = lessonRepository.currentBackground
 
     suspend fun processTaskEventLoadingCount(
         lessonUrl: String,
@@ -132,5 +133,9 @@ class DownloadPackageUseCase(
         previewLoading.clear()
         previewLoading.addAll(loading)
         eventUpdateFlow.offer(true)
+    }
+
+    fun saveBackgroundPref(background: Int) {
+        lessonRepository.saveBackgroundPrefs(background)
     }
 }

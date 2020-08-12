@@ -7,6 +7,7 @@ import org.koin.android.ext.android.inject
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.BaseActionFragment
 import ru.bitc.totdesigner.platfom.adapter.setting.SettingDelegateAdapter
+import ru.bitc.totdesigner.platfom.adapter.state.SettingItem
 import ru.bitc.totdesigner.platfom.decorator.TopBottomSpaceDecorator
 import ru.bitc.totdesigner.system.setData
 import ru.bitc.totdesigner.ui.setting.state.SettingState
@@ -21,7 +22,11 @@ class SettingFragment : BaseActionFragment<SettingState, SettingViewModel>(R.lay
         fun newInstance() = SettingFragment()
     }
 
-    private val adapter by lazy { SettingDelegateAdapter().create() }
+    private val adapter by lazy { SettingDelegateAdapter(::handleClick).create() }
+
+    private fun handleClick(item: SettingItem) {
+        viewModel.newBackground(item)
+    }
 
     override val viewModel: SettingViewModel by inject()
 

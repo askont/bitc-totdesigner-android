@@ -1,10 +1,11 @@
 package ru.bitc.totdesigner.model.repository
 
-import ru.bitc.totdesigner.platfom.converter.ModelLessonToEntityPreviewConverter
 import ru.bitc.totdesigner.model.database.dao.PathDao
 import ru.bitc.totdesigner.model.entity.PreviewLessons
 import ru.bitc.totdesigner.model.http.SoapApi
 import ru.bitc.totdesigner.model.models.Lessons
+import ru.bitc.totdesigner.model.prefs.PrefsStore
+import ru.bitc.totdesigner.platfom.converter.ModelLessonToEntityPreviewConverter
 
 /*
  * Created on 2019-12-19
@@ -13,10 +14,14 @@ import ru.bitc.totdesigner.model.models.Lessons
 class LessonRepository(
     private val api: SoapApi,
     private val toEntityPreviewConverter: ModelLessonToEntityPreviewConverter,
-    private val pathDao: PathDao
+    private val pathDao: PathDao,
+    private val prefsStore: PrefsStore
 ) {
 
     private var cacheLessons: Lessons? = null
+
+    val currentBackground
+        get() = prefsStore.currentBackground
 
     suspend fun getFilterLocalPreviewLessons(): PreviewLessons {
         val lessons = getLessonsCacheOrRemote()
@@ -39,5 +44,9 @@ class LessonRepository(
         val lessons = cacheLessons ?: api.getLessonsPreview()
         cacheLessons = lessons
         return lessons
+    }
+
+    fun saveBackgroundPrefs(background: Int) {
+        prefsStore.currentBackground = background
     }
 }

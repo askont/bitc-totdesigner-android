@@ -7,6 +7,7 @@ import ru.bitc.totdesigner.platfom.converter.SavedLessonModelConverter
 import ru.bitc.totdesigner.system.ResourceManager
 import ru.bitc.totdesigner.system.flow.AndroidDispatcher
 import ru.bitc.totdesigner.system.flow.DispatcherProvider
+import ru.bitc.totdesigner.system.notifier.ChangeBackgroundNotifier
 import ru.bitc.totdesigner.system.notifier.DownloadNotifier
 import ru.bitc.totdesigner.system.notifier.WindowsSizeNotifier
 import ru.bitc.totdesigner.system.path.AndroidPathManager
@@ -29,6 +30,7 @@ object SystemModule {
         single<PathManager> { AndroidPathManager(get()) }
         single { UnpackingZip(get()) }
         single { WindowsSizeNotifier() }
+        single { ChangeBackgroundNotifier() }
     }
 
 }

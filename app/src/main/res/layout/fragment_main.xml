@@ -20,11 +20,13 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
+        android:id="@+id/mainImageContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
         <ImageView
+            android:id="@+id/ivDefaultBackground"
             android:layout_width="250dp"
             android:layout_height="400dp"
             android:background="@drawable/img_logotype"
@@ -32,6 +34,12 @@
             android:translationX="-90dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivChangeMainBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
 
         <FrameLayout
             android:id="@+id/mainContainer"
@@ -43,11 +51,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:paddingStart="@dimen/margin_32"
-            android:paddingEnd="@dimen/margin_32"
             android:background="@color/colorItemLoading"
             android:orientation="horizontal"
             android:padding="@dimen/padding_min_4"
+            android:paddingStart="@dimen/margin_32"
+            android:paddingEnd="@dimen/margin_32"
             android:visibility="gone"
             tools:visibility="visible">
 

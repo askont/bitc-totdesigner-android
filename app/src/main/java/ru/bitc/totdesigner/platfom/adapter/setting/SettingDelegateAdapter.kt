@@ -13,15 +13,15 @@ import ru.bitc.totdesigner.system.loadImage
  * Created on 05.08.2020
  * @author YWeber */
 
-class SettingDelegateAdapter {
+class SettingDelegateAdapter(private val clickItem: (item: SettingItem) -> Unit) {
 
     fun create() = ListDelegationAdapter<List<SettingItem>>(
-        createBackgroundAdapter()
+        createBackgroundAdapter(clickItem)
     )
 
-    private fun createBackgroundAdapter() =
+    private fun createBackgroundAdapter(clickItem: (item: SettingItem) -> Unit) =
         adapterDelegateLayoutContainer<SettingItem, SettingItem>(R.layout.item_background) {
-            itemView.click {  }
+            itemView.click { clickItem.invoke(item) }
             bind {
                 ivBackground.loadImage(item.drawableRes)
                 tvTitle.text = item.title

@@ -23,7 +23,6 @@ android {
         testInstrumentationRunner = AndroidConfig.TEST_INSTRUMENTATION_RUNNER
         testInstrumentationRunnerArgument("runnerBuilder", AndroidConfig.TEST_RUNNER_BUILDER)
         setProperty("archivesBaseName", AndroidConfig.APK_NAME)
-
         androidExtensions {
             isExperimental = true
         }
@@ -84,7 +83,7 @@ dependencies {
     //Glide
     implementation(Libs.glide_runtime)
     kapt(Libs.glide_compiler)
-
+    implementation("jp.wasabeef:blurry:3.0.0")
     //adapterDelegat
     implementation(Libs.adapter_delegates)
     implementation(Libs.adapter_delegates_dsl)

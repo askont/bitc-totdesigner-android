@@ -27,102 +27,125 @@ object AppModules {
 
     fun networkModule() = module {
         single { CuratorSoapNetwork.createHttpClient() }
-        single { CuratorSoapNetwork.createRetrofit(get()) }
-        single { CuratorSoapNetwork.createSoapApi(get()) }
+        single { CuratorSoapNetwork.createRetrofit(client = get()) }
+        single { CuratorSoapNetwork.createSoapApi(retrofit = get()) }
 
     }
 
     fun appModule() = module {
         // lesson
-        single { LessonUseCase(get()) }
-        single { LessonRepository(get(), get(), get()) }
+        single { LessonUseCase(repository = get()) }
+        single {
+            LessonRepository(
+                api = get(),
+                toEntityPreviewConverter = get(),
+                pathDao = get(),
+                prefsStore = get()
+            )
+        }
 
         //download
-        single { DownloadPackageRepository(get(), get(), get(), get(), get()) }
-        single { DownloadPackageUseCase(get(), get(), get()) }
+        single {
+            DownloadPackageRepository(
+                api = get(),
+                path = get(),
+                unzip = get(),
+                pathDao = get(),
+                dispatcher = get()
+            )
+        }
+        single { DownloadPackageUseCase(repository = get(), lessonRepository = get(), dispatcher = get()) }
 
         //home
-        single { HomeLessonRepository(get(), get(), get(), get()) }
-        single { HomeLessonUseCase(get()) }
+        single {
+            HomeLessonRepository(
+                pathDao = get(),
+                dispatcher = get(),
+                pathManager = get(),
+                converterXmlToModel = get()
+            )
+        }
+        single { HomeLessonUseCase(repository = get()) }
 
         //start lesson
-        single { StartInteractionRepository(get(), get(), get()) }
-        single { StartInteractionUseCase(get(), get(), get()) }
+        single { StartInteractionRepository(pathDao = get(), pathManager = get(), converter = get()) }
+        single { StartInteractionUseCase(repository = get(), offsetWindowsSize = get(), dispatcher = get()) }
     }
 
     fun viewModelModule() = module {
         viewModel {
             SplashViewModel(
-                get(qualifier = NavigationModules.appRouter),
-                get(qualifier = NavigationModules.appHolder)
+                router = get(qualifier = NavigationModules.appRouter),
+                navigatorHolder = get(qualifier = NavigationModules.appHolder)
             )
         }
         viewModel {
             AppViewModel(
-                get(qualifier = NavigationModules.appRouter),
-                get(qualifier = NavigationModules.appHolder)
+                router = get(qualifier = NavigationModules.appRouter),
+                navigatorHolder = get(qualifier = NavigationModules.appHolder)
             )
         }
         viewModel {
             CatalogViewModel(
-                get(qualifier = NavigationModules.mainRouter),
-                get(),
-                get(),
-                get()
+                mainRouter = get(qualifier = NavigationModules.mainRouter),
+                resourceManager = get(),
+                useCase = get(),
+                downloadNotifier = get()
             )
         }
         viewModel {
             get<LocalCiceroneHolder>()
             MainViewModel(
-                get(),
-                get(),
-                get(),
-                get(qualifier = NavigationModules.mainRouter),
-                get(qualifier = NavigationModules.mainHolder)
+                downloadNotifier = get(),
+                resourceManager = get(),
+                downloadUseCase = get(),
+                router = get(qualifier = NavigationModules.mainRouter),
+                changeBackgroundNotifier = get(),
+                navigatorHolder = get(qualifier = NavigationModules.mainHolder)
             )
         }
         viewModel {
             HomeViewModel(
-                get(),
-                get(),
-                get(),
-                get(qualifier = NavigationModules.mainRouter)
+                resourceManager = get(),
+                homeUseCase = get(),
+                downloadNotifier = get(),
+                router = get(qualifier = NavigationModules.mainRouter)
             )
         }
         viewModel { (nameQuest: String) ->
             DownloadViewModel(
-                nameQuest,
-                get(),
-                get(),
-                get()
+                nameQuest = nameQuest,
+                downloadNotifier = get(),
+                resourceManager = get(),
+                useCase = get()
             )
         }
         viewModel {
             LoadingDetailedViewModel(
-                get(qualifier = NavigationModules.mainRouter),
-                get(),
-                get()
+                mainRouter = get(qualifier = NavigationModules.mainRouter),
+                loadingUseCase = get(),
+                downloadNotifier = get()
             )
         }
         viewModel { (remotePath: String) ->
             DetailedLessonViewModel(
-                remotePath,
-                get(),
-                get(),
-                get(),
-                get(qualifier = NavigationModules.mainRouter)
+                remotePath = remotePath,
+                useCase = get(),
+                downloadNotifier = get(),
+                resourceManager = get(),
+                router = get(qualifier = NavigationModules.mainRouter)
             )
         }
 
         viewModel { (lessonPath: String) ->
             InteractionViewModel(
-                lessonPath,
-                get(),
-                get(qualifier = NavigationModules.appRouter),
-                get(qualifier = NavigationModules.appHolder)
+                lessonPath = lessonPath,
+                useCase = get(),
+                router = get(qualifier = NavigationModules.appRouter),
+                navigatorHolder = get(qualifier = NavigationModules.appHolder)
             )
         }
 
-        viewModel { SettingViewModel() }
+        viewModel { SettingViewModel(resourceManager = get(), notifier = get(), prefsStore = get()) }
     }
 }

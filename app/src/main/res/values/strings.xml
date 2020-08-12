@@ -40,4 +40,16 @@
     <string name="done_lesson">Этап успешно завершен</string>
     <string name="design_title">Дизайн</string>
     <string name="design_description">Выберите фоновое изображение для разделов «Мои курсы/квесты» , «Каталог» и нажмите применить.</string>
+    <string name="totdesigner">TOTDESIGNER</string>
+    <string name="home_title">Home</string>
+    <string name="red_planet_title">Red planet</string>
+    <string name="ice_title">Ice</string>
+    <string name="business">Business</string>
+    <string name="office">Office</string>
+    <string name="yellow_flower">Yellow Flower</string>
+    <string name="blue_flower">Blue Flower</string>
+    <string name="spring">Spring</string>
+    <string name="summer">Summer</string>
+    <string name="autumn">Autumn</string>
+    <string name="black_and_white"><![CDATA[Black & White]]></string>
 </resources>

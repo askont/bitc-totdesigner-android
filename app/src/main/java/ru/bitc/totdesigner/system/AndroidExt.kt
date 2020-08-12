@@ -22,6 +22,7 @@ import com.hannesdorfmann.adapterdelegates4.dsl.AdapterDelegateLayoutContainerVi
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.platfom.BaseActivity
 import ru.bitc.totdesigner.platfom.BaseFragment
+import ru.bitc.totdesigner.platfom.blur.BlurTransformation
 import timber.log.Timber
 import java.io.File
 
@@ -43,10 +44,10 @@ fun ViewGroup.setDialogSize() {
     val point = Point()
     defaultDisplay.getSize(point)
     setPadding(
-        (point.x * 0.2).toInt(),
-        (point.x * 0.05).toInt(),
-        (point.x * 0.2).toInt(),
-        (point.x * 0.05).toInt()
+            (point.x * 0.2).toInt(),
+            (point.x * 0.05).toInt(),
+            (point.x * 0.2).toInt(),
+            (point.x * 0.05).toInt()
     )
 }
 
@@ -93,36 +94,44 @@ fun <T> AsyncListDifferDelegationAdapter<T>.setData(data: List<T>) {
 
 fun ImageView.loadImage(url: String) {
     Glide.with(context)
-        .load(url)
-        .centerCrop()
-        .placeholder(R.drawable.img_logotype)
-        .into(this)
+            .load(url)
+            .centerCrop()
+            .placeholder(R.drawable.img_logotype)
+            .into(this)
 }
+
 fun ImageView.loadImage(resId: Int) {
     Glide.with(context)
-        .load(resId)
-        .centerCrop()
-        .placeholder(R.drawable.img_logotype)
-        .into(this)
+            .load(resId)
+            .centerCrop()
+            .placeholder(R.drawable.img_logotype)
+            .into(this)
+}
+
+fun ImageView.loadImageBlur(resId: Int) {
+    Glide.with(context)
+            .load(resId)
+            .transform(BlurTransformation(context))
+            .into(this)
 }
 
 fun ImageView.loadFileImage(url: String) {
     Glide.with(context)
-        .load(File(url))
-        .into(this)
+            .load(File(url))
+            .into(this)
 }
 
 fun ImageView.loadFileImage(url: String, height: Int, width: Int) {
     Glide.with(context)
-        .load(File(url))
-        .override(width, height)
-        .into(this)
+            .load(File(url))
+            .override(width, height)
+            .into(this)
 }
 
 inline fun <reified T> T.printDebug(message: String = "Test Debug"): T =
-    this.apply {
-        Timber.e("$message...$this")
-    }
+        this.apply {
+            Timber.e("$message...$this")
+        }
 
 fun SearchView.querySearch(block: (String?) -> Unit) {
     setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -148,5 +157,5 @@ fun TextView.htmlText(html: String) {
 fun BaseFragment.toast(message: CharSequence) = Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 fun BaseActivity.toast(message: CharSequence) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 fun AdapterDelegateLayoutContainerViewHolder<*>.toast(message: CharSequence) =
-    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 

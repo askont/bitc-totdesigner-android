@@ -9,8 +9,9 @@ import ru.terrakok.cicerone.NavigatorHolder
  * @author YWeber */
 
 abstract class BaseActionViewModel<T>(
-    navigatorHolder: NavigatorHolder? = null,
-    private val initState: T
+        navigatorHolder: NavigatorHolder? = null,
+        private val initState: T,
+        protected val isStartActionState: Boolean = true
 ) : BaseViewModel(navigatorHolder) {
     val state: LiveData<T>
         get() = action
@@ -18,7 +19,6 @@ abstract class BaseActionViewModel<T>(
     protected val currentState
         get() = action.value ?: initState
 
-    protected open val isStartActionState = true
 
     protected val action = MutableLiveData<T>()
 
