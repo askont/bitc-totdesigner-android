@@ -61,6 +61,16 @@
         android:src="@drawable/ic_group_interaction" />
 
     <ImageView
+        android:id="@+id/ivDeleteParticle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:background="?attr/selectableItemBackground"
+        android:contentDescription="@string/todo"
+        android:padding="@dimen/margin_16"
+        android:src="@drawable/ic_empty_delete_basket" />
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16"

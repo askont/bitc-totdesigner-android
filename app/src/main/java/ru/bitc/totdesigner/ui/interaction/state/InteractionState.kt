@@ -34,5 +34,6 @@ data class ImageParticle(
     val isStatic: Boolean,
     val isMoveAnimate: Boolean = true,
     val isSuccessArea: Boolean,
-    val isAddAnimate: Boolean = false
+    val isAddAnimate: Boolean = false,
+    val isDeleteCandidate: Boolean = false
 )

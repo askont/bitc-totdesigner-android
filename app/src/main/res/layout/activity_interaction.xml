@@ -19,15 +19,42 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.25" />
 
-    <FrameLayout
-        android:id="@+id/rootSceneContainer"
+    <com.otaliastudios.zoom.ZoomLayout
+        android:id="@+id/rootZoomContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"
+        app:alignment="center"
+        app:animationDuration="280"
+        app:flingEnabled="true"
+        app:hasClickableChildren="true"
+        app:horizontalPanEnabled="true"
         app:layout_constraintBottom_toTopOf="@id/rvPreviewInteraction"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/verticalGuideline"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:maxZoom="4"
+        app:maxZoomType="zoom"
+        app:minZoom="1"
+        app:minZoomType="zoom"
+        app:oneFingerScrollEnabled="true"
+        app:overPinchable="true"
+        app:overScrollHorizontal="true"
+        app:overScrollVertical="true"
+        app:scrollEnabled="true"
+        app:threeFingersScrollEnabled="true"
+        app:transformation="centerInside"
+        app:transformationGravity="auto"
+        app:twoFingersScrollEnabled="true"
+        app:verticalPanEnabled="true"
+        app:zoomEnabled="true">
+
+        <FrameLayout
+            android:id="@+id/rootSceneContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+    </com.otaliastudios.zoom.ZoomLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView

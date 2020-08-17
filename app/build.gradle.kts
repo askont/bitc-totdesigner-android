@@ -83,7 +83,7 @@ dependencies {
     //Glide
     implementation(Libs.glide_runtime)
     kapt(Libs.glide_compiler)
-    implementation("jp.wasabeef:blurry:3.0.0")
+    implementation("com.otaliastudios:zoomlayout:1.8.0")
     //adapterDelegat
     implementation(Libs.adapter_delegates)
     implementation(Libs.adapter_delegates_dsl)
