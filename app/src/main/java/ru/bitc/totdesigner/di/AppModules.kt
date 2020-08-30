@@ -57,6 +57,7 @@ object AppModules {
         single { DownloadPackageUseCase(repository = get(), lessonRepository = get(), dispatcher = get()) }
 
         //home
+        factory {  }
         single {
             HomeLessonRepository(
                 pathDao = get(),

@@ -15,7 +15,7 @@
     <string name="title_quest_list">Квесты / курсы по подписке</string>
     <string name="search_empty_catalog"> \'%s\'   квеста с таким названием не найдено</string>
     <string name="todo">TODO</string>
-    <string name="back_catalog">Вернуться в КАТАЛОГ</string>
+    <string name="back_catalog">В КАТАЛОГ</string>
     <string name="download">СКАЧАТЬ</string>
     <string name="issue_subscription">ОФОРМИТЬ ПОДПИСКУ</string>
     <string name="free_download_description">Вы можете загрузить данный интерактивный 2D/3D/AR курс и/или образовательный игровой квест бесплатно, без подписки. Нажмите «Скачать курс» или продолжите выбор в каталоге</string>
@@ -35,8 +35,8 @@
     <string name="run_lesson">Запустить</string>
     <string name="download_list">ЗАГРУЗКИ</string>
     <string name="error_user_message">Что-то пошло не так</string>
-    <string name="next_stage">СЛЕДУЮЩИЙ ЭТАП</string>
-    <string name="hint_empty_part_image">Освойте текущию информацию</string>
+    <string name="next_stage">ПРОДОЛЖИТЬ</string>
+    <string name="hint_empty_part_image">Освойте текущею информацию</string>
     <string name="done_lesson">Этап успешно завершен</string>
     <string name="design_title">Дизайн</string>
     <string name="design_description">Выберите фоновое изображение для разделов «Мои курсы/квесты» , «Каталог» и нажмите применить.</string>

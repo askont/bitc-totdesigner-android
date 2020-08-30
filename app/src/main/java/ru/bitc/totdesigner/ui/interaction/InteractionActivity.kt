@@ -105,16 +105,17 @@ class InteractionActivity : BaseActivity(R.layout.activity_interaction) {
         renderInteractive(state)
         if (state.sceneState.imageParticle.any { it.isDeleteCandidate }) {
             ivDeleteParticle.isEnabled = true
-            ivDeleteParticle.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_full_delete_basket))
+            ivDeleteParticle.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_delete_full_interactive))
         } else {
             ivDeleteParticle.isEnabled = false
-            ivDeleteParticle.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_empty_delete_basket))
+            ivDeleteParticle.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_delete_empty_interactive))
         }
     }
 
     private fun renderRunPlay(state: InteractionState) {
         tvHintDoneLesson.isVisible =
                 state.sceneState.isDoneInteractive && state.sceneState.isRunPlay && !state.sceneState.visibleDescription
+
         if (state.sceneState.isRunPlay) {
             ivPlay.background = ContextCompat.getDrawable(this, R.drawable.bg_interactive)
             if (state.sceneState.isDoneInteractive) {
@@ -128,6 +129,7 @@ class InteractionActivity : BaseActivity(R.layout.activity_interaction) {
             ivPlay.background = null
         }
         ivPlay.isVisible = state.sceneState.isContentInteractive
+        ivDeleteParticle.isVisible = state.sceneState.isContentInteractive
     }
 
     private fun renderContentInteractive(state: InteractionState) {
