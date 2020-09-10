@@ -21,6 +21,9 @@ interface PathDao {
     @Query("SELECT * FROM lesson_path WHERE remote_url = :remotePath")
     suspend fun findLessonPath(remotePath: String): LessonPath
 
+    @Query("SELECT * FROM lesson_path WHERE lesson_name = :lessonName")
+    suspend fun findLessonByName(lessonName: String): LessonPath?
+
     @Delete
     suspend fun deletePath(remotePath: LessonPath)
 }

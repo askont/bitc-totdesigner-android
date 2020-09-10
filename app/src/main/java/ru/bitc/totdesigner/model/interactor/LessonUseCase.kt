@@ -1,15 +1,23 @@
 package ru.bitc.totdesigner.model.interactor
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import ru.bitc.totdesigner.model.entity.LessonCatalogInteractive
 import ru.bitc.totdesigner.model.entity.PreviewLessons
 import ru.bitc.totdesigner.model.repository.LessonRepository
 import ru.bitc.totdesigner.platfom.state.State
+import ru.bitc.totdesigner.system.flow.DispatcherProvider
 import timber.log.Timber
 
 /*
  * Created on 2019-12-19
  * @author YWeber
  */
-class LessonUseCase(private val repository: LessonRepository) {
+class LessonUseCase(
+    private val repository: LessonRepository,
+    private val dispatcher: DispatcherProvider
+) {
 
     suspend fun getLessonPreview(
         onState: (State) -> Unit,
@@ -40,6 +48,15 @@ class LessonUseCase(private val repository: LessonRepository) {
             onState.invoke(State.Error(error = e))
         }
     }
+
+    fun lessonRemoteUrlByName(lessonName: String): Flow<LessonCatalogInteractive> = flow {
+        val checkLessonUrlInLocal = repository.getRemoteLessonUrlByName(lessonName)
+        if (checkLessonUrlInLocal.isEmpty()) {
+            emit(LessonCatalogInteractive.Empty)
+        } else {
+            emit(LessonCatalogInteractive.Find(checkLessonUrlInLocal))
+        }
+    }.flowOn(dispatcher.io)
 
     suspend fun getLesson(name: String, eventElement: (PreviewLessons.Lesson) -> Unit) {
         try {

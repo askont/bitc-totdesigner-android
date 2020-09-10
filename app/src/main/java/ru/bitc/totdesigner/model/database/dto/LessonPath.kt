@@ -15,7 +15,9 @@ data class LessonPath(
     @ColumnInfo(name = "remote_url")
     val lessonRemoteUrl: String,
     @ColumnInfo(name = "local_path")
-    val lessonLocalPath: String
+    val lessonLocalPath: String,
+    @ColumnInfo(name = "lesson_name")
+    val lessonName: String
 )
 
 fun LessonPath.absolutePath(name: String): String {

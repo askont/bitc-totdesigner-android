@@ -34,7 +34,7 @@ class DownloadPackageRepository(
             packageZip.byteStream(), lessonName
         )
         val localPath = unzip.unpackingFile(zipFile.toString(), lessonName)
-        pathDao.insertPath(LessonPath(lessonUrl, localPath))
+        pathDao.insertPath(LessonPath(lessonUrl, localPath, lessonName))
         zipFile.delete()
         emit(LoadingPackage.Finish(lessonUrl))
     }.onStart {

@@ -34,7 +34,7 @@ object AppModules {
 
     fun appModule() = module {
         // lesson
-        single { LessonUseCase(repository = get()) }
+        single { LessonUseCase(repository = get(), dispatcher = get()) }
         single {
             LessonRepository(
                 api = get(),
@@ -57,7 +57,7 @@ object AppModules {
         single { DownloadPackageUseCase(repository = get(), lessonRepository = get(), dispatcher = get()) }
 
         //home
-        factory {  }
+        factory { }
         single {
             HomeLessonRepository(
                 pathDao = get(),

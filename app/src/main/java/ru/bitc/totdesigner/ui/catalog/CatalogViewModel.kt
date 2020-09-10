@@ -7,6 +7,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import ru.bitc.totdesigner.R
+import ru.bitc.totdesigner.model.entity.LessonCatalogInteractive
 import ru.bitc.totdesigner.model.entity.PreviewLessons
 import ru.bitc.totdesigner.model.interactor.LessonUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
@@ -23,10 +24,10 @@ import ru.terrakok.cicerone.Router
  * @author YWeber
  */
 class CatalogViewModel(
-    private val mainRouter: Router,
-    private val resourceManager: ResourceManager,
-    private val useCase: LessonUseCase,
-    private val downloadNotifier: DownloadNotifier
+        private val mainRouter: Router,
+        private val resourceManager: ResourceManager,
+        private val useCase: LessonUseCase,
+        private val downloadNotifier: DownloadNotifier
 ) : BaseViewModel() {
 
     private val action = MutableLiveData<CatalogState>()
@@ -44,8 +45,8 @@ class CatalogViewModel(
         updateState()
         launch {
             downloadNotifier.subscribeChangePreviewList()
-                .onEach { if (it) updateState() }
-                .launchIn(viewModelScope)
+                    .onEach { if (it) updateState() }
+                    .launchIn(viewModelScope)
         }
     }
 
@@ -58,7 +59,7 @@ class CatalogViewModel(
     fun search(nameQuest: String) {
         searchJob?.cancel()
         action.value = currentState.copy(
-            lastSearchQuest = nameQuest
+                lastSearchQuest = nameQuest
         )
         searchJob = launch {
             useCase.searchLessons(nameQuest, ::handleState, ::handleLesson)
@@ -83,15 +84,15 @@ class CatalogViewModel(
             fullItems.add(0, HeaderItem(title, description, ""))
         }
         action.value = currentState.copy(
-            lessonItems = fullItems,
-            questItemEmpty = fullItems.isNotEmpty()
+                lessonItems = fullItems,
+                questItemEmpty = fullItems.isNotEmpty()
         )
     }
 
     private fun addPaidItem(lessons: List<PreviewLessons.Lesson>): List<LessonItem> {
         val items = lessons
-            .filter { it.category == PreviewLessons.Category.PAID }
-            .map { PaidCardLessonItem(it.title, it.imageUrl) }
+                .filter { it.category == PreviewLessons.Category.PAID }
+                .map { PaidCardLessonItem(it.title, it.imageUrl) }
         val currentItemsMutable = mutableListOf<LessonItem>()
         if (items.isNotEmpty()) {
             currentItemsMutable.add(TitleLessonItem(resourceManager.getString(R.string.title_paid_quest_item)))
@@ -102,8 +103,8 @@ class CatalogViewModel(
 
     private fun addFreeItem(lessons: List<PreviewLessons.Lesson>): List<LessonItem> {
         val items = lessons
-            .filter { it.category == PreviewLessons.Category.FREE }
-            .map { FreeCardLessonItem(it.title, it.imageUrl) }
+                .filter { it.category == PreviewLessons.Category.FREE }
+                .map { FreeCardLessonItem(it.title, it.imageUrl) }
         val currentItemsMutable = mutableListOf<LessonItem>()
         if (items.isNotEmpty()) {
             currentItemsMutable.add(TitleLessonItem(resourceManager.getString(R.string.title_free_quest_item)))
@@ -118,18 +119,39 @@ class CatalogViewModel(
                 action.value = currentState.copy(scrollToStart = true)
             }
             is FreeCardLessonItem -> {
-                action.value = currentState.copy(scrollToStart = false)
-                mainRouter.navigateTo(MainScreens.FreeDownloadDialogScreen(lessonItem.name))
+                navigateDialog(lessonItem.url, lessonName = lessonItem.name) {
+                    action.value = currentState.copy(scrollToStart = false)
+                    mainRouter.navigateTo(MainScreens.FreeDownloadDialogScreen(lessonItem.name))
+                }
             }
             is PaidCardLessonItem -> {
-                action.value = currentState.copy(scrollToStart = false)
-                mainRouter.navigateTo(MainScreens.FreeDownloadDialogScreen(lessonItem.name))
+                navigateDialog(lessonItem.url, lessonName = lessonItem.name) {
+                    action.value = currentState.copy(scrollToStart = false)
+                    mainRouter.navigateTo(MainScreens.FreeDownloadDialogScreen(lessonItem.name))
+                }
             }
             is HeaderItem -> {
                 downloadNotifier.eventVisible(false)
                 mainRouter.navigateTo(MainScreens.LoadingDetailedScreen)
             }
+            is TitleLessonItem -> Unit
         }
+    }
+
+    private fun navigateDialog(lessonUrl: String, lessonName: String, block: (String) -> Unit) {
+        useCase.lessonRemoteUrlByName(lessonName = lessonName)
+                .onEach {
+                    when (it) {
+                        is LessonCatalogInteractive.Empty -> {
+                            block.invoke(lessonUrl)
+                        }
+                        is LessonCatalogInteractive.Find -> {
+                            action.value = currentState.copy(scrollToStart = false)
+                            mainRouter.navigateTo(MainScreens.DetailedLessonDialogScreen(it.id))
+                        }
+                    }
+                }
+                .launchIn(viewModelScope)
     }
 
     companion object {
