@@ -53,7 +53,11 @@ class InteractionPartDelegateAdapter {
             containerPartImage.setOnLongClickListener {
                 if (item.isPermissionDrop) {
                     containerPartImage.background = ContextCompat.getDrawable(context, R.drawable.bg_select_part)
-                    val dragDate = ScaleDragShadowBuilder.createDate(item.id)
+                    val dragDate = ScaleDragShadowBuilder.createDate(
+                        item.id,
+                        itemX = "-",
+                        itemY = "-"
+                    )
                     val dragImg = ScaleDragShadowBuilder(ivPartImage, item.height, item.height)
                     it.dragView(dragDate, dragImg)
                 } else {

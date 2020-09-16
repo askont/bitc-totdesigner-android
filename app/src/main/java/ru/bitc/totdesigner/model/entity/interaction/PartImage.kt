@@ -5,6 +5,7 @@ package ru.bitc.totdesigner.model.entity.interaction
  * @author YWeber */
 
 data class PartImage(
+    val guid: String,
     val pathImage: String,
     val namePart: String,
     val isStatic: Boolean,

@@ -34,6 +34,7 @@ class InteractionModelConverter : ConverterXmlToModel<Settings> {
                     .map {
                         val asset = settings.findAsset(it.guid)
                         PartImage(
+                            it.guid,
                             absolutePath(lessonPath, asset.preview),
                             asset.name,
                             it.isStatic,

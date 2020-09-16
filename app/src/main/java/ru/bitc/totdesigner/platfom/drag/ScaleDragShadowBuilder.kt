@@ -6,7 +6,6 @@ import android.graphics.Canvas
 import android.graphics.Point
 import android.os.Build
 import android.view.View
-import android.widget.ImageView
 
 /**
  * Created on 22.03.2020
@@ -33,8 +32,8 @@ class ScaleDragShadowBuilder(view: View, val height: Int, val width: Int) : View
     }
 
     companion object {
-        fun createDate(path: String): ClipData {
-            val clipItem = ClipData.Item(path)
+        fun createDate(path: String, itemX: String, itemY: String): ClipData {
+            val clipItem = ClipData.Item("$path@$itemX@$itemY")
             val type = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
             return ClipData("Test", type, clipItem)
         }

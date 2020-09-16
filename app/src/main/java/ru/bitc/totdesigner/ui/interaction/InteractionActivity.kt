@@ -114,7 +114,7 @@ class InteractionActivity : BaseActivity(R.layout.activity_interaction) {
 
     private fun renderRunPlay(state: InteractionState) {
         tvHintDoneLesson.isVisible =
-                state.sceneState.isDoneInteractive && state.sceneState.isRunPlay && !state.sceneState.visibleDescription
+            state.sceneState.isDoneInteractive && state.sceneState.isRunPlay && !state.sceneState.visibleDescription
 
         if (state.sceneState.isRunPlay) {
             ivPlay.background = ContextCompat.getDrawable(this, R.drawable.bg_interactive)
@@ -175,7 +175,12 @@ class InteractionActivity : BaseActivity(R.layout.activity_interaction) {
                     viewModel.markDeleteParticle(particle)
                 }
                 imageView.setOnLongClickListener {
-                    val dragDate = ScaleDragShadowBuilder.createDate(particle.id)
+                    val dragDate =
+                        ScaleDragShadowBuilder.createDate(
+                            particle.id,
+                            particle.positionX.toString(),
+                            particle.positionY.toString()
+                        )
                     val dragImg = View.DragShadowBuilder(imageView)
                     it.dragView(dragDate, dragImg)
                     true
@@ -187,8 +192,8 @@ class InteractionActivity : BaseActivity(R.layout.activity_interaction) {
 
 
     private fun animationScene(
-            particle: ImageParticle,
-            state: InteractionState
+        particle: ImageParticle,
+        state: InteractionState
     ) {
         if (!particle.isStatic && particle.isMoveAnimate) {
             val slide = Slide(Gravity.START)
@@ -204,8 +209,8 @@ class InteractionActivity : BaseActivity(R.layout.activity_interaction) {
     companion object {
         private const val START_LESSON_PATH = "start interaction path"
         fun newInstance(lessonPath: String, context: Context?) =
-                Intent(context, InteractionActivity::class.java).apply {
-                    putExtra(START_LESSON_PATH, lessonPath)
-                }
+            Intent(context, InteractionActivity::class.java).apply {
+                putExtra(START_LESSON_PATH, lessonPath)
+            }
     }
 }
