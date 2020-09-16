@@ -61,7 +61,7 @@ class InteractionPartDelegateAdapter {
                     val dragImg = ScaleDragShadowBuilder(ivPartImage, item.height, item.height)
                     it.dragView(dragDate, dragImg)
                 } else {
-                    toast("Для перемещения элеметов необходимо запустить урок")
+                    toast("Для перемещения элементов необходимо запустить урок")
                 }
                 true
             }
