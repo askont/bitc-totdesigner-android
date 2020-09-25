@@ -21,7 +21,8 @@ data class SceneState(
     val isRunPlay: Boolean = false,
     val changeParticle: Boolean = true,
     val isDoneInteractive: Boolean = false,
-    val countSuccess: Int
+    val countSuccess: Int,
+    val mapDoneScene:Map<String,Boolean>
 )
 
 data class ImageParticle(

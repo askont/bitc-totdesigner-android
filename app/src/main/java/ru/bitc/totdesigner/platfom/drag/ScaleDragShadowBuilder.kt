@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Point
 import android.os.Build
 import android.view.View
+import ru.bitc.totdesigner.system.StringUuidBuilder
 
 /**
  * Created on 22.03.2020
@@ -33,10 +34,13 @@ class ScaleDragShadowBuilder(view: View, val height: Int, val width: Int) : View
 
     companion object {
         fun createDate(path: String, itemX: String, itemY: String): ClipData {
-            val clipItem = ClipData.Item("$path@$itemX@$itemY")
+            val uuidBuilder = StringUuidBuilder()
+            val clipItem = ClipData.Item(uuidBuilder.buildPartId(path, itemX, itemY))
             val type = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
             return ClipData("Test", type, clipItem)
         }
+
+
     }
 }
 

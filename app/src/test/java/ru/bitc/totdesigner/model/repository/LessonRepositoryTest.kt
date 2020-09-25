@@ -11,11 +11,12 @@ import retrofit2.HttpException
 import retrofit2.Response
 import ru.bitc.totdesigner.fake.lessonsFake
 import ru.bitc.totdesigner.fake.previewLesson
-import ru.bitc.totdesigner.platfom.converter.ModelLessonToEntityPreviewConverter
 import ru.bitc.totdesigner.model.database.dao.PathDao
 import ru.bitc.totdesigner.model.entity.PreviewLessons
 import ru.bitc.totdesigner.model.http.SoapApi
 import ru.bitc.totdesigner.model.models.Lessons
+import ru.bitc.totdesigner.model.prefs.PrefsStore
+import ru.bitc.totdesigner.platfom.converter.ModelLessonToEntityPreviewConverter
 
 class LessonRepositoryTest {
 
@@ -27,12 +28,13 @@ class LessonRepositoryTest {
     }
 
     private val pathDao = mock<PathDao>()
+    private val prefs = mock<PrefsStore>()
 
     private lateinit var repository: LessonRepository
 
     @Before
     fun init() {
-        repository = LessonRepository(soapApi, converter,pathDao)
+        repository = LessonRepository(soapApi, converter, pathDao, prefs)
     }
 
     @Test

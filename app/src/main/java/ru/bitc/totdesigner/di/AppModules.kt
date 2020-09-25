@@ -12,6 +12,7 @@ import ru.bitc.totdesigner.model.repository.HomeLessonRepository
 import ru.bitc.totdesigner.model.repository.LessonRepository
 import ru.bitc.totdesigner.model.repository.StartInteractionRepository
 import ru.bitc.totdesigner.platfom.navigation.LocalCiceroneHolder
+import ru.bitc.totdesigner.system.StringUuidBuilder
 import ru.bitc.totdesigner.ui.AppViewModel
 import ru.bitc.totdesigner.ui.catalog.CatalogViewModel
 import ru.bitc.totdesigner.ui.catalog.dialog.DownloadViewModel
@@ -29,12 +30,12 @@ object AppModules {
         single { CuratorSoapNetwork.createHttpClient() }
         single { CuratorSoapNetwork.createRetrofit(client = get()) }
         single { CuratorSoapNetwork.createSoapApi(retrofit = get()) }
-
     }
 
     fun appModule() = module {
         // lesson
         single { LessonUseCase(repository = get(), dispatcher = get()) }
+        single { StringUuidBuilder() }
         single {
             LessonRepository(
                 api = get(),
@@ -143,7 +144,8 @@ object AppModules {
                 lessonPath = lessonPath,
                 useCase = get(),
                 router = get(qualifier = NavigationModules.appRouter),
-                navigatorHolder = get(qualifier = NavigationModules.appHolder)
+                navigatorHolder = get(qualifier = NavigationModules.appHolder),
+                uuidBuilder = get()
             )
         }
 

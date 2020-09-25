@@ -136,7 +136,7 @@ class InteractionActivity : BaseActivity(R.layout.activity_interaction) {
         ivListPart.isVisible = state.sceneState.isContentInteractive
         tvHintEmptyPartImage.isVisible = state.sceneState.visibleDescription
         tvHintEmptyPartImage.scrollTo(0, 0)
-        rvPartImage.isVisible = !state.sceneState.visibleDescription
+        rvPartImage.isVisible =!state.sceneState.visibleDescription && !state.sceneState.isDoneInteractive
         tvHintEmptyPartImage.htmlText(state.sceneState.description)
     }
 

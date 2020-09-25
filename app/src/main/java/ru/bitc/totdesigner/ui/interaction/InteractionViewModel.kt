@@ -8,6 +8,8 @@ import ru.bitc.totdesigner.model.entity.interaction.Scene
 import ru.bitc.totdesigner.model.interactor.StartInteractionUseCase
 import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.platfom.adapter.state.InteractionPartItem
+import ru.bitc.totdesigner.system.StringUuidBuilder
+import ru.bitc.totdesigner.system.printDebug
 import ru.bitc.totdesigner.ui.interaction.state.ImageParticle
 import ru.bitc.totdesigner.ui.interaction.state.InteractionState
 import ru.bitc.totdesigner.ui.interaction.state.SceneState
@@ -24,6 +26,7 @@ class InteractionViewModel(
     private val lessonPath: String,
     private val useCase: StartInteractionUseCase,
     private val router: Router,
+    private val uuidBuilder: StringUuidBuilder,
     navigatorHolder: NavigatorHolder
 ) : BaseViewModel(navigatorHolder) {
 
@@ -36,13 +39,14 @@ class InteractionViewModel(
                 0,
                 "",
                 listOf(),
-                countSuccess = 0
-            ), listOf()
+                countSuccess = 0,
+                mapDoneScene = emptyMap()
+            ), listOf(),
         )
     private var scenesState: MutableList<SceneState> = mutableListOf()
     private val oldSceneState: MutableList<SceneState> = mutableListOf()
     private val allParticleList: MutableList<ImageParticle> = mutableListOf()
-    private val deleteCandidateParticle: MutableList<ImageParticle> = mutableListOf<ImageParticle>()
+
     val viewState: LiveData<InteractionState>
         get() = action
 
@@ -57,26 +61,28 @@ class InteractionViewModel(
         val sceneState = interaction.scenes.map { scene ->
             val notClickablePart = scene.partImages.any { !it.isStatic }
             val partImageInteractive = scene.partImages.filter { !it.isStatic }
+            val particleImage = partImageInteractive.map {
+                InteractionPartItem.Part(
+                    it.guid,
+                    it.pathImage,
+                    it.namePart,
+                    it.positionX,
+                    it.positionY,
+                    it.height,
+                    it.width,
+                    false
+                )
+            }.shuffled().distinctBy { it.id }
             SceneState(
-                !notClickablePart,
-                scene.position,
-                scene.description,
-                partImageInteractive.map {
-                    InteractionPartItem.Part(
-                        it.guid,
-                        it.pathImage,
-                        it.namePart,
-                        it.positionX,
-                        it.positionY,
-                        it.height,
-                        it.width,
-                        false
-                    )
-                }.shuffled().distinctBy { it.id },
-                createParticle(scene),
-                notClickablePart,
+                visibleDescription = !notClickablePart,
+                position = scene.position,
+                description = scene.description,
+                partImages = particleImage,
+                imageParticle = createParticle(scene),
+                isContentInteractive = notClickablePart,
                 changeParticle = true,
-                countSuccess = partImageInteractive.size
+                countSuccess = partImageInteractive.size,
+                mapDoneScene =   putImageUuidToDone(createParticle(scene))
             )
 
         }
@@ -85,6 +91,7 @@ class InteractionViewModel(
         val previewList = interaction.scenes
             .map { InteractionPartItem.Preview(it.previewImagePath, it.position, it.position == 0) }
         action.value = currentState.copy(sceneState = sceneState[0], previewImages = previewList)
+
     }
 
     private fun createParticle(scene: Scene) =
@@ -125,6 +132,7 @@ class InteractionViewModel(
                 scenesState.removeAt(oldSceneState.position)
                 scenesState.add(oldSceneState.position, oldSceneState)
             }
+            else -> Unit
         }
     }
 
@@ -163,6 +171,16 @@ class InteractionViewModel(
                 ),
                 previewImages = newPreview
             )
+    }
+
+    private fun putImageUuidToDone(imageParticle: List<ImageParticle>): Map<String, Boolean> {
+        return  imageParticle.filter { !it.isStatic }.map {
+            uuidBuilder.buildPartId(
+                it.id,
+                it.positionX.toString(),
+                it.positionY.toString()
+            ) to false
+        }.toMap()
     }
 
     fun playOrStopInteractive() {
@@ -207,7 +225,6 @@ class InteractionViewModel(
             )
         }
         val minShortSegment = particleCandidate.map { it.second }.reduce { acc, next -> acc.coerceAtMost(next) }
-
         val particle = particleCandidate.first { it.second == minShortSegment }.first
 
         val newPositionParticle = particle.copy(
@@ -217,19 +234,31 @@ class InteractionViewModel(
         )
         val correctParticle = isParticleInWorkArea(newPositionParticle, particle)
         val particleList = currentState.sceneState.imageParticle.map { it.copy(isAddAnimate = false) }.toMutableList()
+        val buildPartId = uuidBuilder.buildPartId(
+            particle.id,
+            particle.positionX.toString(),
+            particle.positionY.toString()
+        )
+        val doneImageParticle = currentState.sceneState.mapDoneScene.toMutableMap()
+        if ( correctParticle.isSuccessArea){
+            if (doneImageParticle[buildPartId] == false){
+                doneImageParticle[buildPartId] = true
+            }
+        }else{
+            if (doneImageParticle[buildPartId] == true){
+                doneImageParticle[buildPartId] = false
+            }
+        }
 
         particleList.removeAll { it.id == partId && it.positionY.toString() == partY && it.positionX.toString() == partX }
 
         particleList.add(correctParticle)
-
-        val isDoneInteractive =
-            scene.countSuccess == particleList.filter { it.isSuccessArea && !it.isStatic }.size &&
-                    currentState.sceneState.partImages.filter { it.isPermissionDrop }.size <= 1
-
+        val isDoneInteractive = doneImageParticle.map { it.value }.reduce {acc, value -> acc && value }
         action.value = currentState.copy(
             sceneState = currentState.sceneState.copy(
                 imageParticle = particleList,
-                isDoneInteractive = isDoneInteractive
+                isDoneInteractive = isDoneInteractive,
+                mapDoneScene = doneImageParticle
             )
         )
 
