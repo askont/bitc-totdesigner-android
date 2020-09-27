@@ -28,14 +28,14 @@ object NavigationModules {
     fun navigationModule() = module {
         single { LocalCiceroneHolder() }
         // app navigation stack
-        single(qualifier = appCicerone) { createCicerone(get(), APP_NAVIGATION) }
-        single(qualifier = appRouter) { createRouter(get(qualifier = appCicerone)) }
-        single(qualifier = appHolder) { createNavigatorHolder(get(qualifier = appCicerone)) }
+        single(qualifier = appCicerone) { createCicerone(routerHolder = get(), keyCicerone = APP_NAVIGATION) }
+        single(qualifier = appRouter) { createRouter(cicerone = get(qualifier = appCicerone)) }
+        single(qualifier = appHolder) { createNavigatorHolder(cicerone = get(qualifier = appCicerone)) }
 
         // main navigation stack
-        single(qualifier = mainCicerone) { createCicerone(get(), MAIN_NAVIGATION) }
-        single(qualifier = mainRouter) { createRouter(get(qualifier = mainCicerone)) }
-        single(qualifier = mainHolder) { createNavigatorHolder(get(qualifier = mainCicerone)) }
+        single(qualifier = mainCicerone) { createCicerone(routerHolder = get(), keyCicerone = MAIN_NAVIGATION) }
+        single(qualifier = mainRouter) { createRouter(cicerone = get(qualifier = mainCicerone)) }
+        single(qualifier = mainHolder) { createNavigatorHolder(cicerone = get(qualifier = mainCicerone)) }
     }
 }
 

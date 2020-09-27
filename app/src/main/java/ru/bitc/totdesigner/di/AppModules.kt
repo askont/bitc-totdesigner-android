@@ -58,7 +58,6 @@ object AppModules {
         single { DownloadPackageUseCase(repository = get(), lessonRepository = get(), dispatcher = get()) }
 
         //home
-        factory { }
         single {
             HomeLessonRepository(
                 pathDao = get(),
@@ -145,7 +144,8 @@ object AppModules {
                 useCase = get(),
                 router = get(qualifier = NavigationModules.appRouter),
                 navigatorHolder = get(qualifier = NavigationModules.appHolder),
-                uuidBuilder = get()
+                uuidBuilder = get(),
+                stateMapper = get()
             )
         }
 

@@ -11,8 +11,8 @@ import ru.bitc.totdesigner.model.prefs.PrefsStore
 
 object DatabaseModules {
     fun appDatabaseModule() = module {
-        single { AppDatabaseBuilder.createDatabase(get()) }
-        single { AppDatabaseBuilder.createPathDao(get()) }
-        single<PrefsStore> { AndroidPrefsStore(get()) }
+        single { AppDatabaseBuilder.createDatabase(context = get()) }
+        single { AppDatabaseBuilder.createPathDao(appDatabase = get()) }
+        single<PrefsStore> { AndroidPrefsStore(context = get()) }
     }
 }

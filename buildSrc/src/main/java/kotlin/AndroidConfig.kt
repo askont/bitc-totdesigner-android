@@ -5,7 +5,7 @@ object AndroidConfig {
     const val BUILD_TOOLS_VERSION = "29.0.0"
 
     const val VERSION_CODE: Int = 1
-    const val VERSION_NAME: String = "0.0.1"
+    const val VERSION_NAME: String = "0.0.3"
 
     const val APPLICATION_ID = "ru.bitc.totdesigner"
     const val TEST_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"

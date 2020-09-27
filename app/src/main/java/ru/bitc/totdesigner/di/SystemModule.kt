@@ -4,6 +4,7 @@ import org.koin.dsl.module
 import ru.bitc.totdesigner.platfom.converter.InteractionModelConverter
 import ru.bitc.totdesigner.platfom.converter.ModelLessonToEntityPreviewConverter
 import ru.bitc.totdesigner.platfom.converter.SavedLessonModelConverter
+import ru.bitc.totdesigner.platfom.mapper.SceneStateMapper
 import ru.bitc.totdesigner.system.ResourceManager
 import ru.bitc.totdesigner.system.flow.AndroidDispatcher
 import ru.bitc.totdesigner.system.flow.DispatcherProvider
@@ -23,14 +24,16 @@ object SystemModule {
     fun notifierModule() = module {
         single { DownloadNotifier() }
         single<DispatcherProvider> { AndroidDispatcher() }
-        single { ResourceManager(get()) }
+        single { ResourceManager(context = get()) }
         single { ModelLessonToEntityPreviewConverter() }
         single { SavedLessonModelConverter() }
         single { InteractionModelConverter() }
-        single<PathManager> { AndroidPathManager(get()) }
-        single { UnpackingZip(get()) }
+        single<PathManager> { AndroidPathManager(context = get()) }
+        single { UnpackingZip(pathManager = get()) }
         single { WindowsSizeNotifier() }
         single { ChangeBackgroundNotifier() }
+        // mapper
+        single { SceneStateMapper(uuidBuilder = get()) }
     }
 
 }
