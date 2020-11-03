@@ -121,6 +121,7 @@ class InteractionViewModel(
             updateInteractionState(
                 sceneState = startSceneState.copy(
                     imageParticle = correctParticle,
+                    visibleDescription = false,
                     isRunPlay = true,
                     changeParticle = true,
                     partImages = currentState.sceneState.partImages.map { it.copy(isPermissionDrop = true) }
