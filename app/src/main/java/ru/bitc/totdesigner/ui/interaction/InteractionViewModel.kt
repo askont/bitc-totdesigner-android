@@ -82,7 +82,7 @@ class InteractionViewModel(
         updateInteractionState(
             sceneState = currentState.sceneState.copy(
                 visibleDescription = !currentState.sceneState.visibleDescription,
-                changeParticle = false
+                changeParticle = !currentState.sceneState.changeParticle
             )
         )
     }
@@ -178,7 +178,6 @@ class InteractionViewModel(
                     }
                 }
             }
-        doneImageParticle.printDebug()
         val isDoneInteractive = doneImageParticle.map { it.value }.reduce { acc, value -> acc && value }
         updateInteractionState(
             sceneState = currentState.sceneState.copy(
