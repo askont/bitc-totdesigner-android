@@ -14,6 +14,7 @@ import ru.bitc.totdesigner.system.notifier.WindowsSizeNotifier
 import ru.bitc.totdesigner.system.path.AndroidPathManager
 import ru.bitc.totdesigner.system.path.PathManager
 import ru.bitc.totdesigner.system.zip.UnpackingZip
+import ru.bitc.totdesigner.ui.setting.state.SettingPlatform
 
 /**
  * Created on 27.01.2020
@@ -34,6 +35,7 @@ object SystemModule {
         single { ChangeBackgroundNotifier() }
         // mapper
         single { SceneStateMapper(uuidBuilder = get()) }
+        single { SettingPlatform(prefsStore = get(), resourceManager = get()) }
     }
 
 }

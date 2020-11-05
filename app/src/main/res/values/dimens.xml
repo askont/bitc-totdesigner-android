@@ -27,6 +27,7 @@
     <dimen name="font_20">20sp</dimen>
     <dimen name="font_21">21sp</dimen>
     <dimen name="font_22">22sp</dimen>
+    <dimen name="font_26">26sp</dimen>
     <dimen name="font_31">31sp</dimen>
 
     <dimen name="height_quest_item">250dp</dimen>

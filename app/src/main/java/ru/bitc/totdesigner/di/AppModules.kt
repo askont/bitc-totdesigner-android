@@ -149,6 +149,6 @@ object AppModules {
             )
         }
 
-        viewModel { SettingViewModel(resourceManager = get(), notifier = get(), prefsStore = get()) }
+        viewModel { SettingViewModel(settingPlatform = get(), notifier = get()) }
     }
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:background="@color/colorSettingBlur">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/viewColorBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_status_subscription"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitleStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/colorWhiteText"
+        android:textSize="@dimen/font_18"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Активная подписка" />
+
+    <TextView
+        android:id="@+id/tvDescriptionStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@color/colorWhiteText"
+        android:textSize="@dimen/font_18"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tvActionRecoverStatus"
+        app:layout_constraintStart_toEndOf="@id/tvTitleStatus"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Нет сведений об активной подписке" />
+
+    <TextView
+        android:id="@+id/tvActionRecoverStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginEnd="@dimen/margin_36"
+        android:background="?attr/selectableItemBackground"
+        android:fontFamily="sans-serif-medium"
+        android:padding="4dp"
+        android:textAllCaps="true"
+        android:textColor="@color/colorWhiteText"
+        android:textSize="@dimen/font_14"
+        app:layout_constraintBottom_toBottomOf="@id/tvDescriptionStatus"
+        app:layout_constraintEnd_toEndOf="@+id/viewColorBackground"
+        app:layout_constraintTop_toTopOf="@id/tvDescriptionStatus"
+        app:layout_constraintVertical_bias="0.7"
+        tools:text="ВОССТАНОВИТЬ ПОКУПКУ" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

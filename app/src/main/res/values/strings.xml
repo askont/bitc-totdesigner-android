@@ -52,4 +52,8 @@
     <string name="summer">Summer</string>
     <string name="autumn">Autumn</string>
     <string name="black_and_white"><![CDATA[Black & White]]></string>
+    <string name="handling_subscription_title">Управление подпиской</string>
+    <string name="activie_status_subscription_title">Активная подписка</string>
+    <string name="description_status_subscription_not_active">Нет сведений об активной подписке</string>
+    <string name="action_recover_subscription_status">ВОССТАНОВИТЬ ПОКУПКУ</string>
 </resources>

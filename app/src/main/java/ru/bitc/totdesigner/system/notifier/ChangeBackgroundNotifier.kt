@@ -9,12 +9,12 @@ import ru.bitc.totdesigner.platfom.adapter.state.SettingItem
  * @author YWeber */
 
 class ChangeBackgroundNotifier {
-    private val notifier = MutableStateFlow<SettingItem?>(null)
+    private val notifier = MutableStateFlow<SettingItem.BackgroundBlur?>(null)
 
     val action
-        get() = notifier.filterIsInstance<SettingItem>()
+        get() = notifier.filterIsInstance<SettingItem.BackgroundBlur>()
 
-    fun sendEvent(items: SettingItem) {
+    fun sendEvent(items: SettingItem.BackgroundBlur) {
         notifier.value = null
         notifier.value = items
     }
