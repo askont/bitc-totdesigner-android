@@ -15,6 +15,7 @@ import ru.bitc.totdesigner.ui.interaction.state.InteractionState
 import ru.bitc.totdesigner.ui.interaction.state.SceneState
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
+import timber.log.Timber
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -38,7 +39,7 @@ class InteractionViewModel(
 
     private var scenesState: MutableList<SceneState> = mutableListOf()
     private val oldSceneState: MutableList<SceneState> = mutableListOf()
-    private val allParticleList: MutableList<ImageParticle> = mutableListOf()
+    private val allParticleList: MutableMap<Int, List<ImageParticle>> = mutableMapOf()
 
     val viewState: LiveData<InteractionState>
         get() = action
@@ -53,7 +54,8 @@ class InteractionViewModel(
     private fun startUpdateState(interaction: Interaction) {
         val sceneState = interaction.scenes.map { scene -> stateMapper.mapToSceneState(scene) }
         scenesState.addAll(sceneState)
-        allParticleList.addAll(sceneState.map { it.imageParticle }.flatten())
+        val mapState = sceneState.map { it.position to it.imageParticle }.toMap()
+        allParticleList.putAll(mapState)
         val previewList = stateMapper.mapToPartPreviewItem(interaction.scenes)
         updateInteractionState(sceneState = sceneState[0], previewImages = previewList)
     }
@@ -142,13 +144,13 @@ class InteractionViewModel(
         val (partId, partX, partY) = uuidBuilder.sliceCombineUuid(id)
         val particleListScene =
             currentState.sceneState.imageParticle.map { it.copy(isAddAnimate = false) }.toMutableList()
+        val successParticleMap = allParticleList[currentState.sceneState.position] ?: listOf()
+        val particleCandidate = findParticleCandidate(partId, newX, newY, successParticleMap)
 
-        val particleCandidate = findParticleCandidate(partId, newX, newY, allParticleList)
         val particlesSPairImageParticleAndShort = findParticleCandidate(partId, newX, newY, particleListScene)
 
         val minShortSegment = particleCandidate.map { it.second }.reduce { acc, next -> acc.coerceAtMost(next) }
         val currentSceneParticle = particlesSPairImageParticleAndShort.find { it.second == minShortSegment }?.first
-
 
         val successParticle = particleCandidate.first { it.second == minShortSegment }
             .first.copy(isSuccessArea = currentSceneParticle?.isSuccessArea ?: false)
@@ -158,6 +160,7 @@ class InteractionViewModel(
             positionX = newX - successParticle.width / 2,
             isMoveAnimate = false
         )
+
         val correctParticle = isParticleInWorkArea(newPositionParticle, successParticle)
         val doneImageParticle = currentState.sceneState.mapDoneScene.toMutableMap()
         particleListScene.removeAll { it.id == partId && it.positionY.toString() == partY && it.positionX.toString() == partX }
@@ -213,12 +216,14 @@ class InteractionViewModel(
     private fun areaChecker(
         newParticle: ImageParticle,
         successParticle: ImageParticle,
-        delta: Int = 20
-    ) =
-        ((newParticle.positionX + delta in successParticle.positionX..(successParticle.positionX + successParticle.width) ||
+        delta: Int = 30
+    ): Boolean {
+        return (newParticle.positionX + delta in successParticle.positionX..(successParticle.positionX + successParticle.width) ||
                 newParticle.positionX - delta in successParticle.positionX..(successParticle.positionX + successParticle.width)) &&
                 ((newParticle.positionY + delta in successParticle.positionY..(successParticle.positionY + successParticle.height)) ||
-                        newParticle.positionY - delta in successParticle.positionY..(successParticle.positionY + successParticle.height)))
+                        newParticle.positionY - delta in successParticle.positionY..(successParticle.positionY + successParticle.height))
+    }
+
 
     private fun updateInteractionState(
         sceneState: SceneState = currentState.sceneState,
