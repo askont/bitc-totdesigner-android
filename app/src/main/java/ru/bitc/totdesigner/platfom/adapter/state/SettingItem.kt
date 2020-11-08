@@ -1,6 +1,5 @@
 package ru.bitc.totdesigner.platfom.adapter.state
 
-import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 
 /**
@@ -8,6 +7,11 @@ import androidx.annotation.DrawableRes
  * @author YWeber */
 
 sealed class SettingItem {
+
+    data class AvailableSubscriptions(
+        val subTitle: String,
+        val pricesSubscription: List<PriceSubscription>
+    ) : SettingItem()
 
     data class StatusSubscription(
         val title: String,
@@ -25,6 +29,9 @@ sealed class SettingItem {
     data class Title(val title: String, val description: String) : SettingItem()
 
 }
+
+data class PriceSubscription(val title: String, val price: String)
+
 enum class Status {
     ACTIVE,
     NOT_ACTIVE

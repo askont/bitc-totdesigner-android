@@ -2,6 +2,7 @@ package ru.bitc.totdesigner.ui.setting.state
 
 import ru.bitc.totdesigner.R
 import ru.bitc.totdesigner.model.prefs.PrefsStore
+import ru.bitc.totdesigner.platfom.adapter.state.PriceSubscription
 import ru.bitc.totdesigner.platfom.adapter.state.SettingItem
 import ru.bitc.totdesigner.platfom.adapter.state.Status
 import ru.bitc.totdesigner.system.ResourceManager
@@ -14,6 +15,14 @@ class SettingPlatform(private val prefsStore: PrefsStore, private val resourceMa
             Status.NOT_ACTIVE,
             resourceManager.getString(R.string.description_status_subscription_not_active),
             resourceManager.getString(R.string.action_recover_subscription_status)
+        ),
+        SettingItem.AvailableSubscriptions(
+            "Доступные подписки", listOf(
+                PriceSubscription("Годовая возобновляемая, 12 мес.", "3500 ₽"),
+                PriceSubscription("Годовая, 12 мес.", "4000 ₽"),
+                PriceSubscription("Месячная, 30/31 день", "549 ₽"),
+                PriceSubscription("Недельная, 7 дней", "199 ₽"),
+            )
         ),
         SettingItem.Title(resourceManager.getString(R.string.design_title), ""),
         SettingItem.BackgroundBlur(

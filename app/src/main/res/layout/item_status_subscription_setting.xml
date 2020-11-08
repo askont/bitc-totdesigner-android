@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="55dp"
+    android:layout_height="65dp"
     android:background="@color/colorSettingBlur">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -13,7 +13,6 @@
         android:background="@drawable/background_status_subscription"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,11 +20,13 @@
         android:id="@+id/tvTitleStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
+        android:layout_marginStart="@dimen/margin_36"
         android:fontFamily="sans-serif-medium"
         android:textColor="@color/colorWhiteText"
         android:textSize="@dimen/font_18"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvDescriptionStatus"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Активная подписка" />
@@ -35,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_36"
         android:fontFamily="sans-serif-light"
         android:textColor="@color/colorWhiteText"
         android:textSize="@dimen/font_18"
@@ -58,6 +60,7 @@
         android:textSize="@dimen/font_14"
         app:layout_constraintBottom_toBottomOf="@id/tvDescriptionStatus"
         app:layout_constraintEnd_toEndOf="@+id/viewColorBackground"
+        app:layout_constraintStart_toEndOf="@id/tvDescriptionStatus"
         app:layout_constraintTop_toTopOf="@id/tvDescriptionStatus"
         app:layout_constraintVertical_bias="0.7"
         tools:text="ВОССТАНОВИТЬ ПОКУПКУ" />
