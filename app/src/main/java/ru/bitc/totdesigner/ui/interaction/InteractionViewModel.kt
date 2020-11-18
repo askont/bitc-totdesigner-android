@@ -9,7 +9,6 @@ import ru.bitc.totdesigner.platfom.BaseViewModel
 import ru.bitc.totdesigner.platfom.adapter.state.InteractionPartItem
 import ru.bitc.totdesigner.platfom.mapper.SceneStateMapper
 import ru.bitc.totdesigner.system.StringUuidBuilder
-import ru.bitc.totdesigner.system.printDebug
 import ru.bitc.totdesigner.ui.interaction.state.ImageParticle
 import ru.bitc.totdesigner.ui.interaction.state.InteractionState
 import ru.bitc.totdesigner.ui.interaction.state.SceneState
@@ -198,11 +197,18 @@ class InteractionViewModel(
         newY: Int,
         particles: List<ImageParticle>
     ): List<Pair<ImageParticle, Int>> {
-        return particles.filter { it.id == partId }.map {
+        val mutableList = mutableListOf<Pair<ImageParticle, Int>>()
+        val oldParticle = particles.filter { it.id == partId }.map {
             val centerX = (it.positionX + it.height) / 2
             val centerY = (it.positionY + it.width) / 2
             it to (sqrt((newX - centerX).toDouble().pow(2.0) + (newY - centerY).toDouble().pow(2.0))).toInt()
         }
+        mutableList.addAll(oldParticle)
+        val notCorrectOld = particles.filter { it.id == partId }.map {
+            it to (sqrt((newX - it.positionX).toDouble().pow(2.0) + (newY - it.positionY).toDouble().pow(2.0))).toInt()
+        }
+        mutableList.addAll(notCorrectOld)
+        return mutableList
     }
 
     private fun isParticleInWorkArea(newParticle: ImageParticle, successParticle: ImageParticle): ImageParticle {
