@@ -15,7 +15,6 @@ import ru.bitc.totdesigner.ui.interaction.state.InteractionState
 import ru.bitc.totdesigner.ui.interaction.state.SceneState
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
-import timber.log.Timber
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -198,11 +197,11 @@ class InteractionViewModel(
         newX: Int,
         newY: Int,
         particles: List<ImageParticle>
-    ): List<Pair<ImageParticle, Double>> {
+    ): List<Pair<ImageParticle, Int>> {
         return particles.filter { it.id == partId }.map {
             val centerX = (it.positionX + it.height) / 2
             val centerY = (it.positionY + it.width) / 2
-            it to sqrt((newX - centerX).toDouble().pow(2.0) + (newY - centerY).toDouble().pow(2.0))
+            it to (sqrt((newX - centerX).toDouble().pow(2.0) + (newY - centerY).toDouble().pow(2.0))).toInt()
         }
     }
 
