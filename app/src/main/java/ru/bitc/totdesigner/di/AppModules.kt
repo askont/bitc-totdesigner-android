@@ -23,6 +23,7 @@ import ru.bitc.totdesigner.ui.loading.LoadingDetailedViewModel
 import ru.bitc.totdesigner.ui.main.MainViewModel
 import ru.bitc.totdesigner.ui.setting.SettingViewModel
 import ru.bitc.totdesigner.ui.splash.SplashViewModel
+import ru.bitc.totdesigner.ui.statistic.StatisticMainVIewModel
 
 object AppModules {
 
@@ -150,5 +151,7 @@ object AppModules {
         }
 
         viewModel { SettingViewModel(settingPlatform = get(), notifier = get()) }
+
+        viewModel { StatisticMainVIewModel() }
     }
 }

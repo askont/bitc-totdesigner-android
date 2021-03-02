@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
+
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:text="@string/me_statistic"
+        android:textColor="@color/colorWhiteText"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/ivImageLessonContainer"
+        android:layout_width="@dimen/margin_size_140"
+        android:layout_height="@dimen/margin_search_80"
+        android:layout_marginStart="@dimen/margin_8"
+        android:layout_marginTop="@dimen/margin_24"
+        app:cardCornerRadius="@dimen/margin_16"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        tools:background="@color/colorWhiteText">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivImageLesson"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <TextView
+        android:id="@+id/tvNameLesson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_32"
+        android:textSize="@dimen/font_22"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@id/ivImageLessonContainer"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/ivImageLessonContainer"
+        app:layout_constraintTop_toTopOf="@id/ivImageLessonContainer"
+        tools:text="Основы проектирования UX UI - Wireframe" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvStatisticTask"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_16"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/ivImageLessonContainer"
+        tools:listitem="@layout/item_statistic" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:background="#777777"
+        app:layout_constraintBottom_toTopOf="@id/flowBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/flowBottom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        app:constraint_referenced_ids="tvDoneStageLesson,tvDoneStageLessonCount,tvFailedStageLesson,tvFailedStageLessonCount,tvSkipStageLesson,tvSkipStageLessonCount"
+        app:flow_horizontalAlign="start"
+        app:flow_horizontalBias="0"
+        app:flow_horizontalGap="@dimen/margin_32"
+        app:flow_horizontalStyle="packed"
+        app:flow_maxElementsWrap="0"
+        app:layout_constraintBottom_toTopOf="@+id/tvRetryRunLesson"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+
+    <TextView
+        android:id="@+id/tvDoneStageLesson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/done_stage_lesson"
+        android:textSize="@dimen/font_16" />
+
+    <TextView
+        android:id="@+id/tvDoneStageLessonCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:background="@drawable/bg_done_stage_lesson_green_circle"
+        android:text="@string/zero_count"
+        android:textSize="@dimen/font_16" />
+
+    <TextView
+        android:id="@+id/tvFailedStageLesson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:text="@string/failed_step"
+        android:textSize="@dimen/font_16" />
+
+    <TextView
+        android:id="@+id/tvFailedStageLessonCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:background="@drawable/bg_failed_stage_lesson_red_circle"
+        android:text="@string/zero_count"
+        android:textSize="@dimen/font_16" />
+
+    <TextView
+        android:id="@+id/tvSkipStageLesson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:text="@string/skip_step"
+        android:textSize="@dimen/font_16" />
+
+    <TextView
+        android:id="@+id/tvSkipStageLessonCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:background="@drawable/bg_skip_stage_lesson_black_circle"
+        android:text="@string/zero_count"
+        android:textSize="@dimen/font_16" />
+
+    <TextView
+        android:id="@+id/tvRetryRunLesson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:padding="@dimen/margin_16"
+        android:text="@string/retry_run_lesson"
+        android:textColor="@color/colorSelectItem"
+        android:textSize="@dimen/font_14"
+        app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart" />
+
+    <TextView
+        android:id="@+id/tvSavePdfLesson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:background="?selectableItemBackground"
+        android:padding="@dimen/margin_16"
+        android:text="@string/description_save_from_pdf"
+        android:textColor="@color/colorSelectItem"
+        android:textSize="@dimen/font_14"
+        app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
+        app:layout_constraintEnd_toStartOf="@+id/tvFinish"
+        app:layout_constraintHorizontal_bias="1" />
+
+    <TextView
+        android:id="@+id/tvFinish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:padding="@dimen/margin_16"
+        android:text="@string/retry_run_lesson"
+        android:textColor="@color/colorSelectItem"
+        android:textSize="@dimen/font_14"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineBottom"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintHorizontal_bias="1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/margin_16" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="@dimen/margin_16" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/margin_16" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

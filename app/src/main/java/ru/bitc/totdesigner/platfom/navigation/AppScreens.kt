@@ -8,6 +8,7 @@ import ru.bitc.totdesigner.ui.interaction.InteractionActivity
 import ru.bitc.totdesigner.ui.main.MainFragment
 import ru.bitc.totdesigner.ui.mock.MockFragment
 import ru.bitc.totdesigner.ui.setting.SettingFragment
+import ru.bitc.totdesigner.ui.statistic.StatisticMainFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 /**
@@ -42,6 +43,12 @@ object AppScreens {
     object SettingScreen : SupportAppScreen() {
         override fun getFragment(): Fragment {
             return SettingFragment.newInstance()
+        }
+    }
+
+    object StatisticMainScreen : SupportAppScreen() {
+        override fun getFragment(): Fragment {
+            return StatisticMainFragment.newInstance()
         }
     }
 

@@ -14,8 +14,7 @@ import ru.bitc.totdesigner.ui.setting.state.SettingState
 class SettingViewModel(
     private val settingPlatform: SettingPlatform,
     private val notifier: ChangeBackgroundNotifier,
-) :
-    BaseActionViewModel<SettingState>(initState = SettingState(emptyList())) {
+) : BaseActionViewModel<SettingState>(initState = SettingState(emptyList())) {
 
     init {
         updateState(

@@ -56,4 +56,11 @@
     <string name="activie_status_subscription_title">Активная подписка</string>
     <string name="description_status_subscription_not_active">Нет сведений об активной подписке</string>
     <string name="action_recover_subscription_status">ВОССТАНОВИТЬ ПОКУПКУ</string>
+    <string name="me_statistic">Ваша статистика</string>
+    <string name="retry_run_lesson">ПРОЙТИ ЕЩЕ РАЗ</string>
+    <string name="description_save_from_pdf">СОХРАНИТЬ РЕЗУЛЬТАТЫ В PDF</string>
+    <string name="done_stage_lesson">Успешно пройдено этапов:</string>
+    <string name="zero_count">0</string>
+    <string name="skip_step">Пропущенные:</string>
+    <string name="failed_step">Непройденные:</string>
 </resources>

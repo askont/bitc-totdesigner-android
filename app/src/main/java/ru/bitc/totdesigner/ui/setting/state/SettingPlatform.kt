@@ -7,7 +7,7 @@ import ru.bitc.totdesigner.platfom.adapter.state.SettingItem
 import ru.bitc.totdesigner.platfom.adapter.state.Status
 import ru.bitc.totdesigner.system.ResourceManager
 
-class SettingPlatform(private val prefsStore: PrefsStore, private val resourceManager: ResourceManager) {
+class SettingPlatform(prefsStore: PrefsStore, resourceManager: ResourceManager) {
     val createBackgroundBlurItems = listOf(
         SettingItem.Title(resourceManager.getString(R.string.handling_subscription_title), ""),
         SettingItem.StatusSubscription(

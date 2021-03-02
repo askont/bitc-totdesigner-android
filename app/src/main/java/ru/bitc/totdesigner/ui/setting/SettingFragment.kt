@@ -15,15 +15,22 @@ import ru.bitc.totdesigner.ui.setting.state.SettingState
 
 /**
  * Created on 05.08.2020
- * @author YWeber */
+ * @author YWeber
+ * */
 
-class SettingFragment : BaseActionFragment<SettingState, SettingViewModel>(R.layout.fragment_setting) {
+class SettingFragment :
+    BaseActionFragment<SettingState, SettingViewModel>(R.layout.fragment_setting) {
 
     companion object {
         fun newInstance() = SettingFragment()
     }
 
-    private val adapter by lazy { SettingDelegateAdapter(::handleClick, ::handleClickCard).create() }
+    private val adapter by lazy {
+        SettingDelegateAdapter(
+            ::handleClick,
+            ::handleClickCard
+        ).create()
+    }
 
     override val viewModel: SettingViewModel by inject()
 
